@@ -1,6 +1,13 @@
-import { GetServerSideProps, NextPageContext } from 'next'
+import {
+  GetServerSideProps,
+  NextApiRequest,
+  NextApiResponse,
+  NextPageContext,
+} from 'next'
 import Router from 'next/router'
 import { myGet } from '../middleware/myGet'
+import { authenticated } from '../middleware/auth'
+import User from '../models/User'
 
 export default function People({ people }: any) {
   return (
