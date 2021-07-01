@@ -1,14 +1,31 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import User from '../../models/User'
-import connectDB from '../../connectDb'
-import { authenticated } from '../../middleware/auth'
+import ShopUser from '../../models/shopUser'
+import connectDB from '../../db/connectDb'
+import { getSession } from 'next-auth/client'
+import { ERole } from '../../types/ERole'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const session = await getSession({ req })
+
+  if (!session) {
+    res.send({
+      error: 'You must be authorized',
+    })
+    return
+  }
+
+  if (session.role !== ERole.Admin) {
+    res.send({
+      error: 'You need to be an admin ',
+    })
+    return
+  }
+
   if (req.method === 'POST') {
     try {
       const { name, email, role } = req.body
 
-      const findUser = await User.findOne({ email: email })
+      const findUser = await ShopUser.findOne({ email: email })
 
       if (findUser) {
         return res.status(400).send({
@@ -16,14 +33,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         })
       }
 
-      const newUser = new User({
+      const newShopUser = new ShopUser({
         name,
         email,
         role,
         date: new Date(),
       })
 
-      const response = await newUser.save()
+      const response = await newShopUser.save()
       console.log(1111, response)
 
       return res
@@ -37,4 +54,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default connectDB(authenticated(handler))
+export default connectDB(handler)
