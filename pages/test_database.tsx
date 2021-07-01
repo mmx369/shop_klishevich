@@ -5,12 +5,32 @@ import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
-import User from '../models/User'
+import User from '../models/shopUser'
 import { GetServerSideProps } from 'next'
 import Layout from '../components/layout'
 import { AddNewUserForm } from '../components/AddNewUserForm'
+import { useSession } from 'next-auth/client'
+import { ERole } from '../types/ERole'
 
 export default function testDatabase({ res }: any) {
+  const [session, loading] = useSession()
+
+  if (typeof window !== 'undefined' && loading) return null
+  if (!session) {
+    return (
+      <Layout title="Admin profile">
+        <h1>You must sign in</h1>;
+      </Layout>
+    )
+  }
+  if (session.role !== ERole.Admin) {
+    return (
+      <Layout title="Admin profile">
+        <h1>You must be an admin to see this page</h1>;
+      </Layout>
+    )
+  }
+
   const newList = JSON.parse(res)
   return (
     <Layout title="Test Database">

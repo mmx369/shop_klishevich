@@ -1,13 +1,13 @@
 import {
   AppBar,
-  Button,
   createStyles,
   makeStyles,
   Toolbar,
   Typography,
 } from '@material-ui/core'
-import Link from 'next/link'
 import React from 'react'
+import { ELoggedIn } from '../types/ELoggedIn'
+import SignInButtons from './auth/sign_in_button'
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -21,50 +21,37 @@ const useStyles = makeStyles(() =>
   })
 )
 
-export function Nav() {
+type TProps = {
+  currentUser: string | undefined
+  currentEmail: string | undefined
+  currentId: string | undefined
+  currentRole: string
+  isLoggedIn: any
+}
+
+export function Nav({
+  currentUser,
+  currentEmail,
+  currentId,
+  currentRole,
+  isLoggedIn,
+}: TProps) {
   const classes = useStyles()
   return (
     <AppBar position="static">
       <Toolbar variant="dense" className={classes.root}>
-        <Typography variant="h6">Paper Money Shop</Typography>
-
-        <Button color="inherit" className={classes.root}>
-          <Link href="/">
-            <a className={classes.link}>
-              <Typography color="inherit">Home</Typography>
-            </a>
-          </Link>
-        </Button>
-
-        <Button color="inherit" className={classes.root}>
-          <Link href="/test_redux">
-            <a className={classes.link}>
-              <Typography color="inherit">Test redux page</Typography>
-            </a>
-          </Link>
-        </Button>
-
-        <Button color="inherit" className={classes.root}>
-          <Link href="/test_database">
-            <a className={classes.link}>
-              <Typography color="inherit">Test database</Typography>
-            </a>
-          </Link>
-        </Button>
-        <Button color="inherit" className={classes.root}>
-          <Link href="/people">
-            <a className={classes.link}>
-              <Typography color="inherit">People</Typography>
-            </a>
-          </Link>
-        </Button>
-        <Button color="inherit" className={classes.root}>
-          <Link href="/login">
-            <a className={classes.link}>
-              <Typography color="inherit">Login</Typography>
-            </a>
-          </Link>
-        </Button>
+        <Typography variant="h6" className={classes.root}>
+          Paper Money Shop
+        </Typography>
+        {isLoggedIn === ELoggedIn.True && (
+          <div>
+            Signed in as {currentUser} with {currentEmail} your role is{' '}
+            {currentRole}
+          </div>
+        )}
+        {isLoggedIn !== ELoggedIn.Unknown && (
+          <SignInButtons isSignedIn={isLoggedIn === ELoggedIn.True} />
+        )}
       </Toolbar>
     </AppBar>
   )

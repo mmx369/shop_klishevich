@@ -1,20 +1,21 @@
 import mongoose, { Document } from 'mongoose'
+import { ERole } from '../types/ERole'
 const Schema = mongoose.Schema
 
-interface IUser extends Document {
+interface IShopUser extends Document {
   email: string
   name: string
-  role: 'admin' | 'client'
+  role: ERole.Admin | ERole.Client
   date: Date
   passwordHash: string
   orders: string[]
 }
 
-const user = new Schema<IUser>({
+const shopUser = new Schema<IShopUser>({
   email: { type: String, required: true, unique: true },
   role: {
     type: String,
-    default: 'client',
+    default: ERole.Client,
   },
   name: String,
   date: Date,
@@ -22,7 +23,7 @@ const user = new Schema<IUser>({
   orders: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Orders',
+      ref: 'ShopOrders',
     },
   ],
 })
@@ -31,6 +32,6 @@ const user = new Schema<IUser>({
 // @ts-ignore
 mongoose.models = {}
 
-const User = mongoose.model<IUser>('User', user)
+const ShopUser = mongoose.model<IShopUser>('ShopUser', shopUser)
 
-export default User
+export default ShopUser
