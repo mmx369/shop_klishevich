@@ -1,6 +1,7 @@
 import React from 'react'
 import { Form, Formik, Field, useField, ErrorMessage } from 'formik'
 import { object, string, number, boolean, array, mixed } from 'yup'
+import axios from 'axios';
 import {
   Box,
   Button,
@@ -18,7 +19,6 @@ export interface NewItemDetails {
   nameOfGoods: string
   amountOfGoods: number
   priceOfGoods: number
-  imagePath: string
   country: string
   category: string
   files: any
@@ -28,13 +28,12 @@ const initialValues: NewItemDetails = {
   nameOfGoods: '',
   amountOfGoods: 0,
   priceOfGoods: 0,
-  imagePath: '',
   country: '',
   category: '',
   files: [],
 }
 type TProps = {}
-export function AddNewItemForm({}: TProps) {
+export function AddNewItemForm({ }: TProps) {
   return (
     <Card>
       <CardContent>
@@ -43,11 +42,42 @@ export function AddNewItemForm({}: TProps) {
           initialValues={initialValues}
           validationSchema={object({
             files: array(object({ url: string().required() })),
+            nameOfGoods:string().required().min(5).max(100),
+            amountOfGoods:number().required().min(0),
+            priceOfGoods:number().required().min(0),
+            country:string().required().min(2).max(100),
+            category:string().required().min(2).max(100)
           })}
-          onSubmit={(values, formikHelpers) => {
+          onSubmit={(values, {resetForm}, formikHelpers) => {
+
+            const addNewItem = async () => {
+              try {
+                const newItem = {
+                  nameOfGoods: values.nameOfGoods,
+                  amountOfGoods: Number(values.amountOfGoods),
+                  priceOfGoods: Number(values.priceOfGoods),
+                  imageUrl: values.files.map((file)=>file.url),
+                  country: values.country,
+                  category: values.category,
+                }
+                console.log('!!!!!!!', newItem);
+
+                const res = await axios.post(
+                  `${process.env.RESTURL}/api/addnewitem`,
+                  newItem
+              );
+                  console.log('!!res', res);
+                
+              } catch (err) {
+                console.log(err)
+              }
+
+            }
+            addNewItem()
             console.log(values)
             console.log(formikHelpers)
             console.log('------------')
+            resetForm()
           }}
         >
           {(values, errors, isSubmitting, isValidating) => (
@@ -82,7 +112,7 @@ export function AddNewItemForm({}: TProps) {
                   <ErrorMessage name="priceOfGoods" />
                 </FormGroup>
               </Box>
-              <Box marginBottom={2}>
+              {/* <Box marginBottom={2}>
                 <FormGroup>
                   <Field
                     name="imagePath"
@@ -91,7 +121,7 @@ export function AddNewItemForm({}: TProps) {
                   />
                   <ErrorMessage name="imagePath" />
                 </FormGroup>
-              </Box>
+              </Box> */}
               <Box marginBottom={2}>
                 <FormGroup>
                   <Field name="country" as={TextField} select label="Страна">
@@ -144,3 +174,5 @@ export function AddNewItemForm({}: TProps) {
     </Card>
   )
 }
+
+
