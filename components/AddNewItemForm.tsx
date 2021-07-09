@@ -1,6 +1,14 @@
-import React from 'react'
-import { Form, Formik, Field, useField, ErrorMessage } from 'formik'
+import React, { useState } from 'react'
+import {
+  Form,
+  Formik,
+  Field,
+  useField,
+  ErrorMessage,
+  validateYupSchema,
+} from 'formik'
 import { object, string, number, boolean, array, mixed } from 'yup'
+import axios from 'axios'
 import {
   Box,
   Button,
@@ -12,13 +20,15 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core'
-import { MultipleFileUploadField } from '../upload/MultipleFileUploadField'
+import {
+  MultipleFileUploadField,
+  UploadableFile,
+} from '../upload/MultipleFileUploadField'
 
 export interface NewItemDetails {
   nameOfGoods: string
   amountOfGoods: number
   priceOfGoods: number
-  imagePath: string
   country: string
   category: string
   files: any
@@ -28,25 +38,56 @@ const initialValues: NewItemDetails = {
   nameOfGoods: '',
   amountOfGoods: 0,
   priceOfGoods: 0,
-  imagePath: '',
   country: '',
   category: '',
   files: [],
 }
+
 type TProps = {}
 export function AddNewItemForm({}: TProps) {
+  const [clearState, setClearState] = useState(false)
+
   return (
     <Card>
       <CardContent>
-        <Typography variant="h4">Добавить новый товар</Typography>
         <Formik
           initialValues={initialValues}
           validationSchema={object({
             files: array(object({ url: string().required() })),
+            nameOfGoods: string().required().min(5).max(100),
+            amountOfGoods: number().required().min(0),
+            priceOfGoods: number().required().min(0),
+            country: string().required().min(2).max(100),
+            category: string().required().min(2).max(100),
           })}
-          onSubmit={(values, formikHelpers) => {
+          onSubmit={async (values, { setStatus, resetForm }) => {
+            const addNewItem = async () => {
+              try {
+                const newItem = {
+                  nameOfGoods: values.nameOfGoods,
+                  amountOfGoods: Number(values.amountOfGoods),
+                  priceOfGoods: Number(values.priceOfGoods),
+                  imageUrl: values.files.map((file) => file.url),
+                  country: values.country,
+                  category: values.category,
+                }
+                console.log('!!!!!!!', newItem)
+
+                const res = await axios.post(
+                  `${process.env.RESTURL}/api/addnewitem`,
+                  newItem
+                )
+                console.log('!!res', res)
+                resetForm({})
+                setStatus({ success: true })
+                setClearState(true)
+              } catch (err) {
+                console.log(err)
+                setStatus({ success: false })
+              }
+            }
+            addNewItem()
             console.log(values)
-            console.log(formikHelpers)
             console.log('------------')
           }}
         >
@@ -84,16 +125,6 @@ export function AddNewItemForm({}: TProps) {
               </Box>
               <Box marginBottom={2}>
                 <FormGroup>
-                  <Field
-                    name="imagePath"
-                    as={TextField}
-                    label="Путь к товару"
-                  />
-                  <ErrorMessage name="imagePath" />
-                </FormGroup>
-              </Box>
-              <Box marginBottom={2}>
-                <FormGroup>
                   <Field name="country" as={TextField} select label="Страна">
                     <MenuItem value={''}>Выберите...</MenuItem>
 
@@ -122,7 +153,11 @@ export function AddNewItemForm({}: TProps) {
                 </FormGroup>
               </Box>
               <Grid container spacing={2} direction="column">
-                <MultipleFileUploadField name="files" />
+                <MultipleFileUploadField
+                  name="files"
+                  clearState={clearState}
+                  setClearState={setClearState}
+                />
                 <Grid item>
                   <Button
                     variant="contained"

@@ -43,7 +43,7 @@ export default function AddNewItem(props: TProps) {
     )
   }
   return (
-    <Layout title="Admin profile | Add new item">
+    <Layout title="Администрирование | Добавить новый товар">
       <AddNewItemForm />
     </Layout>
   )
