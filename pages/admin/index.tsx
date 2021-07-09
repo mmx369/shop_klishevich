@@ -42,15 +42,17 @@ export default function Homepage(props: TProps) {
     )
   }
   return (
-    <Layout title="Admin profile">
-      <p>
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolores rem
-        quos minima facere mollitia nihil culpa ipsam saepe eum, ipsum, deleniti
-        quas non in maxime eaque! Iste odit quis labore?
-      </p>
+    <Layout title="Администрирование">
+      <Link href={'/admin/userlist'}>
+        <a className={classes.link}>
+          <Typography color="inherit">Редактировать пользователей</Typography>
+        </a>
+      </Link>
       <Link href="/admin/addnewitem">
         <a className={classes.link}>
-          <Typography color="inherit">Add new item to the shop</Typography>
+          <Typography color="inherit">
+            Добавить новый товар в магазин
+          </Typography>
         </a>
       </Link>
     </Layout>

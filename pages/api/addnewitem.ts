@@ -23,9 +23,24 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (req.method === 'POST') {
     try {
-    const {nameOfGoods, amountOfGoods, priceOfGoods, imageUrl, country, category} = req.body
+      const {
+        nameOfGoods,
+        amountOfGoods,
+        priceOfGoods,
+        imageUrl,
+        country,
+        category,
+      } = req.body
 
-    console.log('!!!!!!!!',nameOfGoods, amountOfGoods, priceOfGoods, imageUrl, country, category)
+      console.log(
+        '!!!!!!!!',
+        nameOfGoods,
+        amountOfGoods,
+        priceOfGoods,
+        imageUrl,
+        country,
+        category
+      )
 
       const findItem = await ShopGoods.findOne({ nameOfGoods: nameOfGoods })
 
@@ -36,7 +51,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       const newItem = new ShopGoods({
-        nameOfGoods, amountOfGoods, priceOfGoods, imageUrl, country, category,
+        nameOfGoods,
+        amountOfGoods,
+        priceOfGoods,
+        imageUrl,
+        country,
+        category,
         date: new Date(),
       })
 

@@ -32,7 +32,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export function MultipleFileUploadField({ name }: { name: string }) {
+export function MultipleFileUploadField({
+  name,
+  clearState,
+  setClearState,
+}: {
+  name: string
+  clearState: boolean
+  setClearState: any
+}) {
   const classes = useStyles()
 
   const [_, __, helpers] = useField(name)
@@ -54,6 +62,12 @@ export function MultipleFileUploadField({ name }: { name: string }) {
     helpers.setTouched(true)
   }, [files])
 
+  useEffect(() => {
+    if (clearState) {
+      setFiles([])
+    }
+  }, [clearState])
+
   function onUpload(file: File, url: string) {
     setFiles((curr) => {
       return curr.map((fw) => {
@@ -63,6 +77,7 @@ export function MultipleFileUploadField({ name }: { name: string }) {
         return fw
       })
     })
+    setClearState(false)
   }
 
   function onDelete(file: File) {
