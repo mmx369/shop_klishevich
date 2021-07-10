@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import {
   TextField,
-  Box,
   Button,
   Select,
   MenuItem,
@@ -10,6 +9,9 @@ import {
   InputLabel,
   Grid,
 } from '@material-ui/core'
+import { useRouter } from 'next/router'
+import { useDispatch } from 'react-redux'
+import { createNewMsg } from '../redux/actions/notificationActions'
 
 export interface EditFormProps {
   id: string
@@ -24,6 +26,9 @@ export const EditUserlistForm = ({
   updateUserList,
   changeVisibility,
 }: EditFormProps) => {
+  const router = useRouter()
+  const dispatch = useDispatch()
+
   const [name, setName] = useState('')
   const [role, setRole] = useState('')
   const [newEmail, setNewEmail] = useState('')
@@ -42,9 +47,21 @@ export const EditUserlistForm = ({
 
   const deleteHandler = async () => {
     try {
-      console.log('Deleting ...')
-    } catch (err) {
-      console.log(err)
+      await axios.delete(`${process.env.RESTURL}/api/deleteuser`, {
+        data: id,
+      })
+      dispatch(
+        createNewMsg({
+          message: `Пользователь успешно удален`,
+          msgType: 'success',
+        })
+      )
+      setTimeout(() => {
+        dispatch(createNewMsg([]))
+      }, 4000)
+      router.replace(router.asPath)
+    } catch (e) {
+      console.error(e)
     }
   }
 

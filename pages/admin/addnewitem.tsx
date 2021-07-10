@@ -5,6 +5,7 @@ import React from 'react'
 import { AddNewItemForm } from '../../components/AddNewItemForm'
 import Layout from '../../components/layout'
 import { ERole } from '../../types/ERole'
+import { Notification } from '../../components/Notification'
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -30,9 +31,11 @@ export default function AddNewItem(props: TProps) {
   if (typeof window !== 'undefined' && loading) return null
   if (!session) {
     return (
-      <Layout title="Admin profile">
-        <h1>You must sign in</h1>;
-      </Layout>
+      <>
+        <Layout title="Admin profile">
+          <h1>You must sign in</h1>;
+        </Layout>
+      </>
     )
   }
   if (session.role !== ERole.Admin) {
@@ -44,6 +47,7 @@ export default function AddNewItem(props: TProps) {
   }
   return (
     <Layout title="Администрирование | Добавить новый товар">
+      <Notification />
       <AddNewItemForm />
     </Layout>
   )
