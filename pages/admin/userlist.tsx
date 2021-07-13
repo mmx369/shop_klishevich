@@ -20,7 +20,6 @@ import {
 import EditIcon from '@material-ui/icons/Edit'
 import { useRouter } from 'next/router'
 import { EditUserlistForm } from '../../components/EditUserlistForm'
-import { truncate } from 'fs'
 import { AddNewUserForm } from '../../components/AddNewUserForm'
 
 export interface UserListProps {
@@ -88,7 +87,7 @@ export default function Userlist({ res }: UserListProps) {
   return (
     <Layout title="Администрирование | Редактировать список пользователей">
       <div>
-        <Grid container spacing={2} justify="center" alignItems="center">
+        <Grid container spacing={2} justifyContent="center" alignItems="center">
           <Grid item>
             {!showAddUserForm && (
               <Button

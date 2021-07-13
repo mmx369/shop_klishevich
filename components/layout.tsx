@@ -9,6 +9,7 @@ import { ELoggedIn } from '../types/ELoggedIn'
 import { getSession } from 'next-auth/client'
 import { updateIsLoggedInAC, updateUserAC } from '../redux/actions/appActions'
 import { ERole } from '../types/ERole'
+import { Notification } from './Notification'
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -89,6 +90,7 @@ export default function Layout({ children, title }: TProps) {
         />
       </header>
       <main className={classes.main}>
+        <Notification />
         <Link href="/">
           <a className={classes.link}>
             <Typography color="inherit">Home</Typography>
@@ -102,6 +104,11 @@ export default function Layout({ children, title }: TProps) {
         <Link href="/test_database">
           <a className={classes.link}>
             <Typography color="inherit">Test database</Typography>
+          </a>
+        </Link>
+        <Link href="/faq">
+          <a className={classes.link}>
+            <Typography color="inherit">FAQ</Typography>
           </a>
         </Link>
 

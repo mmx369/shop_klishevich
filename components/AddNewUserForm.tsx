@@ -9,8 +9,14 @@ import {
   Select,
   MenuItem,
 } from '@material-ui/core'
+import { useDispatch } from 'react-redux'
+import { createNewMsg } from '../redux/actions/notificationActions'
+import { useRouter } from 'next/router'
 
 export const AddNewUserForm = () => {
+  const router = useRouter()
+  const dispatch = useDispatch()
+
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [role, setRole] = useState('')
@@ -40,11 +46,29 @@ export const AddNewUserForm = () => {
         `${process.env.RESTURL}/api/addnewuser`,
         addNewUser
       )
-
+      dispatch(
+        createNewMsg({
+          message: `Пользователь ${name} успешно добавлен`,
+          msgType: 'success',
+        })
+      )
+      setTimeout(() => {
+        dispatch(createNewMsg([]))
+      }, 4000)
       setName('')
       setEmail('')
       setRole('')
+      router.replace(router.asPath)
     } catch (e) {
+      dispatch(
+        createNewMsg({
+          message: e.response.data.message,
+          msgType: 'error',
+        })
+      )
+      setTimeout(() => {
+        dispatch(createNewMsg([]))
+      }, 4000)
       console.error(e)
     }
   }
