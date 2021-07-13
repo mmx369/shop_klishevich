@@ -147,9 +147,9 @@ export function AddNewItemForm({}: TProps) {
                     <Field name="country" as={TextField} select label="Страна">
                       <MenuItem value={''}>Выберите...</MenuItem>
 
-                      <MenuItem value={'Россия'}>Россия</MenuItem>
-                      <MenuItem value={'CCCР'}>CCCР</MenuItem>
-                      <MenuItem value={'Таджикистан'}>Таджикистан</MenuItem>
+                      <MenuItem value={'Russia'}>Россия</MenuItem>
+                      <MenuItem value={'USSR'}>CCCР</MenuItem>
+                      <MenuItem value={'Tadjikistan'}>Таджикистан</MenuItem>
                     </Field>
                     <ErrorMessage name="country" />
                   </FormGroup>
@@ -164,9 +164,9 @@ export function AddNewItemForm({}: TProps) {
                     >
                       <MenuItem value={''}>Выберите...</MenuItem>
 
-                      <MenuItem value={'Банкноты'}>Банкноты</MenuItem>
-                      <MenuItem value={'Монеты'}>Монеты</MenuItem>
-                      <MenuItem value={'Прочие'}>Прочие</MenuItem>
+                      <MenuItem value={'Paper Money'}>Банкноты</MenuItem>
+                      <MenuItem value={'Coins'}>Монеты</MenuItem>
+                      <MenuItem value={'Other'}>Прочие</MenuItem>
                     </Field>
                     <ErrorMessage name="category" />
                   </FormGroup>
