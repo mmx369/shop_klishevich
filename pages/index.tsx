@@ -7,14 +7,23 @@ import {
   Select,
   createStyles,
   makeStyles,
+  Button,
+  SelectProps,
 } from '@material-ui/core'
-import { Formik, Form, Field } from 'formik'
+import { Formik, Form, Field, useField, useFormikContext } from 'formik'
 import { GetServerSideProps } from 'next'
 import React from 'react'
 import Layout from '../components/layout'
 import { getTypes, Type } from '../database/getType'
-import { useRouter } from 'next/router'
-import { IndeterminateCheckBox } from '@material-ui/icons'
+import router, { useRouter } from 'next/router'
+import { Country, getCountry } from '../database/getCountry'
+import { getAsString } from '../database/getAsString'
+import useSWR from 'swr'
+
+export interface HomepageProps {
+  types: Type[]
+  countries: Country[]
+}
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -26,28 +35,36 @@ const useStyles = makeStyles((theme) =>
   })
 )
 
-export interface HomepageProps {
-  types: Type[]
-}
-
 const prices = [0, 100, 500, 1000, 5000, 10000]
 
-export default function Homepage({ types }: HomepageProps) {
+export default function Homepage({ types, countries }: HomepageProps) {
   const classes = useStyles()
   const { query } = useRouter()
 
   console.log('query', query)
 
   const initialValues = {
-    type: query.type || 'All',
-    country: query.country || 'All',
-    minPrice: query.minPrice || 'All',
-    maxPrice: query.maxPrice || 'All',
+    type: getAsString(query.type) || 'all',
+    country: getAsString(query.country) || 'all',
+    minPrice: getAsString(query.minPrice) || 'all',
+    maxPrice: getAsString(query.maxPrice) || 'all',
   }
 
   return (
     <Layout title="Homepage">
-      <Formik initialValues={initialValues} onSubmit={() => {}}>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={(values) => {
+          router.push(
+            {
+              pathname: '/',
+              query: { ...values, page: 1 },
+            },
+            undefined,
+            { shallow: true }
+          )
+        }}
+      >
         {({ values }) => (
           <Form>
             <Paper elevation={5} className={classes.paper}>
@@ -61,20 +78,27 @@ export default function Homepage({ types }: HomepageProps) {
                       labelId="search-type"
                       label="Type"
                     >
-                      <MenuItem value="All">
+                      <MenuItem value="all">
                         <em>All types</em>
                       </MenuItem>
-                      {types.map((type, index) => (
-                        <MenuItem key={index} value={type.type}>
+
+                      {types.map((type) => (
+                        <MenuItem key={type.type} value={type.type}>
                           {`${type.type} (${type.count})`}
                         </MenuItem>
                       ))}
                     </Field>
                   </FormControl>
                 </Grid>
+
                 <Grid item xs={12} sm={6}>
-                  Страна
+                  <CountrySelect
+                    type={values.type}
+                    name="country"
+                    countries={countries}
+                  />
                 </Grid>
+
                 <Grid item xs={12} sm={6}>
                   <FormControl fullWidth variant="outlined">
                     <InputLabel id="search-min-price">Мин цена</InputLabel>
@@ -84,17 +108,18 @@ export default function Homepage({ types }: HomepageProps) {
                       labelId="search-min-price"
                       label="Min price"
                     >
-                      <MenuItem value="All">
+                      <MenuItem value="all">
                         <em>Нет мин</em>
                       </MenuItem>
-                      {prices.map((price, index) => (
-                        <MenuItem key={index} value={price}>
+                      {prices.map((price) => (
+                        <MenuItem key={price} value={price}>
                           {price}
                         </MenuItem>
                       ))}
                     </Field>
                   </FormControl>
                 </Grid>
+
                 <Grid item xs={12} sm={6}>
                   <FormControl fullWidth variant="outlined">
                     <InputLabel id="search-max-price">Макс цена</InputLabel>
@@ -104,16 +129,27 @@ export default function Homepage({ types }: HomepageProps) {
                       labelId="search-max-price"
                       label="Max price"
                     >
-                      <MenuItem value="All">
+                      <MenuItem value="all">
                         <em>Нет макс</em>
                       </MenuItem>
-                      {prices.map((price, index) => (
-                        <MenuItem key={index} value={price}>
+                      {prices.map((price) => (
+                        <MenuItem key={price} value={price}>
                           {price}
                         </MenuItem>
                       ))}
                     </Field>
                   </FormControl>
+                </Grid>
+
+                <Grid item xs={12}>
+                  <Button
+                    fullWidth
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                  >
+                    Искать
+                  </Button>
                 </Grid>
               </Grid>
             </Paper>
@@ -125,7 +161,65 @@ export default function Homepage({ types }: HomepageProps) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const types = await getTypes()
-  return { props: { types } }
+export interface CountrySelectProps extends SelectProps {
+  name: string
+  countries: Country[]
+  type: string
+}
+
+export function CountrySelect({
+  countries,
+  type,
+  ...props
+}: CountrySelectProps) {
+  const { setFieldValue } = useFormikContext()
+  const [field] = useField({
+    name: props.name,
+  })
+
+  const { data } = useSWR<Country[]>('/api/getcountry?type=' + type, {
+    onSuccess: (newValues) => {
+      if (!newValues.map((a) => a.country).includes(field.value)) {
+        setFieldValue('country', 'all')
+      }
+    },
+  })
+  const newCountries = data || countries
+
+  return (
+    <FormControl fullWidth variant="outlined">
+      <InputLabel id="search-country">Страна</InputLabel>
+      <Select
+        name="country"
+        labelId="search-country"
+        label="Country"
+        {...field}
+        {...props}
+      >
+        <MenuItem value="all">
+          <em>All types</em>
+        </MenuItem>
+        {newCountries.map((country, index) => (
+          <MenuItem key={index} value={country[0]}>
+            {`${country[0]} (${country[1]})`}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  )
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const type = getAsString(ctx.query.type)
+  console.log(6666, type)
+
+  const [types, countries] = await Promise.all([getTypes(), getCountry(type)])
+
+  // const types = await getTypes()
+  // const countries = await getCountry(type)
+  console.log(7777, types)
+
+  console.log(88888, countries)
+
+  return { props: { types, countries } }
 }
