@@ -1,5 +1,4 @@
 import {
-  ButtonBase,
   createStyles,
   Grid,
   makeStyles,
@@ -7,7 +6,9 @@ import {
   Typography,
 } from '@material-ui/core'
 import { GetServerSideProps } from 'next'
+import Head from 'next/head'
 import React from 'react'
+import Layout from '../../../../components/layout'
 import ShopGoods from '../../../../models/shopGoods'
 
 interface ItemsDetailsProps {
@@ -15,7 +16,7 @@ interface ItemsDetailsProps {
 }
 
 export interface ItemModel {
-  id: number
+  _id: string
   imageUrl: string[]
   nameOfGoods: string
   amountOfGoods: number
@@ -38,7 +39,6 @@ const useStyles = makeStyles((theme) =>
 
 export default function ItemsDetails({ item }: ItemsDetailsProps) {
   const classes = useStyles()
-  console.log(393939, item)
 
   if (item === 'null') {
     return <h1>Извините такой товар не найден!</h1>
@@ -48,7 +48,7 @@ export default function ItemsDetails({ item }: ItemsDetailsProps) {
 
   return (
     <div>
-      <div>
+      <Layout title={list.country + ' ' + list.nameOfGoods}>
         <Paper className={classes.paper}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6} md={5}>
@@ -82,19 +82,14 @@ export default function ItemsDetails({ item }: ItemsDetailsProps) {
             </Grid>
           </Grid>
         </Paper>
-      </div>
-
-      {JSON.stringify(list, null, 4)}
+      </Layout>
     </div>
   )
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const id = ctx.params.id
-  console.log(111, id)
-
   const data = await ShopGoods.findById(id).exec()
-  console.log(222, data)
   const item = JSON.stringify(data)
 
   return { props: { item: item || null } }

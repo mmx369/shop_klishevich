@@ -11,11 +11,10 @@ import {
   SelectProps,
 } from '@material-ui/core'
 import { Formik, Form, Field, useField, useFormikContext } from 'formik'
-import { GetServerSideProps } from 'next'
 import React from 'react'
-import { getTypes, Type } from '../database/getType'
+import { Type } from '../database/getType'
 import router, { useRouter } from 'next/router'
-import { Country, getCountry } from '../database/getCountry'
+import { Country } from '../database/getCountry'
 import { getAsString } from '../database/getAsString'
 import useSWR from 'swr'
 
@@ -45,8 +44,6 @@ export default function Search({
   const classes = useStyles()
   const { query } = useRouter()
   const smValue = singleColumn ? 12 : 6
-
-  console.log('query', query)
 
   const initialValues = {
     type: getAsString(query.type) || 'all',
@@ -180,13 +177,14 @@ export function CountrySelect({
   })
 
   const { data } = useSWR<Country[]>('/api/getcountry?type=' + type, {
-    dedupingInterval: 60000,
+    // dedupingInterval: 60000,
     onSuccess: (newValues) => {
       if (!newValues.map((a) => a.country).includes(field.value)) {
         setFieldValue('country', 'all')
       }
     },
   })
+
   const newCountries = data || countries
 
   return (
@@ -200,29 +198,14 @@ export function CountrySelect({
         {...props}
       >
         <MenuItem value="all">
-          <em>All types</em>
+          <em>All countries</em>
         </MenuItem>
-        {newCountries.map((country, index) => (
-          <MenuItem key={index} value={country[0]}>
-            {`${country[0]} (${country[1]})`}
+        {newCountries.map((country) => (
+          <MenuItem key={country.country} value={country.country}>
+            {`${country.country} (${country.count})`}
           </MenuItem>
         ))}
       </Select>
     </FormControl>
   )
 }
-
-// export const getServerSideProps: GetServerSideProps = async (ctx) => {
-//   const type = getAsString(ctx.query.type)
-//   console.log(6666, type)
-
-//   const [types, countries] = await Promise.all([getTypes(), getCountry(type)])
-
-//   // const types = await getTypes()
-//   // const countries = await getCountry(type)
-//   console.log(7777, types)
-
-//   console.log(88888, countries)
-
-//   return { props: { types, countries } }
-// }

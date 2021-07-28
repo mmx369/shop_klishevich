@@ -7,7 +7,7 @@ export interface Country {
 }
 
 export async function getCountry(type: string) {
-  await connectDB()
+  // await connectDB()
 
   const countries = await ShopGoods.find({ category: type })
 
@@ -21,6 +21,20 @@ export async function getCountry(type: string) {
     return acc
   }, {})
 
-  const resToArr = Object.entries(res)
-  return resToArr
+  console.log(1111, res)
+
+  //{Russia:4, USSR:3}
+
+  //[{type:"Russia",count:4 }, {type:"USSR", count:3}]
+
+  const arrOfObj = []
+
+  for (let [key, value] of Object.entries(res)) {
+    arrOfObj.push({ country: key, count: value })
+    // console.log(key, value)
+  }
+  console.log(2222, arrOfObj)
+
+  // const resToArr = Object.entries(res)
+  return arrOfObj
 }

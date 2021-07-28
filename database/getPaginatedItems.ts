@@ -1,4 +1,3 @@
-import { type } from 'os'
 import { ParsedUrlQuery } from 'querystring'
 import { connectDB } from '../db/connect'
 import ShopGoods from '../models/shopGoods'
@@ -10,10 +9,6 @@ export async function getPaginatedItem(query: ParsedUrlQuery) {
   const rowsPerPage = getValueNumber(query.rowsPerPage) || 4
   const offset = (page - 1) * rowsPerPage
 
-  console.log('!!!!', query)
-
-  console.log(1010, page, rowsPerPage, offset)
-
   const dbParams = {
     type: getValueStr(query.type),
     country: getValueStr(query.country),
@@ -21,7 +16,7 @@ export async function getPaginatedItem(query: ParsedUrlQuery) {
     maxPrice: getValueNumber(query.maxPrice),
   }
 
-  console.log(1111, dbParams)
+  console.log('DB Params: ', dbParams)
 
   const findQuery: any = {}
 
@@ -47,8 +42,6 @@ export async function getPaginatedItem(query: ParsedUrlQuery) {
     }
   }
 
-  console.log('Query', findQuery)
-
   const resultPromise = ShopGoods.find(findQuery)
     .skip(offset)
     .limit(rowsPerPage)
@@ -61,10 +54,7 @@ export async function getPaginatedItem(query: ParsedUrlQuery) {
 
   const totalPages = Math.ceil(resultCount / rowsPerPage)
 
-  console.log(2222, result)
-  console.log(3333, resultCount)
-
-  return { result, totalPages: totalPages }
+  return { goods: result, totalPages: totalPages }
 }
 
 function getValueNumber(value: string | string[]) {
