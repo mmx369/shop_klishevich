@@ -30,6 +30,7 @@ export interface ShopCardProps {
 
 export function ShopCard({ item }: ShopCardProps) {
   const classes = useStyles()
+  console.log('111111122222', item)
 
   return (
     <>

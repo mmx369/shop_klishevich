@@ -12,11 +12,8 @@ export interface HomepageProps {
 }
 
 export default function Homepage({ types, countries }: HomepageProps) {
-  console.log(types)
-  console.log(countries)
-
   return (
-    <Layout title="Homepage">
+    <Layout title="Paper Money Shop">
       <Search types={types} countries={countries} />
     </Layout>
   )
@@ -25,8 +22,5 @@ export default function Homepage({ types, countries }: HomepageProps) {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const type = getAsString(ctx.query.type)
   const [types, countries] = await Promise.all([getTypes(), getCountry(type)])
-  console.log(typeof types, '!!!!', types)
-  console.log(typeof countries, '!!!!', countries)
-
   return { props: { types, countries } }
 }

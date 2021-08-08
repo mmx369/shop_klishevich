@@ -39,27 +39,26 @@ export default function ShopList({
 
   return (
     // //TODO: use skeleton to avoid blinking
-    // // error ??? when layaout why?
-    // // <Layout title="Shop Page">
-    <Grid container spacing={2}>
-      <Grid item xs={12} sm={5} md={3} lg={2}>
-        <Search singleColumn types={types} countries={countries} />
-      </Grid>
-      <Grid container item xs={12} sm={7} md={9} lg={10} spacing={2}>
-        <Grid item xs={12}>
-          <ShopPagination totalPages={data?.totalPages} />
+    <Layout title="Shop Page">
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={5} md={3} lg={2}>
+          <Search singleColumn types={types} countries={countries} />
         </Grid>
-        {(data?.goods || []).map((item) => (
-          <Grid key={item.id} item xs={12} sm={6}>
-            <ShopCard item={item} />
+        <Grid container item xs={12} sm={7} md={9} lg={10} spacing={2}>
+          <Grid item xs={12}>
+            <ShopPagination totalPages={data?.totalPages} />
           </Grid>
-        ))}
-        <Grid item xs={12}>
-          <ShopPagination totalPages={data?.totalPages} />
+          {(data?.goods || []).map((item) => (
+            <Grid key={item._id} item xs={12} sm={6}>
+              <ShopCard item={item} />
+            </Grid>
+          ))}
+          <Grid item xs={12}>
+            <ShopPagination totalPages={data?.totalPages} />
+          </Grid>
         </Grid>
       </Grid>
-    </Grid>
-    // // </Layout>
+    </Layout>
   )
 }
 
@@ -74,7 +73,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const goodsSerialized = pagination.goods.map(
     //@ts-ignore
     ({ _doc: { _id, date, ...rest } }) => {
-      rest.id = _id.toString()
+      rest._id = _id.toString()
       return rest
     }
   )

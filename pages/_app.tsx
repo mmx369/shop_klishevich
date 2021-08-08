@@ -2,6 +2,7 @@ import React from 'react'
 import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from '../theme'
+import thunk from 'redux-thunk'
 
 import { AppProps } from 'next/dist/next-server/lib/router/router'
 import { Provider as SessionProvider } from 'next-auth/client'

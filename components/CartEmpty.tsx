@@ -1,6 +1,7 @@
 import React from 'react'
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles'
+import { useRouter } from 'next/router'
 
 const useStyles = makeStyles({
   button: {
@@ -13,8 +14,11 @@ const useStyles = makeStyles({
 
 export const CartEmpty = () => {
   const classes = useStyles()
+  const router = useRouter()
 
-  const handleGoShopping = () => console.log('Продолжить покупки')
+  const handleGoShopping = () => {
+    router.push('/')
+  }
 
   return (
     <>

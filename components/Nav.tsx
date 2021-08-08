@@ -1,6 +1,7 @@
 import {
   AppBar,
   createStyles,
+  IconButton,
   makeStyles,
   Toolbar,
   Typography,
@@ -8,6 +9,8 @@ import {
 import React from 'react'
 import { ELoggedIn } from '../types/ELoggedIn'
 import SignInButtons from './auth/sign_in_button'
+import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded'
+import { useRouter } from 'next/router'
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -27,6 +30,7 @@ type TProps = {
   currentId: string | undefined
   currentRole: string
   isLoggedIn: any
+  isCartEmpty: any
 }
 
 export function Nav({
@@ -35,8 +39,16 @@ export function Nav({
   currentId,
   currentRole,
   isLoggedIn,
+  isCartEmpty,
 }: TProps) {
   const classes = useStyles()
+  const router = useRouter()
+
+  const handleClick = (e) => {
+    e.preventDefault()
+    router.push('/cart')
+  }
+
   return (
     <AppBar position="static">
       <Toolbar variant="dense" className={classes.root}>
@@ -51,6 +63,13 @@ export function Nav({
         )}
         {isLoggedIn !== ELoggedIn.Unknown && (
           <SignInButtons isSignedIn={isLoggedIn === ELoggedIn.True} />
+        )}
+        {!!isCartEmpty.length && (
+          <div>
+            <IconButton color="inherit" onClick={handleClick}>
+              <ShoppingCartRoundedIcon />
+            </IconButton>
+          </div>
         )}
       </Toolbar>
     </AppBar>

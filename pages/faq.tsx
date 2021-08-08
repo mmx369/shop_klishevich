@@ -11,7 +11,7 @@ import Layout from '../components/layout'
 import ShopFaq from '../models/shopFaq'
 
 export interface FaqModel {
-  id: number
+  _id: number
   question: string
   answer: string
 }
@@ -26,7 +26,7 @@ export default function Faq({ faq }: FaqProps) {
     <Layout title="Faq">
       <div>
         {list.map((f) => (
-          <Accordion key={f.id}>
+          <Accordion key={f._id}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"

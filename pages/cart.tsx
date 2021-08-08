@@ -5,6 +5,7 @@ import { CartEmpty } from '../components/CartEmpty'
 import { CartTable } from '../components/CartTable'
 import { initItems } from '../redux/actions/cartActions'
 import { makeStyles } from '@material-ui/core/styles'
+import { useRouter } from 'next/router'
 
 const useStyles = makeStyles({
   root: {
@@ -28,6 +29,7 @@ const useStyles = makeStyles({
 export default function Cart() {
   const classes = useStyles()
   const dispatch = useDispatch()
+  const router = useRouter()
 
   useEffect(() => {
     dispatch(initItems())
@@ -41,10 +43,13 @@ export default function Cart() {
 
   const handleClearCart = () => {
     window.localStorage.removeItem('cart')
+    router.reload()
   }
 
   const handleClick = () => console.log('Оформление заказа')
-  const handleGoShopping = () => console.log('Вернутся в магазин')
+  const handleGoShopping = () => {
+    router.back()
+  }
 
   return (
     <>

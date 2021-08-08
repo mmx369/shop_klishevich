@@ -1,4 +1,4 @@
-import { getItemById } from '../../database/getItemById'
+import axios from 'axios'
 
 export enum CartActionTypes {
   INIT_ITEMS = 'INIT_ITEMS',
@@ -18,19 +18,22 @@ export const initItems = () => {
 
 export const addNewItem = (id: string) => {
   return async (dispatch) => {
-    console.log('!!!!', id)
-    const item = await getItemById(id)
-    console.log(item)
-    const itemAmount = item.amountOfGoods
+    const item = await axios.get('/api/getitembyid', {
+      params: {
+        id,
+      },
+    })
+    const itemAmount = item.data.amountOfGoods
+    console.log(1111, itemAmount)
     if (itemAmount === 0) {
       dispatch({
         type: CartActionTypes.DEFAULT,
       })
     } else {
-      item.amountOfGoods = 1
+      item.data.amountOfGoods = 1
       dispatch({
         type: CartActionTypes.NEW_ITEM,
-        data: item,
+        data: item.data,
         stockamount: itemAmount,
       })
     }

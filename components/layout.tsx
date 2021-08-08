@@ -10,6 +10,7 @@ import { getSession } from 'next-auth/client'
 import { updateIsLoggedInAC, updateUserAC } from '../redux/actions/appActions'
 import { ERole } from '../types/ERole'
 import { Notification } from './Notification'
+import { initItems } from '../redux/actions/cartActions'
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -72,6 +73,12 @@ export default function Layout({ children, title }: TProps) {
     }
   }, [])
 
+  React.useEffect(() => {
+    dispatch(initItems())
+  }, [dispatch])
+
+  const isCartEmpty = useSelector((state: IRootState) => state.cart) || []
+
   return (
     <div>
       <Head>
@@ -87,6 +94,7 @@ export default function Layout({ children, title }: TProps) {
           currentId={currentId}
           currentRole={currentRole}
           isLoggedIn={isLoggedIn}
+          isCartEmpty={isCartEmpty}
         />
       </header>
       <main className={classes.main}>
