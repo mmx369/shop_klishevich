@@ -30,7 +30,6 @@ export interface ShopCardProps {
 
 export function ShopCard({ item }: ShopCardProps) {
   const classes = useStyles()
-  console.log('111111122222', item)
 
   return (
     <>
@@ -51,8 +50,10 @@ export function ShopCard({ item }: ShopCardProps) {
             />
             <CardContent>
               <Typography variant="body2" color="textSecondary" component="p">
-                Цена: {item.priceOfGoods} рублей. Остаток: {item.amountOfGoods}{' '}
-                шт.
+                Цена: {item.priceOfGoods} рублей. Остаток:{' '}
+                {item.amountOfGoods > 0
+                  ? item.amountOfGoods + ' шт.'
+                  : 'Товар отсутствует'}
               </Typography>
             </CardContent>
           </Card>

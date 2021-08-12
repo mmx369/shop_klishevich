@@ -52,17 +52,11 @@ export function Nav({
   return (
     <AppBar position="static">
       <Toolbar variant="dense" className={classes.root}>
-        <Typography variant="h6" className={classes.root}>
-          Paper Money Shop
+        <Typography variant="subtitle2" className={classes.root}>
+          Нумизматика и бонистика
         </Typography>
         {isLoggedIn === ELoggedIn.True && (
-          <div>
-            Signed in as {currentUser} with {currentEmail} your role is{' '}
-            {currentRole}
-          </div>
-        )}
-        {isLoggedIn !== ELoggedIn.Unknown && (
-          <SignInButtons isSignedIn={isLoggedIn === ELoggedIn.True} />
+          <div>Вы вошли как {currentEmail}</div>
         )}
         {!!isCartEmpty.length && (
           <div>
@@ -70,6 +64,9 @@ export function Nav({
               <ShoppingCartRoundedIcon />
             </IconButton>
           </div>
+        )}
+        {isLoggedIn !== ELoggedIn.Unknown && (
+          <SignInButtons isSignedIn={isLoggedIn === ELoggedIn.True} />
         )}
       </Toolbar>
     </AppBar>

@@ -6,23 +6,18 @@ import { CartTable } from '../components/CartTable'
 import { initItems } from '../redux/actions/cartActions'
 import { makeStyles } from '@material-ui/core/styles'
 import { useRouter } from 'next/router'
+import { Grid } from '@material-ui/core'
+import Layout from '../components/layout'
 
 const useStyles = makeStyles({
   root: {
-    marginTop: 65,
-    marginBottom: 10,
-    padding: 5,
+    margin: 10,
   },
   button: {
     borderRadius: 13,
     boxShadow: '0 3px 2px 2px',
     padding: '0 10px',
     margin: 10,
-  },
-  buttonsDiv: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
   },
 })
 
@@ -46,43 +41,64 @@ export default function Cart() {
     router.reload()
   }
 
-  const handleClick = () => console.log('Оформление заказа')
+  const handleClick = (e) => {
+    e.preventDefault()
+    router.push('/checkout')
+  }
+
   const handleGoShopping = () => {
     router.back()
   }
 
   return (
     <>
-      {isCartEmpty && <CartEmpty />}
-      {isCartEmpty || <CartTable />}
-      {isCartEmpty || (
-        <div className={classes.buttonsDiv}>
-          <Button
-            className={classes.button}
-            variant="outlined"
-            color="secondary"
-            onClick={() => handleClearCart()}
-          >
-            Очистить корзину
-          </Button>
-          <Button
-            className={classes.button}
-            variant="outlined"
-            color="secondary"
-            onClick={handleClick}
-          >
-            Оформить
-          </Button>
-          <Button
-            className={classes.button}
-            variant="outlined"
-            color="secondary"
-            onClick={() => handleGoShopping()}
-          >
-            Продожить покупки
-          </Button>
+      <Layout title="Корзина">
+        <div className={classes.root}>
+          <Grid container>
+            <Grid item>{isCartEmpty && <CartEmpty />}</Grid>
+            <Grid item>{isCartEmpty || <CartTable />}</Grid>
+            <Grid container item>
+              {isCartEmpty || (
+                <div>
+                  <Grid item xs={12}>
+                    <Button
+                      className={classes.button}
+                      variant="outlined"
+                      color="secondary"
+                      onClick={() => handleClearCart()}
+                      fullWidth
+                    >
+                      Очистить корзину
+                    </Button>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button
+                      className={classes.button}
+                      variant="outlined"
+                      color="secondary"
+                      onClick={handleClick}
+                      fullWidth
+                    >
+                      Оформить
+                    </Button>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button
+                      className={classes.button}
+                      variant="outlined"
+                      color="secondary"
+                      fullWidth
+                      onClick={() => handleGoShopping()}
+                    >
+                      Продожить покупки
+                    </Button>
+                  </Grid>
+                </div>
+              )}
+            </Grid>
+          </Grid>
         </div>
-      )}
+      </Layout>
     </>
   )
 }

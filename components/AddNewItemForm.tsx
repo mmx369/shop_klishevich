@@ -50,10 +50,6 @@ export function AddNewItemForm({}: TProps) {
   const dispatch = useDispatch()
   const [clearState, setClearState] = useState(false)
 
-  // useEffect(() => {
-  //   dispatch(createNewMsg([]))
-  // }, [])
-
   return (
     <>
       <Card>

@@ -15,21 +15,28 @@ const SignInButtons = ({ isSignedIn }: TProps) => {
   return (
     <div>
       {!isSignedIn && (
-        <Button color="secondary" variant="contained" onClick={handleSignIn}>
-          Sign in
+        <Button
+          color="primary"
+          variant="contained"
+          disableElevation
+          onClick={handleSignIn}
+        >
+          Войти
         </Button>
       )}
       {isSignedIn && (
-        <Button color="secondary" variant="contained" onClick={handleSignOut}>
-          Sign out
+        <Button
+          color="primary"
+          variant="contained"
+          disableElevation
+          onClick={handleSignOut}
+        >
+          Выйти
         </Button>
       )}
       <style jsx>{`
         div {
-          margin: 15px;
-        }
-        .light {
-          background-color: #999;
+          margin: 5px;
         }
       `}</style>
     </div>
