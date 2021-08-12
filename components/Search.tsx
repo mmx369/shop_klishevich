@@ -56,6 +56,8 @@ export default function Search({
     <Formik
       initialValues={initialValues}
       onSubmit={(values) => {
+        console.log(1111, values)
+
         router.push(
           {
             pathname: '/shop',
@@ -80,7 +82,7 @@ export default function Search({
                     label="Type"
                   >
                     <MenuItem value="all">
-                      <em>All types</em>
+                      <em>Показать все</em>
                     </MenuItem>
 
                     {types.map((type) => (
@@ -102,7 +104,9 @@ export default function Search({
 
               <Grid item xs={12} sm={smValue}>
                 <FormControl fullWidth variant="outlined">
-                  <InputLabel id="search-min-price">Мин цена</InputLabel>
+                  <InputLabel id="search-min-price">
+                    Минимальная цена
+                  </InputLabel>
                   <Field
                     name="minPrice"
                     as={Select}
@@ -110,7 +114,7 @@ export default function Search({
                     label="Min price"
                   >
                     <MenuItem value="all">
-                      <em>Нет мин</em>
+                      <em>Не выбрано</em>
                     </MenuItem>
                     {prices.map((price) => (
                       <MenuItem key={price} value={price}>
@@ -123,7 +127,9 @@ export default function Search({
 
               <Grid item xs={12} sm={smValue}>
                 <FormControl fullWidth variant="outlined">
-                  <InputLabel id="search-max-price">Макс цена</InputLabel>
+                  <InputLabel id="search-max-price">
+                    Максимальная цена
+                  </InputLabel>
                   <Field
                     name="maxPrice"
                     as={Select}
@@ -131,7 +137,7 @@ export default function Search({
                     label="Max price"
                   >
                     <MenuItem value="all">
-                      <em>Нет макс</em>
+                      <em>Не выбрано</em>
                     </MenuItem>
                     {prices.map((price) => (
                       <MenuItem key={price} value={price}>
@@ -198,7 +204,7 @@ export function CountrySelect({
         {...props}
       >
         <MenuItem value="all">
-          <em>All countries</em>
+          <em>Показать все</em>
         </MenuItem>
         {newCountries.map((country) => (
           <MenuItem key={country.country} value={country.country}>

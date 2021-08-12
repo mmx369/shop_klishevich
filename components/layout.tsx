@@ -1,7 +1,12 @@
 import React from 'react'
 import Head from 'next/head'
 import { Nav } from './Nav'
-import { createStyles, makeStyles, Typography } from '@material-ui/core'
+import {
+  Breadcrumbs,
+  createStyles,
+  makeStyles,
+  Typography,
+} from '@material-ui/core'
 import Link from 'next/link'
 import { useDispatch, useSelector } from 'react-redux'
 import { IRootState } from '../redux/reducers'
@@ -48,13 +53,7 @@ export default function Layout({ children, title }: TProps) {
     if (isLoggedIn === ELoggedIn.Unknown) {
       ;(async () => {
         const session = await getSession()
-        console.log({ session })
         if (session) {
-          console.log(
-            'additional info from the server: ',
-            session.someInfo,
-            session
-          )
           dispatch(updateIsLoggedInAC(ELoggedIn.True))
           dispatch(
             updateUserAC(
@@ -65,7 +64,6 @@ export default function Layout({ children, title }: TProps) {
             )
           )
         } else {
-          console.log('NO session!!!', session)
           dispatch(updateIsLoggedInAC(ELoggedIn.False))
           dispatch(updateUserAC(undefined, undefined, undefined, undefined))
         }
@@ -78,6 +76,11 @@ export default function Layout({ children, title }: TProps) {
   }, [dispatch])
 
   const isCartEmpty = useSelector((state: IRootState) => state.cart) || []
+
+  function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
+    event.preventDefault()
+    console.info('You clicked a breadcrumb.')
+  }
 
   return (
     <div>
@@ -99,41 +102,32 @@ export default function Layout({ children, title }: TProps) {
       </header>
       <main className={classes.main}>
         <Notification />
-        <Link href="/">
-          <a className={classes.link}>
-            <Typography color="inherit">Home</Typography>
-          </a>
-        </Link>
-        <Link href="/test_redux">
-          <a className={classes.link}>
-            <Typography color="inherit">Test redux page</Typography>
-          </a>
-        </Link>
-        <Link href="/test_database">
-          <a className={classes.link}>
-            <Typography color="inherit">Test database</Typography>
-          </a>
-        </Link>
-        <Link href="/faq">
-          <a className={classes.link}>
-            <Typography color="inherit">FAQ</Typography>
-          </a>
-        </Link>
 
-        {currentRole === ERole.Admin && (
-          <Link href="/admin">
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link href="/">
             <a className={classes.link}>
-              <Typography color="inherit">Admin profile</Typography>
+              <Typography color="primary">Главная</Typography>
             </a>
           </Link>
-        )}
-        <h1>{title}</h1>
+          <Link href="/faq">
+            <a className={classes.link}>
+              <Typography color="primary">Вопросы</Typography>
+            </a>
+          </Link>
+          {currentRole === ERole.Admin && (
+            <Link href="/admin">
+              <a className={classes.link}>
+                <Typography color="inherit">Администрирование</Typography>
+              </a>
+            </Link>
+          )}
+        </Breadcrumbs>
         <div style={{ flexGrow: 1 }}>{children}</div>
       </main>
       <footer className={classes.footer}>
         <Link href="/">
           <a className={classes.link}>
-            <b>Paper Money Shop</b>
+            <b>Интернет-магазин. Нумизматика и бонистика</b>
           </a>
         </Link>
       </footer>
