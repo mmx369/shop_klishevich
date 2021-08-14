@@ -23,7 +23,7 @@ interface FaqProps {
 export default function Faq({ faq }: FaqProps) {
   const list: FaqModel[] = JSON.parse(faq)
   return (
-    <Layout title="Faq">
+    <Layout title="Вопросы и ответы">
       <div>
         {list.map((f) => (
           <Accordion key={f._id}>
@@ -32,10 +32,10 @@ export default function Faq({ faq }: FaqProps) {
               aria-controls="panel1a-content"
               id="panel1a-header"
             >
-              <Typography>{f.answer}</Typography>
+              <Typography>{f.question}</Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <Typography>{f.question}</Typography>
+              <Typography>{f.answer}</Typography>
             </AccordionDetails>
           </Accordion>
         ))}
@@ -45,7 +45,14 @@ export default function Faq({ faq }: FaqProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const data = await ShopFaq.find({})
-  const faq = JSON.stringify(data)
-  return { props: { faq } }
+  try {
+    const data = await ShopFaq.find({})
+    const faq = JSON.stringify(data)
+    return { props: { faq } }
+  } catch (err) {
+    console.error(err)
+    return {
+      notFound: true,
+    }
+  }
 }

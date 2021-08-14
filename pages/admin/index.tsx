@@ -55,6 +55,13 @@ export default function Homepage(props: TProps) {
           </Typography>
         </a>
       </Link>
+      <Link href="/admin/addnewfaq">
+        <a className={classes.link}>
+          <Typography color="inherit">
+            Редактировать страницу вопросов и ответов
+          </Typography>
+        </a>
+      </Link>
     </Layout>
   )
 }
