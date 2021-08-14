@@ -16,6 +16,7 @@ import { updateIsLoggedInAC, updateUserAC } from '../redux/actions/appActions'
 import { ERole } from '../types/ERole'
 import { Notification } from './Notification'
 import { initItems } from '../redux/actions/cartActions'
+import BottomAppBar from './AppBarBottom'
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -109,6 +110,11 @@ export default function Layout({ children, title }: TProps) {
               <Typography color="primary">Главная</Typography>
             </a>
           </Link>
+          <Link href="/paymentandshipping">
+            <a className={classes.link}>
+              <Typography color="primary">Оплата и доставка</Typography>
+            </a>
+          </Link>
           <Link href="/faq">
             <a className={classes.link}>
               <Typography color="primary">Вопросы</Typography>
@@ -125,6 +131,7 @@ export default function Layout({ children, title }: TProps) {
         <div style={{ flexGrow: 1 }}>{children}</div>
       </main>
       <footer className={classes.footer}>
+        <BottomAppBar />
         <Link href="/">
           <a className={classes.link}>
             <b>Интернет-магазин. Нумизматика и бонистика</b>
