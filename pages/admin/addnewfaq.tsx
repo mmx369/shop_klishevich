@@ -32,7 +32,6 @@ export interface IListOfFaq {
 }
 
 export default function AddNewFaq({ res }: AddNewFaqProps) {
-  console.log(222, res)
   const [session, loading] = useSession()
   const [showAddFaqForm, setShowAddFaqForm] = useState(false)
   const [visible, setVisible] = useState(false)
