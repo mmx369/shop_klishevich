@@ -120,6 +120,11 @@ export default function Layout({ children, title }: TProps) {
               <Typography color="primary">Вопросы</Typography>
             </a>
           </Link>
+          <Link href="/contacts">
+            <a className={classes.link}>
+              <Typography color="primary">Контакты</Typography>
+            </a>
+          </Link>
           {currentRole === ERole.Admin && (
             <Link href="/admin">
               <a className={classes.link}>
