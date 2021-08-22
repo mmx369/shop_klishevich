@@ -7,9 +7,10 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import InputLabel from '@material-ui/core/InputLabel'
 import Input from '@material-ui/core/Input'
-import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
+import axios from 'axios'
+import { useRouter } from 'next/router'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,13 +25,23 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export default function DialogSelect() {
+export interface DialogSelectProps {
+  currStatus: string
+  currId: string
+}
+
+export default function DialogSelect({
+  currStatus,
+  currId,
+}: DialogSelectProps) {
   const classes = useStyles()
+  const router = useRouter()
   const [open, setOpen] = React.useState(false)
-  const [status, setStatus] = React.useState<number | string>('')
+
+  const [status, setStatus] = React.useState<string>(currStatus)
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setStatus(Number(event.target.value) || '')
+    setStatus(String(event.target.value) || '')
   }
 
   const handleClickOpen = () => {
@@ -39,6 +50,22 @@ export default function DialogSelect() {
 
   const handleClose = () => {
     setOpen(false)
+    setStatus(currStatus)
+  }
+
+  const handleSaveChange = async () => {
+    console.log(status)
+    const newStatus = {
+      id: currId,
+      status,
+    }
+    const res = await axios.put(
+      `${process.env.RESTURL}/api/changestatusorder`,
+      newStatus
+    )
+    setOpen(false)
+    setStatus(currStatus)
+    router.reload()
   }
 
   return (
@@ -49,22 +76,19 @@ export default function DialogSelect() {
         <DialogContent>
           <form className={classes.container}>
             <FormControl className={classes.formControl}>
-              <InputLabel id="order-status">Статус заказа</InputLabel>
+              <InputLabel htmlFor="order-status">Статус заказа</InputLabel>
               <Select
-                labelId="order-status"
-                id="order-status-select"
+                native
                 value={status}
                 onChange={handleChange}
-                input={<Input />}
+                input={<Input defaultValue={status} />}
               >
-                <MenuItem value="">
-                  <em>Нет</em>
-                </MenuItem>
-                <MenuItem value={'open'}>Открыт</MenuItem>
-                <MenuItem value={'paid'}>Оплачен</MenuItem>
-                <MenuItem value={'shipped'}>Отправлен</MenuItem>
-                <MenuItem value={'received'}>Получен</MenuItem>
-                <MenuItem value={'closed'}>Закрыт</MenuItem>
+                <option aria-label="Нет" value="" />
+                <option value={'open'}>Открыт</option>
+                <option value={'paid'}>Оплачен</option>
+                <option value={'shipped'}>Отправлен</option>
+                <option value={'received'}>Получен</option>
+                <option value={'closed'}>Закрыт</option>
               </Select>
             </FormControl>
           </form>
@@ -73,7 +97,7 @@ export default function DialogSelect() {
           <Button onClick={handleClose} color="primary">
             Отменить
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleSaveChange} color="primary">
             Изменить
           </Button>
         </DialogActions>

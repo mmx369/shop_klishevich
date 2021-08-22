@@ -16,7 +16,7 @@ import { updateIsLoggedInAC, updateUserAC } from '../redux/actions/appActions'
 import { ERole } from '../types/ERole'
 import { Notification } from './Notification'
 import { initItems } from '../redux/actions/cartActions'
-import BottomAppBar from './AppBarBottom'
+import BottomAppBar from './BottomAppBar'
 
 const useStyles = makeStyles(() =>
   createStyles({

@@ -49,7 +49,6 @@ export default function Orders({ res }: IOrders) {
   return (
     <Layout title="Администрирование | Работа с заказами">
       <TableOrders listOfOrders={res} />
-      <pre>{JSON.stringify(res, null, 2)}</pre>
     </Layout>
   )
 }

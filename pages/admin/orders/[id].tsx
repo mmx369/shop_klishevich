@@ -32,7 +32,11 @@ const useStyles = makeStyles((theme) =>
   })
 )
 
-export default function ItemsDetails({ order }: any) {
+export interface ItemsDetailsProps {
+  order: string
+}
+
+export default function ItemsDetails({ order }: ItemsDetailsProps) {
   const classes = useStyles()
   const orderToJSON = JSON.parse(order)
   const newDate = new Date(orderToJSON.date).toLocaleDateString()
@@ -53,7 +57,10 @@ export default function ItemsDetails({ order }: any) {
           <Typography variant="h6">
             Текущий статус:{` ${currentStatus(orderToJSON.status)}`}
           </Typography>
-          <DialogSelect />
+          <DialogSelect
+            currStatus={orderToJSON.status}
+            currId={orderToJSON._id}
+          />
           <Typography variant="h6">Почтовый адрес:</Typography>
           <div style={{ border: 'solid 1px', padding: '5px' }}>
             <Typography variant="body2">
@@ -106,8 +113,6 @@ export default function ItemsDetails({ order }: any) {
             Итоговая стоимость: {orderToJSON.totalPrice} рублей
           </Typography>
         </div>
-
-        {/* <pre>{JSON.stringify(orderToJSON, null, 2)}</pre> */}
       </Layout>
     </div>
   )
