@@ -2,6 +2,7 @@ import {
   Button,
   createStyles,
   Grid,
+  Input,
   makeStyles,
   Paper,
   Typography,
@@ -36,6 +37,13 @@ const useStyles = makeStyles((theme) =>
     img: {
       width: '100%',
     },
+    root: {
+      width: 250,
+    },
+    input: {
+      width: 42,
+      margin: 10,
+    },
   })
 )
 
@@ -43,8 +51,24 @@ export default function ItemsDetails({ item }: ItemsDetailsProps) {
   const classes = useStyles()
   const dispatch = useDispatch()
 
+  const [value, setValue] = React.useState<number>(
+    item.amountOfGoods > 0 ? 1 : 0
+  )
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(Number(event.target.value))
+  }
+
+  const handleBlur = () => {
+    if (value < 0) {
+      setValue(0)
+    } else if (value > item.amountOfGoods) {
+      setValue(item.amountOfGoods)
+    }
+  }
+
   const handleDispatch = (id) => {
-    dispatch(addNewItem(id))
+    dispatch(addNewItem(id, value))
   }
 
   if (item === null) {
@@ -92,6 +116,19 @@ export default function ItemsDetails({ item }: ItemsDetailsProps) {
                   >
                     добавить в корзину
                   </Button>
+                  <Input
+                    className={classes.input}
+                    value={value}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                    inputProps={{
+                      step: 1,
+                      min: 0,
+                      max: `${item.amountOfGoods}`,
+                      type: 'number',
+                      'aria-labelledby': 'input-slider',
+                    }}
+                  />
                 </Grid>
               </Grid>
             </Grid>

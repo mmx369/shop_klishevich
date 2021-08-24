@@ -16,7 +16,7 @@ export const initItems = () => {
   }
 }
 
-export const addNewItem = (id: string) => {
+export const addNewItem = (id: string, value: number) => {
   return async (dispatch) => {
     const item = await axios.get('/api/getitembyid', {
       params: {
@@ -25,12 +25,14 @@ export const addNewItem = (id: string) => {
     })
     const itemAmount = item.data.amountOfGoods
     console.log(1111, itemAmount)
+    console.log(2222, item.data)
+
     if (itemAmount === 0) {
       dispatch({
         type: CartActionTypes.DEFAULT,
       })
     } else {
-      item.data.amountOfGoods = 1
+      item.data.amountOfGoods = value
       dispatch({
         type: CartActionTypes.NEW_ITEM,
         data: item.data,

@@ -5,8 +5,6 @@ export interface ICartState {
 }
 
 export const cartReducer = (state = [], action: any) => {
-  console.log(222222, state, action)
-
   switch (action.type) {
     case CartActionTypes.NEW_ITEM:
       if (!state.some((el) => el._id === action.data._id)) {
@@ -15,17 +13,20 @@ export const cartReducer = (state = [], action: any) => {
         return newState
       } else {
         const element = state.find((el) => el._id === action.data._id)
-        if (element.amountOfGoods < action.stockamount) {
+        if (
+          element.amountOfGoods + action.data.amountOfGoods <=
+          action.stockamount
+        ) {
           const newElement = {
             ...element,
-            amountOfGoods: element.amountOfGoods + 1,
+            amountOfGoods: element.amountOfGoods + action.data.amountOfGoods,
           }
           const newState = state.filter((el) => el._id !== action.data._id)
           newState.push(newElement)
           localStorage.setItem('cart', JSON.stringify(newState))
           return newState
         } else {
-          alert('Stock amount exceed')
+          alert('На складе нет такого количества товара')
           return state
         }
       }

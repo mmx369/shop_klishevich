@@ -2,8 +2,11 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { Button, Grid, TextareaAutosize } from '@material-ui/core'
 import { useDispatch } from 'react-redux'
-import { createNewMsg } from '../redux/actions/notificationActions'
 import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
+toast.configure()
 
 export const AddNewFaqForm = () => {
   const router = useRouter()
@@ -30,33 +33,20 @@ export const AddNewFaqForm = () => {
         question,
         answer,
       }
+      await axios.post(`${process.env.RESTURL}/api/addnewfaq`, addNewFaq)
 
-      const res = await axios.post(
-        `${process.env.RESTURL}/api/addnewfaq`,
-        addNewFaq
-      )
-      dispatch(
-        createNewMsg({
-          message: `Новая запись успешно добавлена`,
-          msgType: 'success',
-        })
-      )
-      setTimeout(() => {
-        dispatch(createNewMsg([]))
-      }, 4000)
+      toast.success('Новая запись успешна добавлена', {
+        position: toast.POSITION.TOP_LEFT,
+        autoClose: 5000,
+      })
       setQuestion('')
       setAnswer('')
       router.replace(router.asPath)
     } catch (e) {
-      dispatch(
-        createNewMsg({
-          message: e.response.data.message,
-          msgType: 'error',
-        })
-      )
-      setTimeout(() => {
-        dispatch(createNewMsg([]))
-      }, 4000)
+      toast.error(`Ошибка: ${e.response.data.message}`, {
+        position: toast.POSITION.TOP_LEFT,
+        autoClose: 5000,
+      })
       console.error(e)
     }
   }
