@@ -4,19 +4,6 @@ import Link from 'next/link'
 import React from 'react'
 import Layout from '../../components/layout'
 import { ERole } from '../../types/ERole'
-import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-
-const CustomToast = ({ closeToast }: any) => {
-  return (
-    <div>
-      Something!!!!
-      <button onClick={closeToast}>close</button>
-    </div>
-  )
-}
-
-// toast.configure()
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -38,19 +25,6 @@ type TProps = {}
 export default function Homepage(props: TProps) {
   const classes = useStyles()
   const [session, loading] = useSession()
-
-  const notify = () => {
-    toast('Basic Notification', {
-      position: toast.POSITION.TOP_LEFT,
-    }),
-      toast.success('Succes Notification', {
-        position: toast.POSITION.TOP_LEFT,
-        autoClose: 8000,
-      }),
-      toast.warn(<CustomToast />, {
-        position: toast.POSITION.BOTTOM_RIGHT,
-      })
-  }
 
   if (typeof window !== 'undefined' && loading) return null
   if (!session) {
@@ -93,7 +67,6 @@ export default function Homepage(props: TProps) {
           <Typography color="inherit">Работа с заказами</Typography>
         </a>
       </Link>
-      <button onClick={notify}>Notify</button>
     </Layout>
   )
 }

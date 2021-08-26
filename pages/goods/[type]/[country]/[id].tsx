@@ -71,6 +71,24 @@ export default function ItemsDetails({ item }: ItemsDetailsProps) {
     dispatch(addNewItem(id, value))
   }
 
+  function translateCategory(category) {
+    return category === 'Paper Money'
+      ? 'Банкноты'
+      : category === 'Coins'
+      ? 'Монеты'
+      : category === 'Other'
+      ? 'Прочие'
+      : null
+  }
+
+  const countryList = {
+    USSR: 'CCCР',
+  }
+
+  function translateCountry(country) {
+    return countryList[country]
+  }
+
   if (item === null) {
     return <h1>Извините такой товар не найден!</h1>
   }
@@ -91,7 +109,8 @@ export default function ItemsDetails({ item }: ItemsDetailsProps) {
               <Grid item xs container direction="column" spacing={2}>
                 <Grid item xs>
                   <Typography gutterBottom variant="h4">
-                    {item.category} | {item.country}
+                    {translateCategory(item.category)} |
+                    {translateCountry(item.country)}
                   </Typography>
                   <Typography gutterBottom variant="h4">
                     {item.nameOfGoods}
@@ -110,7 +129,6 @@ export default function ItemsDetails({ item }: ItemsDetailsProps) {
                     variant="contained"
                     color="secondary"
                     onClick={() => {
-                      console.log('Added to cart')
                       handleDispatch(item._id)
                     }}
                   >

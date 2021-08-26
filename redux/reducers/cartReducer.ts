@@ -1,8 +1,12 @@
 import { CartActionTypes } from '../actions/cartActions'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export interface ICartState {
   msg: string
 }
+
+toast.configure()
 
 export const cartReducer = (state = [], action: any) => {
   switch (action.type) {
@@ -10,6 +14,10 @@ export const cartReducer = (state = [], action: any) => {
       if (!state.some((el) => el._id === action.data._id)) {
         const newState = [...state, action.data]
         localStorage.setItem('cart', JSON.stringify(newState))
+        toast.success(`${action.data.nameOfGoods} успешно добавлен в корзину`, {
+          position: toast.POSITION.TOP_LEFT,
+          autoClose: 5000,
+        })
         return newState
       } else {
         const element = state.find((el) => el._id === action.data._id)
@@ -24,9 +32,19 @@ export const cartReducer = (state = [], action: any) => {
           const newState = state.filter((el) => el._id !== action.data._id)
           newState.push(newElement)
           localStorage.setItem('cart', JSON.stringify(newState))
+          toast.success(
+            `${action.data.nameOfGoods} успешно добавлен в корзину`,
+            {
+              position: toast.POSITION.TOP_LEFT,
+              autoClose: 5000,
+            }
+          )
           return newState
         } else {
-          alert('На складе нет такого количества товара')
+          toast.error(`Ошибка: на складе нет такого количества товара`, {
+            position: toast.POSITION.TOP_LEFT,
+            autoClose: 5000,
+          })
           return state
         }
       }
@@ -35,7 +53,10 @@ export const cartReducer = (state = [], action: any) => {
       return action.data
 
     case CartActionTypes.DEFAULT:
-      alert('Товара нет в наличии')
+      toast.error(`Ошибка: на складе нет такого количества товара`, {
+        position: toast.POSITION.TOP_LEFT,
+        autoClose: 5000,
+      })
       return state
 
     default:

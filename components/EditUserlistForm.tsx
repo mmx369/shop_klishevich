@@ -11,7 +11,8 @@ import {
 } from '@material-ui/core'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
-import { createNewMsg } from '../redux/actions/notificationActions'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export interface EditFormProps {
   id: string
@@ -50,17 +51,16 @@ export const EditUserlistForm = ({
       await axios.delete(`${process.env.RESTURL}/api/deleteuser`, {
         data: id,
       })
-      dispatch(
-        createNewMsg({
-          message: `Пользователь успешно удален`,
-          msgType: 'success',
-        })
-      )
-      setTimeout(() => {
-        dispatch(createNewMsg([]))
-      }, 4000)
+      toast.success(`Пользователь успешно удален`, {
+        position: toast.POSITION.TOP_LEFT,
+        autoClose: 5000,
+      })
       router.replace(router.asPath)
     } catch (e) {
+      toast.error(`Ошибка: ${e.response.data.message}`, {
+        position: toast.POSITION.TOP_LEFT,
+        autoClose: 5000,
+      })
       console.error(e)
     }
   }
@@ -78,6 +78,10 @@ export const EditUserlistForm = ({
         updateUser
       )
       if (res.status === 200) {
+        toast.success(`Данные пользователя ${name} успешно изменены`, {
+          position: toast.POSITION.TOP_LEFT,
+          autoClose: 5000,
+        })
         updateUserList()
         setName('')
         setRole('')
@@ -85,6 +89,10 @@ export const EditUserlistForm = ({
         changeVisibility()
       }
     } catch (e) {
+      toast.error(`Ошибка: ${e.response.data.message}`, {
+        position: toast.POSITION.TOP_LEFT,
+        autoClose: 5000,
+      })
       console.log(e)
     }
   }

@@ -18,16 +18,14 @@ export const initItems = () => {
 
 export const addNewItem = (id: string, value: number) => {
   return async (dispatch) => {
-    const item = await axios.get('/api/getitembyid', {
+    const item = await axios.get(`${process.env.RESTURL}/api/getitembyid`, {
       params: {
         id,
       },
     })
     const itemAmount = item.data.amountOfGoods
-    console.log(1111, itemAmount)
-    console.log(2222, item.data)
 
-    if (itemAmount === 0) {
+    if (itemAmount <= 0) {
       dispatch({
         type: CartActionTypes.DEFAULT,
       })
