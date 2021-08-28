@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {
-  Form,
-  Formik,
-  Field,
-  useField,
-  ErrorMessage,
-  validateYupSchema,
-} from 'formik'
+import { Form, Formik, Field, ErrorMessage } from 'formik'
 import { object, string, number, boolean, array, mixed } from 'yup'
 import axios from 'axios'
 import {
@@ -18,14 +11,14 @@ import {
   Grid,
   MenuItem,
   TextField,
-  Typography,
 } from '@material-ui/core'
 import {
   MultipleFileUploadField,
   UploadableFile,
 } from '../upload/MultipleFileUploadField'
 import { useDispatch } from 'react-redux'
-import { createNewMsg } from '../redux/actions/notificationActions'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export interface NewItemDetails {
   nameOfGoods: string
@@ -77,26 +70,26 @@ export function AddNewItemForm({}: TProps) {
                     country: values.country,
                     category: values.category,
                   }
-                  console.log('!!!!!!!', newItem)
 
                   const res = await axios.post(
                     `${process.env.RESTURL}/api/addnewitem`,
                     newItem
                   )
-                  console.log('!!res', res)
-                  dispatch(
-                    createNewMsg({
-                      message: `Товар ${newItem.nameOfGoods} успешно добавлен`,
-                      msgType: 'success',
-                    })
+                  toast.success(
+                    `Товар ${newItem.nameOfGoods} успешно добавлен`,
+                    {
+                      position: toast.POSITION.TOP_LEFT,
+                      autoClose: 5000,
+                    }
                   )
-                  setTimeout(() => {
-                    dispatch(createNewMsg([]))
-                  }, 4000)
                   resetForm({})
                   setStatus({ success: true })
                   setClearState(true)
                 } catch (err) {
+                  toast.error(`Ошибка: ${err.response.data.message}`, {
+                    position: toast.POSITION.TOP_LEFT,
+                    autoClose: 5000,
+                  })
                   console.log(err)
                   setStatus({ success: false })
                 }
@@ -185,9 +178,9 @@ export function AddNewItemForm({}: TProps) {
                     </Button>
                   </Grid>
                 </Grid>
-                <pre>{JSON.stringify(errors, null, 4)}</pre>
+                {/* <pre>{JSON.stringify(errors, null, 4)}</pre> */}
 
-                <pre>{JSON.stringify(values, null, 4)}</pre>
+                {/* <pre>{JSON.stringify(values, null, 4)}</pre> */}
               </Form>
             )}
           </Formik>

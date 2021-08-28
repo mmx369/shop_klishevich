@@ -10,8 +10,11 @@ import {
   MenuItem,
 } from '@material-ui/core'
 import { useDispatch } from 'react-redux'
-import { createNewMsg } from '../redux/actions/notificationActions'
 import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
+toast.configure()
 
 export const AddNewUserForm = () => {
   const router = useRouter()
@@ -42,33 +45,20 @@ export const AddNewUserForm = () => {
         role,
       }
 
-      const res = await axios.post(
-        `${process.env.RESTURL}/api/addnewuser`,
-        addNewUser
-      )
-      dispatch(
-        createNewMsg({
-          message: `Пользователь ${name} успешно добавлен`,
-          msgType: 'success',
-        })
-      )
-      setTimeout(() => {
-        dispatch(createNewMsg([]))
-      }, 4000)
+      await axios.post(`${process.env.RESTURL}/api/addnewuser`, addNewUser)
+      toast.success(`Пользователь ${name} успешно добавлен`, {
+        position: toast.POSITION.TOP_LEFT,
+        autoClose: 5000,
+      })
       setName('')
       setEmail('')
       setRole('')
       router.replace(router.asPath)
     } catch (e) {
-      dispatch(
-        createNewMsg({
-          message: e.response.data.message,
-          msgType: 'error',
-        })
-      )
-      setTimeout(() => {
-        dispatch(createNewMsg([]))
-      }, 4000)
+      toast.error(`Ошибка: ${e.response.data.message}`, {
+        position: toast.POSITION.TOP_LEFT,
+        autoClose: 5000,
+      })
       console.error(e)
     }
   }

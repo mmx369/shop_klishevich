@@ -2,6 +2,7 @@ import {
   Button,
   createStyles,
   Grid,
+  Input,
   makeStyles,
   Paper,
   Typography,
@@ -36,6 +37,13 @@ const useStyles = makeStyles((theme) =>
     img: {
       width: '100%',
     },
+    root: {
+      width: 250,
+    },
+    input: {
+      width: 42,
+      margin: 10,
+    },
   })
 )
 
@@ -43,8 +51,42 @@ export default function ItemsDetails({ item }: ItemsDetailsProps) {
   const classes = useStyles()
   const dispatch = useDispatch()
 
+  const [value, setValue] = React.useState<number>(
+    item.amountOfGoods > 0 ? 1 : 0
+  )
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(Number(event.target.value))
+  }
+
+  const handleBlur = () => {
+    if (value < 0) {
+      setValue(0)
+    } else if (value > item.amountOfGoods) {
+      setValue(item.amountOfGoods)
+    }
+  }
+
   const handleDispatch = (id) => {
-    dispatch(addNewItem(id))
+    dispatch(addNewItem(id, value))
+  }
+
+  function translateCategory(category) {
+    return category === 'Paper Money'
+      ? 'Банкноты'
+      : category === 'Coins'
+      ? 'Монеты'
+      : category === 'Other'
+      ? 'Прочие'
+      : null
+  }
+
+  const countryList = {
+    USSR: 'CCCР',
+  }
+
+  function translateCountry(country) {
+    return countryList[country]
   }
 
   if (item === null) {
@@ -67,7 +109,8 @@ export default function ItemsDetails({ item }: ItemsDetailsProps) {
               <Grid item xs container direction="column" spacing={2}>
                 <Grid item xs>
                   <Typography gutterBottom variant="h4">
-                    {item.category} | {item.country}
+                    {translateCategory(item.category)} |
+                    {translateCountry(item.country)}
                   </Typography>
                   <Typography gutterBottom variant="h4">
                     {item.nameOfGoods}
@@ -86,12 +129,24 @@ export default function ItemsDetails({ item }: ItemsDetailsProps) {
                     variant="contained"
                     color="secondary"
                     onClick={() => {
-                      console.log('Added to cart')
                       handleDispatch(item._id)
                     }}
                   >
                     добавить в корзину
                   </Button>
+                  <Input
+                    className={classes.input}
+                    value={value}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                    inputProps={{
+                      step: 1,
+                      min: 0,
+                      max: `${item.amountOfGoods}`,
+                      type: 'number',
+                      'aria-labelledby': 'input-slider',
+                    }}
+                  />
                 </Grid>
               </Grid>
             </Grid>

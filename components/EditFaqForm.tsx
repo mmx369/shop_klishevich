@@ -1,18 +1,10 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import {
-  TextField,
-  Button,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Grid,
-  TextareaAutosize,
-} from '@material-ui/core'
+import { Button, Grid, TextareaAutosize } from '@material-ui/core'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
-import { createNewMsg } from '../redux/actions/notificationActions'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export interface EditFaqFormProps {
   id: string
@@ -51,17 +43,16 @@ export const EditFaqForm = ({
       await axios.delete(`${process.env.RESTURL}/api/deletefaq`, {
         data: id,
       })
-      dispatch(
-        createNewMsg({
-          message: `Запись успешно удалена`,
-          msgType: 'success',
-        })
-      )
-      setTimeout(() => {
-        dispatch(createNewMsg([]))
-      }, 4000)
+      toast.success('Запись успешна удалена', {
+        position: toast.POSITION.TOP_LEFT,
+        autoClose: 5000,
+      })
       router.replace(router.asPath)
     } catch (e) {
+      toast.error(`Ошибка: ${e.response.data.message}`, {
+        position: toast.POSITION.TOP_LEFT,
+        autoClose: 5000,
+      })
       console.error(e)
     }
   }
@@ -73,19 +64,26 @@ export const EditFaqForm = ({
         question: newQuestion,
         id,
       }
-      console.log(333, updateFaq)
 
       const res = await axios.put(
         `${process.env.RESTURL}/api/updatefaq`,
         updateFaq
       )
       if (res.status === 200) {
+        toast.success('Запись успешна изменена', {
+          position: toast.POSITION.TOP_LEFT,
+          autoClose: 5000,
+        })
         updateFaqList()
         setNewQuestion('')
         setNewAnswer('')
         changeVisibility()
       }
     } catch (e) {
+      toast.error(`Ошибка: ${e.response.data.message}`, {
+        position: toast.POSITION.TOP_LEFT,
+        autoClose: 5000,
+      })
       console.log(e)
     }
   }

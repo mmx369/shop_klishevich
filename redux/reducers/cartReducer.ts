@@ -1,31 +1,50 @@
 import { CartActionTypes } from '../actions/cartActions'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export interface ICartState {
   msg: string
 }
 
-export const cartReducer = (state = [], action: any) => {
-  console.log(222222, state, action)
+toast.configure()
 
+export const cartReducer = (state = [], action: any) => {
   switch (action.type) {
     case CartActionTypes.NEW_ITEM:
       if (!state.some((el) => el._id === action.data._id)) {
         const newState = [...state, action.data]
         localStorage.setItem('cart', JSON.stringify(newState))
+        toast.success(`${action.data.nameOfGoods} успешно добавлен в корзину`, {
+          position: toast.POSITION.TOP_LEFT,
+          autoClose: 5000,
+        })
         return newState
       } else {
         const element = state.find((el) => el._id === action.data._id)
-        if (element.amountOfGoods < action.stockamount) {
+        if (
+          element.amountOfGoods + action.data.amountOfGoods <=
+          action.stockamount
+        ) {
           const newElement = {
             ...element,
-            amountOfGoods: element.amountOfGoods + 1,
+            amountOfGoods: element.amountOfGoods + action.data.amountOfGoods,
           }
           const newState = state.filter((el) => el._id !== action.data._id)
           newState.push(newElement)
           localStorage.setItem('cart', JSON.stringify(newState))
+          toast.success(
+            `${action.data.nameOfGoods} успешно добавлен в корзину`,
+            {
+              position: toast.POSITION.TOP_LEFT,
+              autoClose: 5000,
+            }
+          )
           return newState
         } else {
-          alert('Stock amount exceed')
+          toast.error(`Ошибка: на складе нет такого количества товара`, {
+            position: toast.POSITION.TOP_LEFT,
+            autoClose: 5000,
+          })
           return state
         }
       }
@@ -34,7 +53,10 @@ export const cartReducer = (state = [], action: any) => {
       return action.data
 
     case CartActionTypes.DEFAULT:
-      alert('Товара нет в наличии')
+      toast.error(`Ошибка: на складе нет такого количества товара`, {
+        position: toast.POSITION.TOP_LEFT,
+        autoClose: 5000,
+      })
       return state
 
     default:
