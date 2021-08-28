@@ -5,6 +5,7 @@ interface IShopGoods extends Document {
   nameOfGoods: string
   amountOfGoods: number
   priceOfGoods: number
+  catalogNumber: string
   country: string
   category: string
   imagePath: string[]
@@ -20,6 +21,7 @@ const shopGoods = new Schema<IShopGoods>({
   },
   amountOfGoods: Number,
   priceOfGoods: Number,
+  catalogNumber: String,
   country: String,
   category: String,
   imageUrl: [String],

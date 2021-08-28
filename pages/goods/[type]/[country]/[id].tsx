@@ -13,6 +13,8 @@ import { useDispatch } from 'react-redux'
 import Layout from '../../../../components/layout'
 import ShopGoods from '../../../../models/shopGoods'
 import { addNewItem } from '../../../../redux/actions/cartActions'
+import { translateCategory } from '../../../../translate/category'
+import { translateCountry } from '../../../../translate/country'
 
 interface ItemsDetailsProps {
   item: ItemModel | null | undefined
@@ -24,6 +26,7 @@ export interface ItemModel {
   nameOfGoods: string
   amountOfGoods: number
   priceOfGoods: number
+  catalogNumber: string
   country: string
   category: string
 }
@@ -71,24 +74,6 @@ export default function ItemsDetails({ item }: ItemsDetailsProps) {
     dispatch(addNewItem(id, value))
   }
 
-  function translateCategory(category) {
-    return category === 'Paper Money'
-      ? 'Банкноты'
-      : category === 'Coins'
-      ? 'Монеты'
-      : category === 'Other'
-      ? 'Прочие'
-      : null
-  }
-
-  const countryList = {
-    USSR: 'CCCР',
-  }
-
-  function translateCountry(country) {
-    return countryList[country]
-  }
-
   if (item === null) {
     return <h1>Извините такой товар не найден!</h1>
   }
@@ -108,21 +93,24 @@ export default function ItemsDetails({ item }: ItemsDetailsProps) {
             <Grid item xs={12} sm={6} md={7} container>
               <Grid item xs container direction="column" spacing={2}>
                 <Grid item xs>
-                  <Typography gutterBottom variant="h4">
+                  <Typography gutterBottom variant="h6">
                     {translateCategory(item.category)} |
                     {translateCountry(item.country)}
                   </Typography>
-                  <Typography gutterBottom variant="h4">
+                  <Typography gutterBottom variant="h5">
                     {item.nameOfGoods}
                   </Typography>
-                  <Typography gutterBottom variant="h4">
-                    {item.priceOfGoods} руб.
+
+                  {item.catalogNumber && (
+                    <Typography gutterBottom variant="subtitle1">
+                      Номер в каталоге: {item.catalogNumber}
+                    </Typography>
+                  )}
+
+                  <Typography gutterBottom variant="subtitle1">
+                    Цена за единицу: {item.priceOfGoods} руб.
                   </Typography>
-                  <Typography
-                    gutterBottom
-                    variant="body2"
-                    color="textSecondary"
-                  >
+                  <Typography gutterBottom variant="subtitle1">
                     Количество: {item.amountOfGoods} шт.
                   </Typography>
                   <Button

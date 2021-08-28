@@ -5,21 +5,21 @@ import { getSession } from 'next-auth/client'
 import { ERole } from '../../types/ERole'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  //   const session = await getSession({ req })
+  const session = await getSession({ req })
 
-  //   if (!session) {
-  //     res.send({
-  //       error: 'You must be authorized',
-  //     })
-  //     return
-  //   }
+  if (!session) {
+    res.send({
+      error: 'Вы должны быть авторизованы',
+    })
+    return
+  }
 
-  //   if (session.role !== ERole.Admin) {
-  //     res.send({
-  //       error: 'You need to be an admin ',
-  //     })
-  //     return
-  //   }
+  if (session.role !== ERole.Admin) {
+    res.send({
+      error: 'Вы должны быть вдминистратором',
+    })
+    return
+  }
 
   if (req.method === 'POST') {
     try {

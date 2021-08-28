@@ -6,6 +6,7 @@ import { SvgIconProps } from '@material-ui/core/SvgIcon'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
 import ArrowRightIcon from '@material-ui/icons/ArrowRight'
 import { ArrowRight, Label, Money } from '@material-ui/icons'
+import { translateCountry } from '../translate/country'
 
 declare module 'csstype' {
   interface Properties {
@@ -165,7 +166,7 @@ export default function Catalog({ listOfCountries, listOfCountriesCoins }) {
                 key={el.country}
                 nodeId={String(index + 10)}
                 labelIcon={ArrowRight}
-                labelText={`${el.country}`}
+                labelText={`${translateCountry(el.country)}`}
                 labelInfo={el.count}
                 color="#1a73e8"
                 bgColor="#e8f0fe"
@@ -184,7 +185,7 @@ export default function Catalog({ listOfCountries, listOfCountriesCoins }) {
               <StyledTreeItem
                 key={el.country}
                 nodeId={String(index + 100)}
-                labelText={`${el.country}`}
+                labelText={`${translateCountry(el.country)}`}
                 labelIcon={ArrowRight}
                 labelInfo={el.count}
                 color="#1a73e8"
