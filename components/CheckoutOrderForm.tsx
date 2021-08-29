@@ -12,6 +12,11 @@ import { useSelector } from 'react-redux'
 import { IRootState } from '../redux/reducers'
 import { object, string } from 'yup'
 import axios from 'axios'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { useRouter } from 'next/router'
+
+toast.configure()
 
 export interface CheckoutFields {
   firstName: string
@@ -40,10 +45,13 @@ const initialValues: CheckoutFields = {
 }
 
 export function CheckoutOrderForm() {
+  const router = useRouter()
+
   const data = useSelector((state: IRootState) => state.cart)
   const currentOrder = data.map(
     ({ imageUrl, date, __v, ...keepAttrs }) => keepAttrs
   )
+  const shippingPrice = useSelector((state: IRootState) => state.shippingPrice)
 
   return (
     <>
@@ -102,6 +110,7 @@ export function CheckoutOrderForm() {
                     totalPrice: currentOrder.reduce(function (acc, sum) {
                       return acc + sum.priceOfGoods * sum.amountOfGoods
                     }, 0),
+                    shippingPrice,
                   }
                   console.log('!!newOrder!!', newOrder)
                   const res = await axios.post(
@@ -109,6 +118,12 @@ export function CheckoutOrderForm() {
                     newOrder
                   )
                   console.log('!!res', res.data.message)
+                  window.localStorage.removeItem('cart')
+                  toast.success(`Заказ успешно оформлен`, {
+                    position: toast.POSITION.TOP_LEFT,
+                    autoClose: 5000,
+                  })
+                  router.push('/')
                 } catch (err) {
                   console.log(err)
                   setStatus({ success: false })

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IRootState } from '../redux/reducers'
 import { makeStyles } from '@material-ui/core/styles'
@@ -30,10 +30,13 @@ const useStyles = makeStyles({
 export const CartTable = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
+  const [value, setValue] = React.useState('courier')
+
+  useEffect(() => {
+    dispatch(addShippingPrice(SHIPPING_PRICES[value]))
+  }, [value])
 
   const cart = useSelector((state: IRootState) => state.cart) || []
-
-  const [value, setValue] = React.useState('courier')
 
   const totalPrice = cart.reduce(function (acc, sum) {
     return acc + sum.priceOfGoods * sum.amountOfGoods
@@ -41,8 +44,6 @@ export const CartTable = () => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue((event.target as HTMLInputElement).value)
-    console.log(SHIPPING_PRICES[value])
-    dispatch(addShippingPrice(SHIPPING_PRICES[value]))
   }
 
   return (
