@@ -1,6 +1,7 @@
 import {
   AppBar,
   createStyles,
+  Hidden,
   IconButton,
   makeStyles,
   Toolbar,
@@ -55,9 +56,11 @@ export function Nav({
         <Typography variant="subtitle2" className={classes.root}>
           Нумизматика и бонистика
         </Typography>
-        {isLoggedIn === ELoggedIn.True && (
-          <div>Вы вошли как {currentEmail}</div>
-        )}
+        <Hidden xsDown>
+          {isLoggedIn === ELoggedIn.True && (
+            <div>Вы вошли как {currentEmail}</div>
+          )}
+        </Hidden>
         {!!isCartEmpty.length && (
           <div>
             <IconButton color="inherit" onClick={handleClick}>
