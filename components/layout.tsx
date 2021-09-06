@@ -135,35 +135,6 @@ export default function Layout({ children, title }: TProps) {
         </Breadcrumbs>
       </header>
       <main className={classes.main}>
-        {/* <Breadcrumbs aria-label="breadcrumb">
-          <Link href="/">
-            <a className={classes.link}>
-              <Typography color="primary">Главная</Typography>
-            </a>
-          </Link>
-          <Link href="/paymentandshipping">
-            <a className={classes.link}>
-              <Typography color="primary">Оплата и доставка</Typography>
-            </a>
-          </Link>
-          <Link href="/faq">
-            <a className={classes.link}>
-              <Typography color="primary">Вопросы</Typography>
-            </a>
-          </Link>
-          <Link href="/contacts">
-            <a className={classes.link}>
-              <Typography color="primary">Контакты</Typography>
-            </a>
-          </Link>
-          {currentRole === ERole.Admin && (
-            <Link href="/admin">
-              <a className={classes.link}>
-                <Typography color="inherit">Администрирование</Typography>
-              </a>
-            </Link>
-          )}
-        </Breadcrumbs> */}
         <div style={{ flexGrow: 1 }}>{children}</div>
       </main>
       <footer className={classes.footer}>
