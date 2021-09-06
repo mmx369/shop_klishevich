@@ -24,6 +24,7 @@ export interface NewItemDetails {
   nameOfGoods: string
   amountOfGoods: number
   priceOfGoods: number
+  catalogNumber: string
   country: string
   category: string
   files: any
@@ -33,6 +34,7 @@ const initialValues: NewItemDetails = {
   nameOfGoods: '',
   amountOfGoods: 0,
   priceOfGoods: 0,
+  catalogNumber: '',
   country: '',
   category: '',
   files: [],
@@ -54,6 +56,7 @@ export function AddNewItemForm({}: TProps) {
               nameOfGoods: string().required().min(5).max(100),
               amountOfGoods: number().required().min(0),
               priceOfGoods: number().required().min(0),
+              catalogNumber: string().min(2).max(6),
               country: string().required().min(2).max(100),
               category: string().required().min(2).max(100),
             })}
@@ -64,6 +67,7 @@ export function AddNewItemForm({}: TProps) {
                     nameOfGoods: values.nameOfGoods,
                     amountOfGoods: Number(values.amountOfGoods),
                     priceOfGoods: Number(values.priceOfGoods),
+                    catalogNumber: values.catalogNumber,
                     imageUrl: values.files.map(
                       (file: { url: any }) => file.url
                     ),
@@ -111,6 +115,17 @@ export function AddNewItemForm({}: TProps) {
                     <ErrorMessage name="nameOfGoods" />
                   </FormGroup>
                 </Box>
+                <Box marginBottom={2}>
+                  <FormGroup>
+                    <Field
+                      name="catalogNumber"
+                      as={TextField}
+                      label="Номер товара в каталоге"
+                    />
+                    <ErrorMessage name="catalogNumber" />
+                  </FormGroup>
+                </Box>
+
                 <Box marginBottom={2}>
                   <FormGroup>
                     <Field
@@ -180,7 +195,7 @@ export function AddNewItemForm({}: TProps) {
                 </Grid>
                 {/* <pre>{JSON.stringify(errors, null, 4)}</pre> */}
 
-                {/* <pre>{JSON.stringify(values, null, 4)}</pre> */}
+                <pre>{JSON.stringify(values, null, 4)}</pre>
               </Form>
             )}
           </Formik>

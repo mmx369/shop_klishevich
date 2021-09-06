@@ -8,6 +8,8 @@ import Typography from '@material-ui/core/Typography'
 import { red } from '@material-ui/core/colors'
 import { ItemModel } from '../pages/goods/[type]/[country]/[id]'
 import Link from 'next/link'
+import { translateCategory } from '../translate/category'
+import { translateCountry } from '../translate/country'
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -40,7 +42,9 @@ export function ShopCard({ item }: ShopCardProps) {
         <a className={classes.achorTag}>
           <Card elevation={5}>
             <CardHeader
-              title={item.category + ' ' + item.country}
+              title={`${translateCategory(item.category)} | ${translateCountry(
+                item.country
+              )}`}
               subheader={item.nameOfGoods}
             />
             <CardMedia

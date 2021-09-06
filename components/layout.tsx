@@ -30,6 +30,10 @@ const useStyles = makeStyles(() =>
     link: {
       textDecoration: 'none',
     },
+    bread: {
+      marginTop: '10px',
+      marginLeft: '15px',
+    },
   })
 )
 
@@ -100,11 +104,7 @@ export default function Layout({ children, title }: TProps) {
           isLoggedIn={isLoggedIn}
           isCartEmpty={isCartEmpty}
         />
-      </header>
-      <main className={classes.main}>
-        <Notification />
-
-        <Breadcrumbs aria-label="breadcrumb">
+        <Breadcrumbs aria-label="breadcrumb" className={classes.bread}>
           <Link href="/">
             <a className={classes.link}>
               <Typography color="primary">Главная</Typography>
@@ -133,6 +133,8 @@ export default function Layout({ children, title }: TProps) {
             </Link>
           )}
         </Breadcrumbs>
+      </header>
+      <main className={classes.main}>
         <div style={{ flexGrow: 1 }}>{children}</div>
       </main>
       <footer className={classes.footer}>

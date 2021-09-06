@@ -47,6 +47,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         comments,
         order,
         totalPrice,
+        shippingPrice,
       } = req.body
 
       const goodsFromOrders = order.map((el) => [el._id, el.amountOfGoods])
@@ -65,6 +66,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         comments,
         order,
         totalPrice,
+        shippingPrice,
         date: new Date(),
       })
 

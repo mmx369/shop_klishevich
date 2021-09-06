@@ -6,8 +6,6 @@ const cloudinary = require('cloudinary').v2
 export default async (req: any, res: any) => {
   const session = await getSession({ req })
 
-  console.log('!!!!session', session)
-
   if (!session) {
     res.send({
       error: 'You must be authorized',

@@ -9,14 +9,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (!session) {
     res.send({
-      error: 'You must be authorized',
+      error: 'Вы должны быть авторизованы',
     })
     return
   }
 
   if (session.role !== ERole.Admin) {
     res.send({
-      error: 'You need to be an admin ',
+      error: 'Вы должны быть администратором',
     })
     return
   }
@@ -27,20 +27,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         nameOfGoods,
         amountOfGoods,
         priceOfGoods,
+        catalogNumber,
         imageUrl,
         country,
         category,
       } = req.body
-
-      console.log(
-        '!!!!!!!!',
-        nameOfGoods,
-        amountOfGoods,
-        priceOfGoods,
-        imageUrl,
-        country,
-        category
-      )
 
       const findItem = await ShopGoods.findOne({ nameOfGoods: nameOfGoods })
 
@@ -54,6 +45,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         nameOfGoods,
         amountOfGoods,
         priceOfGoods,
+        catalogNumber,
         imageUrl,
         country,
         category,
@@ -61,7 +53,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       })
 
       const response = await newItem.save()
-      console.log(1111222333, response)
 
       return res
         .status(201)

@@ -17,6 +17,8 @@ import router, { useRouter } from 'next/router'
 import { Country } from '../database/getCountry'
 import { getAsString } from '../database/getAsString'
 import useSWR from 'swr'
+import { translateCategory } from '../translate/category'
+import { translateCountry } from '../translate/country'
 
 export interface SearchProps {
   types: Type[]
@@ -87,7 +89,7 @@ export default function Search({
 
                     {types.map((type) => (
                       <MenuItem key={type.type} value={type.type}>
-                        {`${type.type} (${type.count})`}
+                        {`${translateCategory(type.type)} (${type.count})`}
                       </MenuItem>
                     ))}
                   </Field>
@@ -208,7 +210,7 @@ export function CountrySelect({
         </MenuItem>
         {newCountries.map((country) => (
           <MenuItem key={country.country} value={country.country}>
-            {`${country.country} (${country.count})`}
+            {`${translateCountry(country.country)} (${country.count})`}
           </MenuItem>
         ))}
       </Select>

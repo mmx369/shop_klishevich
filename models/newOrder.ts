@@ -15,6 +15,7 @@ interface INewOrder extends Document {
   comments: string
   order: string[]
   totalPrice: number
+  shippingPrice: number
   status: 'open' | 'paid' | 'shipped' | 'received' | 'closed'
   date: Date
 }
@@ -39,6 +40,7 @@ const newOrder = new Schema<INewOrder>({
     },
   ],
   totalPrice: Number,
+  shippingPrice: Number,
   status: {
     type: String,
     default: 'open',
