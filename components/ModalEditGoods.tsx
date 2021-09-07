@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function ModalEditGoods({
   open,
   price,
+  amount,
   id,
   setOpen,
   handleOpen,
@@ -53,15 +54,39 @@ export default function ModalEditGoods({
         newPrice: value,
         id,
       }
-
-      console.log(222, updatePrice)
-
       const res = await axios.put(
         `${process.env.RESTURL}/api/updateprice`,
         updatePrice
       )
       if (res.status === 200) {
         toast.success('Цена успешна изменена', {
+          position: toast.POSITION.TOP_LEFT,
+          autoClose: 5000,
+        })
+        setValue(0)
+        handleClose()
+      }
+    } catch (e) {
+      toast.error(`Ошибка: ${e.response.data.message}`, {
+        position: toast.POSITION.TOP_LEFT,
+        autoClose: 5000,
+      })
+      console.log(e)
+    }
+  }
+
+  const updateAmountHandler = async () => {
+    try {
+      const updateAmount = {
+        newAmount: value,
+        id,
+      }
+      const res = await axios.put(
+        `${process.env.RESTURL}/api/updateamount`,
+        updateAmount
+      )
+      if (res.status === 200) {
+        toast.success('Количество успешна изменено', {
           position: toast.POSITION.TOP_LEFT,
           autoClose: 5000,
         })
@@ -93,8 +118,20 @@ export default function ModalEditGoods({
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <h2 id="transition-modal-title">Установите новую цену</h2>
-            <p id="transition-modal-description">Старая цена: {price} руб.</p>
+            {price && (
+              <h2 id="transition-modal-title">Установите новую цену</h2>
+            )}
+            {price && (
+              <p id="transition-modal-description">Старая цена: {price} руб.</p>
+            )}
+            {amount && (
+              <h2 id="transition-modal-title">Установите новое количество</h2>
+            )}
+            {amount && (
+              <p id="transition-modal-description">
+                Старое количество: {amount} руб.
+              </p>
+            )}
             <Input
               className={classes.input}
               value={value}
@@ -111,7 +148,7 @@ export default function ModalEditGoods({
             <Button
               variant="contained"
               color="primary"
-              onClick={updatePriceHandler}
+              onClick={price ? updatePriceHandler : updateAmountHandler}
             >
               Сохранить
             </Button>
