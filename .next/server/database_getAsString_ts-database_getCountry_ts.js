@@ -1,0 +1,47 @@
+/*
+ * ATTENTION: An "eval-source-map" devtool has been used.
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+exports.id = "database_getAsString_ts-database_getCountry_ts";
+exports.ids = ["database_getAsString_ts-database_getCountry_ts"];
+exports.modules = {
+
+/***/ "./database/getAsString.ts":
+/*!*********************************!*\
+  !*** ./database/getAsString.ts ***!
+  \*********************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"getAsString\": function() { return /* binding */ getAsString; }\n/* harmony export */ });\nfunction getAsString(value) {\n  if (Array.isArray(value)) {\n    return value[0];\n  }\n\n  return value;\n}//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly9zaG9wLWtsaXNoZXZpY2gvLi9kYXRhYmFzZS9nZXRBc1N0cmluZy50cz9jNTI2Il0sIm5hbWVzIjpbImdldEFzU3RyaW5nIiwidmFsdWUiLCJBcnJheSIsImlzQXJyYXkiXSwibWFwcGluZ3MiOiI7Ozs7QUFBTyxTQUFTQSxXQUFULENBQXFCQyxLQUFyQixFQUF1RDtBQUM1RCxNQUFJQyxLQUFLLENBQUNDLE9BQU4sQ0FBY0YsS0FBZCxDQUFKLEVBQTBCO0FBQ3hCLFdBQU9BLEtBQUssQ0FBQyxDQUFELENBQVo7QUFDRDs7QUFDRCxTQUFPQSxLQUFQO0FBQ0QiLCJmaWxlIjoiLi9kYXRhYmFzZS9nZXRBc1N0cmluZy50cy5qcyIsInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCBmdW5jdGlvbiBnZXRBc1N0cmluZyh2YWx1ZTogc3RyaW5nIHwgc3RyaW5nW10pOiBzdHJpbmcge1xuICBpZiAoQXJyYXkuaXNBcnJheSh2YWx1ZSkpIHtcbiAgICByZXR1cm4gdmFsdWVbMF1cbiAgfVxuICByZXR1cm4gdmFsdWVcbn1cbiJdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./database/getAsString.ts\n");
+
+/***/ }),
+
+/***/ "./database/getCountry.ts":
+/*!********************************!*\
+  !*** ./database/getCountry.ts ***!
+  \********************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"getCountry\": function() { return /* binding */ getCountry; }\n/* harmony export */ });\n/* harmony import */ var _models_shopGoods__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../models/shopGoods */ \"./models/shopGoods.ts\");\n\nasync function getCountry(type) {\n  const countries = await _models_shopGoods__WEBPACK_IMPORTED_MODULE_0__.default.find({\n    category: type\n  });\n  const res = countries.reduce((acc, curr) => {\n    const currCountry = curr.country;\n\n    if (acc[currCountry]) {\n      acc[currCountry] += 1;\n    } else {\n      acc[currCountry] = 1;\n    }\n\n    return acc;\n  }, {});\n  const arrOfObj = [];\n\n  for (let [key, value] of Object.entries(res)) {\n    arrOfObj.push({\n      country: key,\n      count: value\n    });\n  }\n\n  return arrOfObj;\n}//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly9zaG9wLWtsaXNoZXZpY2gvLi9kYXRhYmFzZS9nZXRDb3VudHJ5LnRzPzA0N2QiXSwibmFtZXMiOlsiZ2V0Q291bnRyeSIsInR5cGUiLCJjb3VudHJpZXMiLCJTaG9wR29vZHMiLCJjYXRlZ29yeSIsInJlcyIsInJlZHVjZSIsImFjYyIsImN1cnIiLCJjdXJyQ291bnRyeSIsImNvdW50cnkiLCJhcnJPZk9iaiIsImtleSIsInZhbHVlIiwiT2JqZWN0IiwiZW50cmllcyIsInB1c2giLCJjb3VudCJdLCJtYXBwaW5ncyI6Ijs7Ozs7QUFBQTtBQU9PLGVBQWVBLFVBQWYsQ0FBMEJDLElBQTFCLEVBQXdDO0FBQzdDLFFBQU1DLFNBQVMsR0FBRyxNQUFNQywyREFBQSxDQUFlO0FBQUVDLFlBQVEsRUFBRUg7QUFBWixHQUFmLENBQXhCO0FBRUEsUUFBTUksR0FBRyxHQUFHSCxTQUFTLENBQUNJLE1BQVYsQ0FBaUIsQ0FBQ0MsR0FBRCxFQUFNQyxJQUFOLEtBQWU7QUFDMUMsVUFBTUMsV0FBVyxHQUFHRCxJQUFJLENBQUNFLE9BQXpCOztBQUNBLFFBQUlILEdBQUcsQ0FBQ0UsV0FBRCxDQUFQLEVBQXNCO0FBQ3BCRixTQUFHLENBQUNFLFdBQUQsQ0FBSCxJQUFvQixDQUFwQjtBQUNELEtBRkQsTUFFTztBQUNMRixTQUFHLENBQUNFLFdBQUQsQ0FBSCxHQUFtQixDQUFuQjtBQUNEOztBQUNELFdBQU9GLEdBQVA7QUFDRCxHQVJXLEVBUVQsRUFSUyxDQUFaO0FBVUEsUUFBTUksUUFBUSxHQUFHLEVBQWpCOztBQUVBLE9BQUssSUFBSSxDQUFDQyxHQUFELEVBQU1DLEtBQU4sQ0FBVCxJQUF5QkMsTUFBTSxDQUFDQyxPQUFQLENBQWVWLEdBQWYsQ0FBekIsRUFBOEM7QUFDNUNNLFlBQVEsQ0FBQ0ssSUFBVCxDQUFjO0FBQUVOLGFBQU8sRUFBRUUsR0FBWDtBQUFnQkssV0FBSyxFQUFFSjtBQUF2QixLQUFkO0FBQ0Q7O0FBQ0QsU0FBT0YsUUFBUDtBQUNEIiwiZmlsZSI6Ii4vZGF0YWJhc2UvZ2V0Q291bnRyeS50cy5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBTaG9wR29vZHMgZnJvbSAnLi4vbW9kZWxzL3Nob3BHb29kcydcblxuZXhwb3J0IGludGVyZmFjZSBDb3VudHJ5IHtcbiAgY291bnRyeTogc3RyaW5nXG4gIGNvdW50OiBudW1iZXJcbn1cblxuZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIGdldENvdW50cnkodHlwZTogc3RyaW5nKSB7XG4gIGNvbnN0IGNvdW50cmllcyA9IGF3YWl0IFNob3BHb29kcy5maW5kKHsgY2F0ZWdvcnk6IHR5cGUgfSlcblxuICBjb25zdCByZXMgPSBjb3VudHJpZXMucmVkdWNlKChhY2MsIGN1cnIpID0+IHtcbiAgICBjb25zdCBjdXJyQ291bnRyeSA9IGN1cnIuY291bnRyeVxuICAgIGlmIChhY2NbY3VyckNvdW50cnldKSB7XG4gICAgICBhY2NbY3VyckNvdW50cnldICs9IDFcbiAgICB9IGVsc2Uge1xuICAgICAgYWNjW2N1cnJDb3VudHJ5XSA9IDFcbiAgICB9XG4gICAgcmV0dXJuIGFjY1xuICB9LCB7fSlcblxuICBjb25zdCBhcnJPZk9iaiA9IFtdXG5cbiAgZm9yIChsZXQgW2tleSwgdmFsdWVdIG9mIE9iamVjdC5lbnRyaWVzKHJlcykpIHtcbiAgICBhcnJPZk9iai5wdXNoKHsgY291bnRyeToga2V5LCBjb3VudDogdmFsdWUgfSlcbiAgfVxuICByZXR1cm4gYXJyT2ZPYmpcbn1cbiJdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./database/getCountry.ts\n");
+
+/***/ }),
+
+/***/ "./models/shopGoods.ts":
+/*!*****************************!*\
+  !*** ./models/shopGoods.ts ***!
+  \*****************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mongoose */ \"mongoose\");\n/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_0__);\n\nconst Schema = (mongoose__WEBPACK_IMPORTED_MODULE_0___default().Schema);\nconst shopGoods = new Schema({\n  nameOfGoods: {\n    type: String,\n    unique: true,\n    required: true,\n    minlength: 3\n  },\n  amountOfGoods: Number,\n  priceOfGoods: Number,\n  catalogNumber: String,\n  country: String,\n  category: String,\n  imageUrl: [String],\n  date: Date\n}); // to avoid overwrite errror???\n// @ts-ignore\n\n(mongoose__WEBPACK_IMPORTED_MODULE_0___default().models) = {};\nconst ShopGoods = mongoose__WEBPACK_IMPORTED_MODULE_0___default().model('ShopGoods', shopGoods);\n/* harmony default export */ __webpack_exports__[\"default\"] = (ShopGoods);//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly9zaG9wLWtsaXNoZXZpY2gvLi9tb2RlbHMvc2hvcEdvb2RzLnRzP2E0ODEiXSwibmFtZXMiOlsiU2NoZW1hIiwibW9uZ29vc2UiLCJzaG9wR29vZHMiLCJuYW1lT2ZHb29kcyIsInR5cGUiLCJTdHJpbmciLCJ1bmlxdWUiLCJyZXF1aXJlZCIsIm1pbmxlbmd0aCIsImFtb3VudE9mR29vZHMiLCJOdW1iZXIiLCJwcmljZU9mR29vZHMiLCJjYXRhbG9nTnVtYmVyIiwiY291bnRyeSIsImNhdGVnb3J5IiwiaW1hZ2VVcmwiLCJkYXRlIiwiRGF0ZSIsIlNob3BHb29kcyJdLCJtYXBwaW5ncyI6Ijs7O0FBQUE7QUFDQSxNQUFNQSxNQUFNLEdBQUdDLHdEQUFmO0FBYUEsTUFBTUMsU0FBUyxHQUFHLElBQUlGLE1BQUosQ0FBdUI7QUFDdkNHLGFBQVcsRUFBRTtBQUNYQyxRQUFJLEVBQUVDLE1BREs7QUFFWEMsVUFBTSxFQUFFLElBRkc7QUFHWEMsWUFBUSxFQUFFLElBSEM7QUFJWEMsYUFBUyxFQUFFO0FBSkEsR0FEMEI7QUFPdkNDLGVBQWEsRUFBRUMsTUFQd0I7QUFRdkNDLGNBQVksRUFBRUQsTUFSeUI7QUFTdkNFLGVBQWEsRUFBRVAsTUFUd0I7QUFVdkNRLFNBQU8sRUFBRVIsTUFWOEI7QUFXdkNTLFVBQVEsRUFBRVQsTUFYNkI7QUFZdkNVLFVBQVEsRUFBRSxDQUFDVixNQUFELENBWjZCO0FBYXZDVyxNQUFJLEVBQUVDO0FBYmlDLENBQXZCLENBQWxCLEMsQ0FnQkE7QUFDQTs7QUFDQWhCLHdEQUFBLEdBQWtCLEVBQWxCO0FBRUEsTUFBTWlCLFNBQVMsR0FBR2pCLHFEQUFBLENBQTJCLFdBQTNCLEVBQXdDQyxTQUF4QyxDQUFsQjtBQUVBLCtEQUFlZ0IsU0FBZiIsImZpbGUiOiIuL21vZGVscy9zaG9wR29vZHMudHMuanMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgbW9uZ29vc2UsIHsgRG9jdW1lbnQsIFR5cGVzIH0gZnJvbSAnbW9uZ29vc2UnXG5jb25zdCBTY2hlbWEgPSBtb25nb29zZS5TY2hlbWFcblxuaW50ZXJmYWNlIElTaG9wR29vZHMgZXh0ZW5kcyBEb2N1bWVudCB7XG4gIG5hbWVPZkdvb2RzOiBzdHJpbmdcbiAgYW1vdW50T2ZHb29kczogbnVtYmVyXG4gIHByaWNlT2ZHb29kczogbnVtYmVyXG4gIGNhdGFsb2dOdW1iZXI6IHN0cmluZ1xuICBjb3VudHJ5OiBzdHJpbmdcbiAgY2F0ZWdvcnk6IHN0cmluZ1xuICBpbWFnZVBhdGg6IHN0cmluZ1tdXG4gIGRhdGU6IERhdGVcbn1cblxuY29uc3Qgc2hvcEdvb2RzID0gbmV3IFNjaGVtYTxJU2hvcEdvb2RzPih7XG4gIG5hbWVPZkdvb2RzOiB7XG4gICAgdHlwZTogU3RyaW5nLFxuICAgIHVuaXF1ZTogdHJ1ZSxcbiAgICByZXF1aXJlZDogdHJ1ZSxcbiAgICBtaW5sZW5ndGg6IDMsXG4gIH0sXG4gIGFtb3VudE9mR29vZHM6IE51bWJlcixcbiAgcHJpY2VPZkdvb2RzOiBOdW1iZXIsXG4gIGNhdGFsb2dOdW1iZXI6IFN0cmluZyxcbiAgY291bnRyeTogU3RyaW5nLFxuICBjYXRlZ29yeTogU3RyaW5nLFxuICBpbWFnZVVybDogW1N0cmluZ10sXG4gIGRhdGU6IERhdGUsXG59KVxuXG4vLyB0byBhdm9pZCBvdmVyd3JpdGUgZXJycm9yPz8/XG4vLyBAdHMtaWdub3JlXG5tb25nb29zZS5tb2RlbHMgPSB7fVxuXG5jb25zdCBTaG9wR29vZHMgPSBtb25nb29zZS5tb2RlbDxJU2hvcEdvb2RzPignU2hvcEdvb2RzJywgc2hvcEdvb2RzKVxuXG5leHBvcnQgZGVmYXVsdCBTaG9wR29vZHNcbiJdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./models/shopGoods.ts\n");
+
+/***/ })
+
+};
+;
