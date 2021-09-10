@@ -162,7 +162,7 @@ function DialogSelect({
       id: currId,
       status
     };
-    const res = await external_axios_default().put(`${"http://shop.klishevich.ru"}/api/changestatusorder`, newStatus);
+    const res = await external_axios_default().put(`${"https://shop.klishevich.ru"}/api/changestatusorder`, newStatus);
     setOpen(false);
     setStatus(currStatus);
     router.reload();

@@ -69,7 +69,7 @@ const initItems = () => {
 };
 const addNewItem = (id, value) => {
   return async dispatch => {
-    const item = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`${"http://shop.klishevich.ru"}/api/getitembyid`, {
+    const item = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`${"https://shop.klishevich.ru"}/api/getitembyid`, {
       params: {
         id
       }

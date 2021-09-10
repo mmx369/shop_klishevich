@@ -70,7 +70,7 @@ const AddNewUserForm = () => {
         email,
         role
       };
-      await axios__WEBPACK_IMPORTED_MODULE_2___default().post(`${"http://shop.klishevich.ru"}/api/addnewuser`, addNewUser);
+      await axios__WEBPACK_IMPORTED_MODULE_2___default().post(`${"https://shop.klishevich.ru"}/api/addnewuser`, addNewUser);
       react_toastify__WEBPACK_IMPORTED_MODULE_6__.toast.success(`Пользователь ${name} успешно добавлен`, {
         position: react_toastify__WEBPACK_IMPORTED_MODULE_6__.toast.POSITION.TOP_LEFT,
         autoClose: 5000

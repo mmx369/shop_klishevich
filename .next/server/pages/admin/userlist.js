@@ -91,7 +91,7 @@ const EditUserlistForm = ({
 
   const deleteHandler = async () => {
     try {
-      await external_axios_default().delete(`${"http://shop.klishevich.ru"}/api/deleteuser`, {
+      await external_axios_default().delete(`${"https://shop.klishevich.ru"}/api/deleteuser`, {
         data: id
       });
       external_react_toastify_.toast.success(`Пользователь успешно удален`, {
@@ -116,7 +116,7 @@ const EditUserlistForm = ({
         email: newEmail,
         id
       };
-      const res = await external_axios_default().put(`${"http://shop.klishevich.ru"}/api/updateuser`, updateUser);
+      const res = await external_axios_default().put(`${"https://shop.klishevich.ru"}/api/updateuser`, updateUser);
 
       if (res.status === 200) {
         external_react_toastify_.toast.success(`Данные пользователя ${name} успешно изменены`, {

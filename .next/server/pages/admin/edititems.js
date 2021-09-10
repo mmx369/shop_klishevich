@@ -137,7 +137,7 @@ function ModalEditGoods({
         newPrice: value,
         id
       };
-      const res = await external_axios_default().put(`${"http://shop.klishevich.ru"}/api/updateprice`, updatePrice);
+      const res = await external_axios_default().put(`${"https://shop.klishevich.ru"}/api/updateprice`, updatePrice);
 
       if (res.status === 200) {
         external_react_toastify_.toast.success('Цена успешна изменена', {
@@ -162,7 +162,7 @@ function ModalEditGoods({
         newAmount: value,
         id
       };
-      const res = await external_axios_default().put(`${"http://shop.klishevich.ru"}/api/updateamount`, updateAmount);
+      const res = await external_axios_default().put(`${"https://shop.klishevich.ru"}/api/updateamount`, updateAmount);
 
       if (res.status === 200) {
         external_react_toastify_.toast.success('Количество успешна изменено', {
@@ -289,7 +289,7 @@ function ListOfGoods({
 
   const handleDelete = async id => {
     try {
-      await external_axios_default().delete(`${"http://shop.klishevich.ru"}/api/deleteitem`, {
+      await external_axios_default().delete(`${"https://shop.klishevich.ru"}/api/deleteitem`, {
         data: id
       });
       external_react_toastify_.toast.success('Позиция успешна удалена', {
