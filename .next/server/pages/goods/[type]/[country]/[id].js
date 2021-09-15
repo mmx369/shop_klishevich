@@ -55,8 +55,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_layout__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6013);
 /* harmony import */ var _models_shopGoods__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(3375);
 /* harmony import */ var _redux_actions_cartActions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(456);
-/* harmony import */ var _translate_category__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(2738);
-/* harmony import */ var _translate_country__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(220);
+/* harmony import */ var _translate_category__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(2738);
+/* harmony import */ var _translate_country__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(220);
 
 
 
@@ -155,7 +155,7 @@ function ItemsDetails({
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_material_ui_core__WEBPACK_IMPORTED_MODULE_1__.Typography, {
                   gutterBottom: true,
                   variant: "h6",
-                  children: [(0,_translate_category__WEBPACK_IMPORTED_MODULE_8__/* .translateCategory */ .J)(item.category), " |", (0,_translate_country__WEBPACK_IMPORTED_MODULE_7__/* .translateCountry */ .y)(item.country)]
+                  children: [(0,_translate_category__WEBPACK_IMPORTED_MODULE_7__/* .translateCategory */ .J)(item.category), " |", (0,_translate_country__WEBPACK_IMPORTED_MODULE_8__/* .translateCountry */ .y)(item.country)]
                 }), /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_material_ui_core__WEBPACK_IMPORTED_MODULE_1__.Typography, {
                   gutterBottom: true,
                   variant: "h5",
@@ -225,10 +225,16 @@ const getServerSideProps = async ctx => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "W": function() { return /* binding */ category; },
 /* harmony export */   "J": function() { return /* binding */ translateCategory; }
 /* harmony export */ });
+const category = {
+  'Paper Money': 'Банкноты',
+  Coins: 'Монеты',
+  Other: 'Прочие'
+};
 function translateCategory(category) {
-  return category === 'Paper Money' ? 'Банкноты' : category === 'Coins' ? 'Монеты' : category === 'Other' ? 'Прочие' : null;
+  return category[category];
 }
 
 /***/ }),
@@ -238,12 +244,23 @@ function translateCategory(category) {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "J": function() { return /* binding */ countryList; },
 /* harmony export */   "y": function() { return /* binding */ translateCountry; }
 /* harmony export */ });
 const countryList = {
-  USSR: 'CCCР',
+  USSR: 'СССР',
   Russia: 'Россия',
-  Tadjikistan: 'Таджикистан'
+  Tajikistan: 'Таджикистан',
+  Uzbekistan: 'Узбекистан',
+  Burma: 'Бирма',
+  Yugoslavia: 'Югославия',
+  Cambodia: 'Камбоджа',
+  Iran: 'Иран',
+  Nepal: 'Непал',
+  Bhutan: 'Бутан',
+  Lao: 'Лаос',
+  China: 'Китай',
+  Afganistan: 'Афганистан'
 };
 function translateCountry(country) {
   return countryList[country];

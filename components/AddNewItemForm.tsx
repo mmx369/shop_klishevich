@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Form, Formik, Field, ErrorMessage } from 'formik'
-import { object, string, number, boolean, array, mixed } from 'yup'
+import { object, string, number, array } from 'yup'
 import axios from 'axios'
 import {
   Box,
@@ -19,11 +19,13 @@ import {
 import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { countryList } from '../translate/country'
+import { category } from '../translate/category'
 
 export interface NewItemDetails {
   nameOfGoods: string
-  amountOfGoods: number
-  priceOfGoods: number
+  amountOfGoods: number | ''
+  priceOfGoods: number | ''
   catalogNumber: string
   country: string
   category: string
@@ -32,8 +34,8 @@ export interface NewItemDetails {
 
 const initialValues: NewItemDetails = {
   nameOfGoods: '',
-  amountOfGoods: 0,
-  priceOfGoods: 0,
+  amountOfGoods: '',
+  priceOfGoods: '',
   catalogNumber: '',
   country: '',
   category: '',
@@ -41,9 +43,20 @@ const initialValues: NewItemDetails = {
 }
 
 type TProps = {}
+
 export function AddNewItemForm({}: TProps) {
   const dispatch = useDispatch()
   const [clearState, setClearState] = useState(false)
+
+  const sortedCountryList = Object.entries(countryList).sort((a, b) => {
+    if (a[1] < b[1]) {
+      return -1
+    }
+    if (a[1] > b[1]) {
+      return 1
+    }
+    return 0
+  })
 
   return (
     <>
@@ -75,7 +88,7 @@ export function AddNewItemForm({}: TProps) {
                     category: values.category,
                   }
 
-                  const res = await axios.post(
+                  await axios.post(
                     `${process.env.RESTURL}/api/addnewitem`,
                     newItem
                   )
@@ -103,7 +116,7 @@ export function AddNewItemForm({}: TProps) {
               console.log('------------')
             }}
           >
-            {(values, errors, isSubmitting, isValidating) => (
+            {(values, isSubmitting, isValidating) => (
               <Form>
                 <Box marginBottom={2}>
                   <FormGroup>
@@ -151,9 +164,13 @@ export function AddNewItemForm({}: TProps) {
                     <Field name="country" as={TextField} select label="Страна">
                       <MenuItem value={''}>Выберите...</MenuItem>
 
-                      <MenuItem value={'Russia'}>Россия</MenuItem>
-                      <MenuItem value={'USSR'}>CCCР</MenuItem>
-                      <MenuItem value={'Tadjikistan'}>Таджикистан</MenuItem>
+                      {Object.entries(sortedCountryList).map(
+                        (country, index) => (
+                          <MenuItem key={index} value={country[1][0]}>
+                            {country[1][1]}
+                          </MenuItem>
+                        )
+                      )}
                     </Field>
                     <ErrorMessage name="country" />
                   </FormGroup>
@@ -168,9 +185,11 @@ export function AddNewItemForm({}: TProps) {
                     >
                       <MenuItem value={''}>Выберите...</MenuItem>
 
-                      <MenuItem value={'Paper Money'}>Банкноты</MenuItem>
-                      <MenuItem value={'Coins'}>Монеты</MenuItem>
-                      <MenuItem value={'Other'}>Прочие</MenuItem>
+                      {Object.entries(category).map((el, index) => (
+                        <MenuItem key={index} value={el[0]}>
+                          {el[1]}
+                        </MenuItem>
+                      ))}
                     </Field>
                     <ErrorMessage name="category" />
                   </FormGroup>

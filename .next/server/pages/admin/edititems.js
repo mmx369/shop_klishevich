@@ -454,10 +454,16 @@ const getServerSideProps = async () => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "W": function() { return /* binding */ category; },
 /* harmony export */   "J": function() { return /* binding */ translateCategory; }
 /* harmony export */ });
+const category = {
+  'Paper Money': 'Банкноты',
+  Coins: 'Монеты',
+  Other: 'Прочие'
+};
 function translateCategory(category) {
-  return category === 'Paper Money' ? 'Банкноты' : category === 'Coins' ? 'Монеты' : category === 'Other' ? 'Прочие' : null;
+  return category[category];
 }
 
 /***/ }),
@@ -467,12 +473,23 @@ function translateCategory(category) {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "J": function() { return /* binding */ countryList; },
 /* harmony export */   "y": function() { return /* binding */ translateCountry; }
 /* harmony export */ });
 const countryList = {
-  USSR: 'CCCР',
+  USSR: 'СССР',
   Russia: 'Россия',
-  Tadjikistan: 'Таджикистан'
+  Tajikistan: 'Таджикистан',
+  Uzbekistan: 'Узбекистан',
+  Burma: 'Бирма',
+  Yugoslavia: 'Югославия',
+  Cambodia: 'Камбоджа',
+  Iran: 'Иран',
+  Nepal: 'Непал',
+  Bhutan: 'Бутан',
+  Lao: 'Лаос',
+  China: 'Китай',
+  Afganistan: 'Афганистан'
 };
 function translateCountry(country) {
   return countryList[country];
