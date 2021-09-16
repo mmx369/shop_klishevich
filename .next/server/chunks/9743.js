@@ -73,7 +73,6 @@ function Search({
   return /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(formik__WEBPACK_IMPORTED_MODULE_2__.Formik, {
     initialValues: initialValues,
     onSubmit: values => {
-      console.log(1111, values);
       next_router__WEBPACK_IMPORTED_MODULE_4___default().push({
         pathname: '/shop',
         query: _objectSpread(_objectSpread({}, values), {}, {
@@ -312,16 +311,16 @@ const connectDB = async () => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "W": function() { return /* binding */ category; },
+/* harmony export */   "b": function() { return /* binding */ categories; },
 /* harmony export */   "J": function() { return /* binding */ translateCategory; }
 /* harmony export */ });
-const category = {
+const categories = {
   'Paper Money': 'Банкноты',
   Coins: 'Монеты',
   Other: 'Прочие'
 };
 function translateCategory(category) {
-  return category[category];
+  return categories[category];
 }
 
 /***/ }),

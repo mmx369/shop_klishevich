@@ -4,7 +4,43 @@ exports.id = 6911;
 exports.ids = [6911];
 exports.modules = {
 
-/***/ 1416:
+/***/ 4354:
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5619);
+/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _types_ERole__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2244);
+
+
+const Schema = (mongoose__WEBPACK_IMPORTED_MODULE_0___default().Schema);
+const shopUser = new Schema({
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  role: {
+    type: String,
+    default: _types_ERole__WEBPACK_IMPORTED_MODULE_1__/* .ERole.Client */ .S.Client
+  },
+  name: String,
+  date: Date,
+  passwordHash: String,
+  orders: [{
+    type: (mongoose__WEBPACK_IMPORTED_MODULE_0___default().Schema.Types.ObjectId),
+    ref: 'ShopOrders'
+  }]
+}); // to avoid overwrite errror???
+// @ts-ignore
+
+(mongoose__WEBPACK_IMPORTED_MODULE_0___default().models) = {};
+const ShopUser = mongoose__WEBPACK_IMPORTED_MODULE_0___default().model('ShopUser', shopUser);
+/* harmony default export */ __webpack_exports__["Z"] = (ShopUser);
+
+/***/ }),
+
+/***/ 1772:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -225,8 +261,148 @@ const EditUserlistForm = ({
     })
   });
 };
-// EXTERNAL MODULE: ./components/AddNewUserForm.tsx
-var AddNewUserForm = __webpack_require__(7540);
+;// CONCATENATED MODULE: ./components/AddNewUserForm.tsx
+
+
+
+
+
+
+
+
+
+external_react_toastify_.toast.configure();
+const AddNewUserForm = () => {
+  const router = (0,router_.useRouter)();
+  const dispatch = (0,external_react_redux_.useDispatch)();
+  const {
+    0: name,
+    1: setName
+  } = (0,external_react_.useState)('');
+  const {
+    0: email,
+    1: setEmail
+  } = (0,external_react_.useState)('');
+  const {
+    0: role,
+    1: setRole
+  } = (0,external_react_.useState)('');
+
+  const changeHandlerName = event => {
+    setName(event.target.value);
+  };
+
+  const changeHandlerEmail = event => {
+    setEmail(event.target.value);
+  };
+
+  const changeHandlerRole = event => {
+    setRole(event.target.value);
+  };
+
+  const addNewUser = async () => {
+    try {
+      const addNewUser = {
+        name,
+        email,
+        role
+      };
+      await external_axios_default().post(`${"https://shop.klishevich.ru"}/api/addnewuser`, addNewUser);
+      external_react_toastify_.toast.success(`Пользователь ${name} успешно добавлен`, {
+        position: external_react_toastify_.toast.POSITION.TOP_LEFT,
+        autoClose: 5000
+      });
+      setName('');
+      setEmail('');
+      setRole('');
+      router.replace(router.asPath);
+    } catch (e) {
+      external_react_toastify_.toast.error(`Ошибка: ${e.response.data.message}`, {
+        position: external_react_toastify_.toast.POSITION.TOP_LEFT,
+        autoClose: 5000
+      });
+      console.error(e);
+    }
+  };
+
+  return /*#__PURE__*/jsx_runtime_.jsx((external_react_default()).Fragment, {
+    children: /*#__PURE__*/jsx_runtime_.jsx("div", {
+      children: /*#__PURE__*/(0,jsx_runtime_.jsxs)(core_.Grid, {
+        container: true,
+        direction: "column",
+        children: [/*#__PURE__*/jsx_runtime_.jsx(core_.Grid, {
+          item: true,
+          children: /*#__PURE__*/jsx_runtime_.jsx("div", {
+            children: /*#__PURE__*/jsx_runtime_.jsx("h3", {
+              children: "\u041D\u043E\u0432\u044B\u0439 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C"
+            })
+          })
+        }), /*#__PURE__*/jsx_runtime_.jsx("div", {
+          children: /*#__PURE__*/jsx_runtime_.jsx(core_.Grid, {
+            item: true,
+            children: /*#__PURE__*/jsx_runtime_.jsx(core_.TextField, {
+              onChange: changeHandlerName,
+              margin: "normal",
+              name: "name",
+              value: name,
+              type: "text",
+              label: "\u0418\u043C\u044F",
+              fullWidth: true
+            })
+          })
+        }), /*#__PURE__*/jsx_runtime_.jsx("div", {
+          children: /*#__PURE__*/jsx_runtime_.jsx(core_.Grid, {
+            item: true,
+            children: /*#__PURE__*/jsx_runtime_.jsx(core_.TextField, {
+              onChange: changeHandlerEmail,
+              margin: "normal",
+              name: "email",
+              value: email,
+              type: "text",
+              label: "\u042D\u043B\u0435\u043A\u0442\u0440\u043E\u043D\u043D\u0430\u044F \u043F\u043E\u0447\u0442\u0430",
+              fullWidth: true
+            })
+          })
+        }), /*#__PURE__*/jsx_runtime_.jsx(core_.Grid, {
+          item: true,
+          children: /*#__PURE__*/jsx_runtime_.jsx("div", {
+            children: /*#__PURE__*/(0,jsx_runtime_.jsxs)(core_.FormControl, {
+              fullWidth: true,
+              children: [/*#__PURE__*/jsx_runtime_.jsx(core_.InputLabel, {
+                id: "select-label",
+                children: "role"
+              }), /*#__PURE__*/(0,jsx_runtime_.jsxs)(core_.Select, {
+                labelId: "select-label",
+                value: role,
+                onChange: changeHandlerRole,
+                children: [/*#__PURE__*/jsx_runtime_.jsx(core_.MenuItem, {
+                  value: "",
+                  children: /*#__PURE__*/jsx_runtime_.jsx("em", {
+                    children: "None"
+                  })
+                }), /*#__PURE__*/jsx_runtime_.jsx(core_.MenuItem, {
+                  value: 'admin',
+                  children: "\u0410\u0434\u043C\u0438\u043D\u0438\u0441\u0442\u0440\u0430\u0442\u043E\u0440"
+                }), /*#__PURE__*/jsx_runtime_.jsx(core_.MenuItem, {
+                  value: 'client',
+                  children: "\u041A\u043B\u0438\u0435\u043D\u0442"
+                })]
+              })]
+            })
+          })
+        }), /*#__PURE__*/jsx_runtime_.jsx(core_.Grid, {
+          item: true,
+          children: /*#__PURE__*/jsx_runtime_.jsx(core_.Button, {
+            variant: "outlined",
+            color: "secondary",
+            onClick: addNewUser,
+            children: "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C"
+          })
+        })]
+      })
+    })
+  });
+};
 ;// CONCATENATED MODULE: ./pages/admin/userlist.tsx
 
 
@@ -330,7 +506,7 @@ function Userlist({
           })
         }), /*#__PURE__*/jsx_runtime_.jsx(core_.Grid, {
           item: true,
-          children: showAddUserForm && /*#__PURE__*/jsx_runtime_.jsx(AddNewUserForm/* AddNewUserForm */.d, {})
+          children: showAddUserForm && /*#__PURE__*/jsx_runtime_.jsx(AddNewUserForm, {})
         })]
       }), /*#__PURE__*/jsx_runtime_.jsx(core_.TableContainer, {
         component: core_.Paper,
@@ -407,6 +583,13 @@ const getServerSideProps = async () => {
     console.error(e);
   }
 };
+
+/***/ }),
+
+/***/ 8819:
+/***/ (function() {
+
+
 
 /***/ }),
 
@@ -593,7 +776,7 @@ module.exports = require("styled-jsx/style");;
 var __webpack_require__ = require("../../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = function(moduleId) { return __webpack_require__(__webpack_require__.s = moduleId); }
-var __webpack_exports__ = __webpack_require__.X(0, [8689,2956,1865,3157,4119], function() { return __webpack_exec__(1416); });
+var __webpack_exports__ = __webpack_require__.X(0, [8689,2956,1865,3157], function() { return __webpack_exec__(1772); });
 module.exports = __webpack_exports__;
 
 })();

@@ -1,7 +1,4 @@
-import React, { useState } from 'react'
-import { Form, Formik, Field, ErrorMessage } from 'formik'
-import { object, string, number, array } from 'yup'
-import axios from 'axios'
+import 'react-toastify/dist/ReactToastify.css'
 import {
   Box,
   Button,
@@ -12,15 +9,18 @@ import {
   MenuItem,
   TextField,
 } from '@material-ui/core'
+import { ErrorMessage, Field, Form, Formik } from 'formik'
 import {
   MultipleFileUploadField,
   UploadableFile,
 } from '../upload/MultipleFileUploadField'
-import { useDispatch } from 'react-redux'
-import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import React, { useState } from 'react'
+import { array, number, object, string } from 'yup'
+import axios from 'axios'
+import { categories } from '../translate/category'
 import { countryList } from '../translate/country'
-import { category } from '../translate/category'
+import { toast } from 'react-toastify'
+import { useDispatch } from 'react-redux'
 
 export interface NewItemDetails {
   nameOfGoods: string
@@ -185,7 +185,7 @@ export function AddNewItemForm({}: TProps) {
                     >
                       <MenuItem value={''}>Выберите...</MenuItem>
 
-                      {Object.entries(category).map((el, index) => (
+                      {Object.entries(categories).map((el, index) => (
                         <MenuItem key={index} value={el[0]}>
                           {el[1]}
                         </MenuItem>

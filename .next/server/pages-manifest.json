@@ -35,7 +35,6 @@
   "/": "pages/index.js",
   "/paymentandshipping": "pages/paymentandshipping.html",
   "/shop": "pages/shop.js",
-  "/test_database": "pages/test_database.js",
   "/_error": "pages/_error.js",
   "/404": "pages/404.html"
 }

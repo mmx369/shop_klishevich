@@ -5,7 +5,6 @@ import React from 'react'
 import { AddNewItemForm } from '../../components/AddNewItemForm'
 import Layout from '../../components/layout'
 import { ERole } from '../../types/ERole'
-import { Notification } from '../../components/Notification'
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -47,7 +46,6 @@ export default function AddNewItem(props: TProps) {
   }
   return (
     <Layout title="Администрирование | Добавить новый товар">
-      <Notification />
       <AddNewItemForm />
     </Layout>
   )

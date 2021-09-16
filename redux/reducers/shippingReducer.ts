@@ -9,8 +9,6 @@ export const initialState: IShippingState = {
 }
 
 export const createShippingPrice = (state = initialState, action: any) => {
-  console.log(2222, action)
-
   switch (action.type) {
     case ShippingActionTypes.NEW_SHIPPING_PRICE: {
       return action.data

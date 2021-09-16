@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Container,
   createStyles,
   Hidden,
   IconButton,
@@ -45,33 +46,35 @@ export function Nav({
   const classes = useStyles()
   const router = useRouter()
 
-  const handleClick = (e) => {
+  const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
     router.push('/cart')
   }
 
   return (
     <AppBar position="static">
-      <Toolbar variant="dense" className={classes.root}>
-        <Typography variant="subtitle2" className={classes.root}>
-          Нумизматика и бонистика
-        </Typography>
-        <Hidden xsDown>
-          {isLoggedIn === ELoggedIn.True && (
-            <div>Вы вошли как {currentEmail}</div>
+      <Container maxWidth="lg">
+        <Toolbar variant="dense" className={classes.root}>
+          <Typography variant="subtitle2" className={classes.root}>
+            Нумизматика и бонистика
+          </Typography>
+          <Hidden xsDown>
+            {isLoggedIn === ELoggedIn.True && (
+              <div>Вы вошли как {currentEmail}</div>
+            )}
+          </Hidden>
+          {!!isCartEmpty.length && (
+            <div>
+              <IconButton color="inherit" onClick={handleClick}>
+                <ShoppingCartRoundedIcon />
+              </IconButton>
+            </div>
           )}
-        </Hidden>
-        {!!isCartEmpty.length && (
-          <div>
-            <IconButton color="inherit" onClick={handleClick}>
-              <ShoppingCartRoundedIcon />
-            </IconButton>
-          </div>
-        )}
-        {isLoggedIn !== ELoggedIn.Unknown && (
-          <SignInButtons isSignedIn={isLoggedIn === ELoggedIn.True} />
-        )}
-      </Toolbar>
+          {isLoggedIn !== ELoggedIn.Unknown && (
+            <SignInButtons isSignedIn={isLoggedIn === ELoggedIn.True} />
+          )}
+        </Toolbar>
+      </Container>
     </AppBar>
   )
 }

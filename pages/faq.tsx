@@ -5,7 +5,7 @@ import {
   Typography,
 } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import { GetStaticProps } from 'next'
+import { GetServerSideProps } from 'next'
 import React from 'react'
 import Layout from '../components/layout'
 import ShopFaq from '../models/shopFaq'
@@ -32,7 +32,7 @@ export default function Faq({ faq }: FaqProps) {
               aria-controls="panel1a-content"
               id="panel1a-header"
             >
-              <Typography>{f.question}</Typography>
+              <Typography variant="h6">{f.question}</Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Typography>{f.answer}</Typography>
@@ -44,7 +44,7 @@ export default function Faq({ faq }: FaqProps) {
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   try {
     const data = await ShopFaq.find({})
     const faq = JSON.stringify(data)

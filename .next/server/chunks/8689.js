@@ -131,12 +131,11 @@ var red = {
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "mi": function() { return /* binding */ getContrastRatio; },
-/* harmony export */   "_4": function() { return /* binding */ emphasize; },
 /* harmony export */   "Fq": function() { return /* binding */ alpha; },
 /* harmony export */   "_j": function() { return /* binding */ darken; },
 /* harmony export */   "$n": function() { return /* binding */ lighten; }
 /* harmony export */ });
-/* unused harmony exports hexToRgb, rgbToHex, hslToRgb, decomposeColor, recomposeColor, getLuminance, fade */
+/* unused harmony exports hexToRgb, rgbToHex, hslToRgb, decomposeColor, recomposeColor, getLuminance, emphasize, fade */
 /* harmony import */ var _material_ui_utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2958);
 /* harmony import */ var _material_ui_utils__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_material_ui_utils__WEBPACK_IMPORTED_MODULE_0__);
 

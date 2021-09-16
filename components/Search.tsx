@@ -58,8 +58,6 @@ export default function Search({
     <Formik
       initialValues={initialValues}
       onSubmit={(values) => {
-        console.log(1111, values)
-
         router.push(
           {
             pathname: '/shop',

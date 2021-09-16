@@ -454,16 +454,16 @@ const getServerSideProps = async () => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "W": function() { return /* binding */ category; },
+/* harmony export */   "b": function() { return /* binding */ categories; },
 /* harmony export */   "J": function() { return /* binding */ translateCategory; }
 /* harmony export */ });
-const category = {
+const categories = {
   'Paper Money': 'Банкноты',
   Coins: 'Монеты',
   Other: 'Прочие'
 };
 function translateCategory(category) {
-  return category[category];
+  return categories[category];
 }
 
 /***/ }),

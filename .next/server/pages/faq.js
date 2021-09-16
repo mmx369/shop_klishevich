@@ -45,7 +45,7 @@ __webpack_require__.r(__webpack_exports__);
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
   "default": function() { return /* binding */ Faq; },
-  "getStaticProps": function() { return /* binding */ getStaticProps; }
+  "getServerSideProps": function() { return /* binding */ getServerSideProps; }
 });
 
 // EXTERNAL MODULE: external "react/jsx-runtime"
@@ -82,6 +82,7 @@ function Faq({
           "aria-controls": "panel1a-content",
           id: "panel1a-header",
           children: /*#__PURE__*/jsx_runtime_.jsx(core_.Typography, {
+            variant: "h6",
             children: f.question
           })
         }), /*#__PURE__*/jsx_runtime_.jsx(core_.AccordionDetails, {
@@ -93,7 +94,7 @@ function Faq({
     })
   });
 }
-const getStaticProps = async () => {
+const getServerSideProps = async () => {
   try {
     const data = await shopFaq/* default.find */.Z.find({});
     const faq = JSON.stringify(data);

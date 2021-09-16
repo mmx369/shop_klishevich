@@ -4,7 +4,7 @@ exports.id = 2888;
 exports.ids = [2888];
 exports.modules = {
 
-/***/ 2787:
+/***/ 316:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -35,31 +35,11 @@ var external_react_redux_ = __webpack_require__(79);
 var external_redux_namespaceObject = require("redux");;
 ;// CONCATENATED MODULE: external "redux-devtools-extension"
 var external_redux_devtools_extension_namespaceObject = require("redux-devtools-extension");;
-;// CONCATENATED MODULE: ./redux/actions/testActions.ts
-let TestActionTypes;
-
-(function (TestActionTypes) {
-  TestActionTypes["TICK"] = "TICK";
-  TestActionTypes["INCREMENT"] = "INCREMENT";
-  TestActionTypes["DECREMENT"] = "DECREMENT";
-  TestActionTypes["RESET"] = "RESET";
-})(TestActionTypes || (TestActionTypes = {}));
-
-const tickAC = (light = true) => ({
-  type: TestActionTypes.TICK,
-  light,
-  lastUpdate: Date.now()
-});
-const incrementAC = () => ({
-  type: TestActionTypes.INCREMENT
-});
-const decrementAC = () => ({
-  type: TestActionTypes.DECREMENT
-});
-const resetAC = () => ({
-  type: TestActionTypes.RESET
-});
-;// CONCATENATED MODULE: ./redux/reducers/testReducer.ts
+// EXTERNAL MODULE: ./types/ELoggedIn.ts
+var ELoggedIn = __webpack_require__(5629);
+// EXTERNAL MODULE: ./redux/actions/appActions.ts
+var appActions = __webpack_require__(3023);
+;// CONCATENATED MODULE: ./redux/reducers/appReducer.ts
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -67,52 +47,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
+
 const initialState = {
-  lastUpdate: 0,
-  light: false,
-  count: 0
-};
-const testReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case TestActionTypes.TICK:
-      return _objectSpread(_objectSpread({}, state), {}, {
-        lastUpdate: action.lastUpdate,
-        light: !!action.light
-      });
-
-    case TestActionTypes.INCREMENT:
-      return _objectSpread(_objectSpread({}, state), {}, {
-        count: state.count + 1
-      });
-
-    case TestActionTypes.DECREMENT:
-      return _objectSpread(_objectSpread({}, state), {}, {
-        count: state.count - 1
-      });
-
-    case TestActionTypes.RESET:
-      return _objectSpread(_objectSpread({}, state), {}, {
-        count: initialState.count
-      });
-
-    default:
-      return state;
-  }
-};
-// EXTERNAL MODULE: ./types/ELoggedIn.ts
-var ELoggedIn = __webpack_require__(5629);
-// EXTERNAL MODULE: ./redux/actions/appActions.ts
-var appActions = __webpack_require__(3023);
-;// CONCATENATED MODULE: ./redux/reducers/appReducer.ts
-function appReducer_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function appReducer_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { appReducer_ownKeys(Object(source), true).forEach(function (key) { appReducer_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { appReducer_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function appReducer_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
-const appReducer_initialState = {
   loading: false,
   currentUser: undefined,
   currentEmail: undefined,
@@ -120,10 +56,10 @@ const appReducer_initialState = {
   currentRole: undefined,
   isLoggedIn: ELoggedIn/* ELoggedIn.Unknown */.Y.Unknown
 };
-const appReducer = (state = appReducer_initialState, action) => {
+const appReducer = (state = initialState, action) => {
   switch (action.type) {
     case appActions/* AppActionTypes.UPDATE_USER */.T7.UPDATE_USER:
-      return appReducer_objectSpread(appReducer_objectSpread({}, state), {}, {
+      return _objectSpread(_objectSpread({}, state), {}, {
         currentUser: action.currentUser,
         currentEmail: action.currentEmail,
         currentId: action.currentId,
@@ -131,12 +67,12 @@ const appReducer = (state = appReducer_initialState, action) => {
       });
 
     case appActions/* AppActionTypes.UPDATE_LOADER */.T7.UPDATE_LOADER:
-      return appReducer_objectSpread(appReducer_objectSpread({}, state), {}, {
+      return _objectSpread(_objectSpread({}, state), {}, {
         loading: action.loading
       });
 
     case appActions/* AppActionTypes.UPDATE_IS_LOGGED_IN */.T7.UPDATE_IS_LOGGED_IN:
-      return appReducer_objectSpread(appReducer_objectSpread({}, state), {}, {
+      return _objectSpread(_objectSpread({}, state), {}, {
         isLoggedIn: action.isLoggedIn
       });
 
@@ -246,8 +182,6 @@ const shippingReducer_initialState = {
   shippingPrice: null
 };
 const createShippingPrice = (state = shippingReducer_initialState, action) => {
-  console.log(2222, action);
-
   switch (action.type) {
     case shippingAction/* ShippingActionTypes.NEW_SHIPPING_PRICE */.I.NEW_SHIPPING_PRICE:
       {
@@ -264,9 +198,7 @@ const createShippingPrice = (state = shippingReducer_initialState, action) => {
 
 
 
-
 const rootReducer = (0,external_redux_namespaceObject.combineReducers)({
-  test: testReducer,
   app: appReducer,
   newMsg: createNewMsgReducer,
   cart: cartReducer,
@@ -325,6 +257,7 @@ function _app_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); 
 function _app_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { _app_ownKeys(Object(source), true).forEach(function (key) { _app_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { _app_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _app_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -497,7 +430,7 @@ module.exports = require("react/jsx-runtime");;
 var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = function(moduleId) { return __webpack_require__(__webpack_require__.s = moduleId); }
-var __webpack_exports__ = __webpack_require__.X(0, [8689,6534,1865], function() { return __webpack_exec__(2787); });
+var __webpack_exports__ = __webpack_require__.X(0, [8689,6534,1865], function() { return __webpack_exec__(316); });
 module.exports = __webpack_exports__;
 
 })();

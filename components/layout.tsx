@@ -3,6 +3,7 @@ import Head from 'next/head'
 import { Nav } from './Nav'
 import {
   Breadcrumbs,
+  Container,
   createStyles,
   makeStyles,
   Typography,
@@ -14,7 +15,6 @@ import { ELoggedIn } from '../types/ELoggedIn'
 import { getSession } from 'next-auth/client'
 import { updateIsLoggedInAC, updateUserAC } from '../redux/actions/appActions'
 import { ERole } from '../types/ERole'
-import { Notification } from './Notification'
 import { initItems } from '../redux/actions/cartActions'
 import BottomAppBar from './BottomAppBar'
 
@@ -82,11 +82,6 @@ export default function Layout({ children, title }: TProps) {
 
   const isCartEmpty = useSelector((state: IRootState) => state.cart) || []
 
-  function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-    event.preventDefault()
-    console.info('You clicked a breadcrumb.')
-  }
-
   return (
     <div>
       <Head>
@@ -104,46 +99,50 @@ export default function Layout({ children, title }: TProps) {
           isLoggedIn={isLoggedIn}
           isCartEmpty={isCartEmpty}
         />
-        <Breadcrumbs aria-label="breadcrumb" className={classes.bread}>
-          <Link href="/">
-            <a className={classes.link}>
-              <Typography color="primary">Главная</Typography>
-            </a>
-          </Link>
-          <Link href="/paymentandshipping">
-            <a className={classes.link}>
-              <Typography color="primary">Оплата и доставка</Typography>
-            </a>
-          </Link>
-          <Link href="/faq">
-            <a className={classes.link}>
-              <Typography color="primary">Вопросы</Typography>
-            </a>
-          </Link>
-          <Link href="/contacts">
-            <a className={classes.link}>
-              <Typography color="primary">Контакты</Typography>
-            </a>
-          </Link>
-          {currentRole === ERole.Admin && (
-            <Link href="/admin">
+        <Container maxWidth="lg">
+          <Breadcrumbs aria-label="breadcrumb" className={classes.bread}>
+            <Link href="/">
               <a className={classes.link}>
-                <Typography color="inherit">Администрирование</Typography>
+                <Typography color="primary">Главная</Typography>
               </a>
             </Link>
-          )}
-        </Breadcrumbs>
+            <Link href="/paymentandshipping">
+              <a className={classes.link}>
+                <Typography color="primary">Оплата и доставка</Typography>
+              </a>
+            </Link>
+            <Link href="/faq">
+              <a className={classes.link}>
+                <Typography color="primary">Вопросы</Typography>
+              </a>
+            </Link>
+            <Link href="/contacts">
+              <a className={classes.link}>
+                <Typography color="primary">Контакты</Typography>
+              </a>
+            </Link>
+            {currentRole === ERole.Admin && (
+              <Link href="/admin">
+                <a className={classes.link}>
+                  <Typography color="inherit">Администрирование</Typography>
+                </a>
+              </Link>
+            )}
+          </Breadcrumbs>
+        </Container>
       </header>
       <main className={classes.main}>
-        <div style={{ flexGrow: 1 }}>{children}</div>
+        <Container maxWidth="lg">
+          <div style={{ flexGrow: 1 }}>{children}</div>
+        </Container>
       </main>
       <footer className={classes.footer}>
-        <BottomAppBar />
         <Link href="/">
           <a className={classes.link}>
             <b>Интернет-магазин. Нумизматика и бонистика</b>
           </a>
         </Link>
+        <BottomAppBar />
       </footer>
     </div>
   )

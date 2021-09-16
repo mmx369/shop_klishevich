@@ -32,7 +32,6 @@ export interface ShopCardProps {
 
 export function ShopCard({ item }: ShopCardProps) {
   const classes = useStyles()
-
   return (
     <>
       <Link

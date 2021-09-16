@@ -110,27 +110,30 @@ function Nav({
 
   return /*#__PURE__*/jsx_runtime_.jsx(core_.AppBar, {
     position: "static",
-    children: /*#__PURE__*/(0,jsx_runtime_.jsxs)(core_.Toolbar, {
-      variant: "dense",
-      className: classes.root,
-      children: [/*#__PURE__*/jsx_runtime_.jsx(core_.Typography, {
-        variant: "subtitle2",
+    children: /*#__PURE__*/jsx_runtime_.jsx(core_.Container, {
+      maxWidth: "lg",
+      children: /*#__PURE__*/(0,jsx_runtime_.jsxs)(core_.Toolbar, {
+        variant: "dense",
         className: classes.root,
-        children: "\u041D\u0443\u043C\u0438\u0437\u043C\u0430\u0442\u0438\u043A\u0430 \u0438 \u0431\u043E\u043D\u0438\u0441\u0442\u0438\u043A\u0430"
-      }), /*#__PURE__*/jsx_runtime_.jsx(core_.Hidden, {
-        xsDown: true,
-        children: isLoggedIn === ELoggedIn/* ELoggedIn.True */.Y.True && /*#__PURE__*/(0,jsx_runtime_.jsxs)("div", {
-          children: ["\u0412\u044B \u0432\u043E\u0448\u043B\u0438 \u043A\u0430\u043A ", currentEmail]
-        })
-      }), !!isCartEmpty.length && /*#__PURE__*/jsx_runtime_.jsx("div", {
-        children: /*#__PURE__*/jsx_runtime_.jsx(core_.IconButton, {
-          color: "inherit",
-          onClick: handleClick,
-          children: /*#__PURE__*/jsx_runtime_.jsx((ShoppingCartRounded_default()), {})
-        })
-      }), isLoggedIn !== ELoggedIn/* ELoggedIn.Unknown */.Y.Unknown && /*#__PURE__*/jsx_runtime_.jsx(sign_in_button, {
-        isSignedIn: isLoggedIn === ELoggedIn/* ELoggedIn.True */.Y.True
-      })]
+        children: [/*#__PURE__*/jsx_runtime_.jsx(core_.Typography, {
+          variant: "subtitle2",
+          className: classes.root,
+          children: "\u041D\u0443\u043C\u0438\u0437\u043C\u0430\u0442\u0438\u043A\u0430 \u0438 \u0431\u043E\u043D\u0438\u0441\u0442\u0438\u043A\u0430"
+        }), /*#__PURE__*/jsx_runtime_.jsx(core_.Hidden, {
+          xsDown: true,
+          children: isLoggedIn === ELoggedIn/* ELoggedIn.True */.Y.True && /*#__PURE__*/(0,jsx_runtime_.jsxs)("div", {
+            children: ["\u0412\u044B \u0432\u043E\u0448\u043B\u0438 \u043A\u0430\u043A ", currentEmail]
+          })
+        }), !!isCartEmpty.length && /*#__PURE__*/jsx_runtime_.jsx("div", {
+          children: /*#__PURE__*/jsx_runtime_.jsx(core_.IconButton, {
+            color: "inherit",
+            onClick: handleClick,
+            children: /*#__PURE__*/jsx_runtime_.jsx((ShoppingCartRounded_default()), {})
+          })
+        }), isLoggedIn !== ELoggedIn/* ELoggedIn.Unknown */.Y.Unknown && /*#__PURE__*/jsx_runtime_.jsx(sign_in_button, {
+          isSignedIn: isLoggedIn === ELoggedIn/* ELoggedIn.True */.Y.True
+        })]
+      })
     })
   });
 }
@@ -195,12 +198,27 @@ function BottomAppBar() {
       position: "fixed",
       color: "primary",
       className: classes.appBar,
-      children: /*#__PURE__*/(0,jsx_runtime_.jsxs)(Toolbar/* default */.Z, {
-        variant: "dense",
-        children: [/*#__PURE__*/jsx_runtime_.jsx(core_.Hidden, {
-          xsDown: true,
-          children: /*#__PURE__*/jsx_runtime_.jsx(next_link.default, {
-            href: "/",
+      children: /*#__PURE__*/jsx_runtime_.jsx(core_.Container, {
+        maxWidth: "lg",
+        children: /*#__PURE__*/(0,jsx_runtime_.jsxs)(Toolbar/* default */.Z, {
+          variant: "dense",
+          children: [/*#__PURE__*/jsx_runtime_.jsx(core_.Hidden, {
+            xsDown: true,
+            children: /*#__PURE__*/jsx_runtime_.jsx(next_link.default, {
+              href: "/",
+              children: /*#__PURE__*/jsx_runtime_.jsx("a", {
+                className: classes.link,
+                children: /*#__PURE__*/jsx_runtime_.jsx(Button/* default */.Z, {
+                  color: "primary",
+                  variant: "contained",
+                  size: "small",
+                  disableElevation: true,
+                  children: "\u0413\u043B\u0430\u0432\u043D\u0430\u044F"
+                })
+              })
+            })
+          }), /*#__PURE__*/jsx_runtime_.jsx(next_link.default, {
+            href: "/paymentandshipping",
             children: /*#__PURE__*/jsx_runtime_.jsx("a", {
               className: classes.link,
               children: /*#__PURE__*/jsx_runtime_.jsx(Button/* default */.Z, {
@@ -208,47 +226,35 @@ function BottomAppBar() {
                 variant: "contained",
                 size: "small",
                 disableElevation: true,
-                children: "\u0413\u043B\u0430\u0432\u043D\u0430\u044F"
+                children: "\u041E\u043F\u043B\u0430\u0442\u0430 \u0438 \u0434\u043E\u0441\u0442\u0430\u0432\u043A\u0430"
               })
             })
-          })
-        }), /*#__PURE__*/jsx_runtime_.jsx(next_link.default, {
-          href: "/paymentandshipping",
-          children: /*#__PURE__*/jsx_runtime_.jsx("a", {
-            className: classes.link,
-            children: /*#__PURE__*/jsx_runtime_.jsx(Button/* default */.Z, {
-              color: "primary",
-              variant: "contained",
-              size: "small",
-              disableElevation: true,
-              children: "\u041E\u043F\u043B\u0430\u0442\u0430 \u0438 \u0434\u043E\u0441\u0442\u0430\u0432\u043A\u0430"
+          }), /*#__PURE__*/jsx_runtime_.jsx(next_link.default, {
+            href: "/faq",
+            children: /*#__PURE__*/jsx_runtime_.jsx("a", {
+              className: classes.link,
+              children: /*#__PURE__*/jsx_runtime_.jsx(Button/* default */.Z, {
+                color: "primary",
+                variant: "contained",
+                size: "small",
+                disableElevation: true,
+                children: "\u0412\u043E\u043F\u0440\u043E\u0441\u044B \u0438 \u043E\u0442\u0432\u0435\u0442\u044B"
+              })
             })
-          })
-        }), /*#__PURE__*/jsx_runtime_.jsx(next_link.default, {
-          href: "/faq",
-          children: /*#__PURE__*/jsx_runtime_.jsx("a", {
-            className: classes.link,
-            children: /*#__PURE__*/jsx_runtime_.jsx(Button/* default */.Z, {
-              color: "primary",
-              variant: "contained",
-              size: "small",
-              disableElevation: true,
-              children: "\u0412\u043E\u043F\u0440\u043E\u0441\u044B \u0438 \u043E\u0442\u0432\u0435\u0442\u044B"
+          }), /*#__PURE__*/jsx_runtime_.jsx(next_link.default, {
+            href: "/contacts",
+            children: /*#__PURE__*/jsx_runtime_.jsx("a", {
+              className: classes.link,
+              children: /*#__PURE__*/jsx_runtime_.jsx(Button/* default */.Z, {
+                color: "primary",
+                variant: "contained",
+                size: "small",
+                disableElevation: true,
+                children: "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B"
+              })
             })
-          })
-        }), /*#__PURE__*/jsx_runtime_.jsx(next_link.default, {
-          href: "/contacts",
-          children: /*#__PURE__*/jsx_runtime_.jsx("a", {
-            className: classes.link,
-            children: /*#__PURE__*/jsx_runtime_.jsx(Button/* default */.Z, {
-              color: "primary",
-              variant: "contained",
-              size: "small",
-              disableElevation: true,
-              children: "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B"
-            })
-          })
-        })]
+          })]
+        })
       })
     })
   });
@@ -316,12 +322,6 @@ function Layout({
     dispatch((0,cartActions/* initItems */.D3)());
   }, [dispatch]);
   const isCartEmpty = (0,external_react_redux_.useSelector)(state => state.cart) || [];
-
-  function handleClick(event) {
-    event.preventDefault();
-    console.info('You clicked a breadcrumb.');
-  }
-
   return /*#__PURE__*/(0,jsx_runtime_.jsxs)("div", {
     children: [/*#__PURE__*/(0,jsx_runtime_.jsxs)((head_default()), {
       children: [/*#__PURE__*/jsx_runtime_.jsx("title", {
@@ -343,67 +343,73 @@ function Layout({
         currentRole: currentRole,
         isLoggedIn: isLoggedIn,
         isCartEmpty: isCartEmpty
-      }), /*#__PURE__*/(0,jsx_runtime_.jsxs)(core_.Breadcrumbs, {
-        "aria-label": "breadcrumb",
-        className: classes.bread,
-        children: [/*#__PURE__*/jsx_runtime_.jsx(next_link.default, {
-          href: "/",
-          children: /*#__PURE__*/jsx_runtime_.jsx("a", {
-            className: classes.link,
-            children: /*#__PURE__*/jsx_runtime_.jsx(core_.Typography, {
-              color: "primary",
-              children: "\u0413\u043B\u0430\u0432\u043D\u0430\u044F"
+      }), /*#__PURE__*/jsx_runtime_.jsx(core_.Container, {
+        maxWidth: "lg",
+        children: /*#__PURE__*/(0,jsx_runtime_.jsxs)(core_.Breadcrumbs, {
+          "aria-label": "breadcrumb",
+          className: classes.bread,
+          children: [/*#__PURE__*/jsx_runtime_.jsx(next_link.default, {
+            href: "/",
+            children: /*#__PURE__*/jsx_runtime_.jsx("a", {
+              className: classes.link,
+              children: /*#__PURE__*/jsx_runtime_.jsx(core_.Typography, {
+                color: "primary",
+                children: "\u0413\u043B\u0430\u0432\u043D\u0430\u044F"
+              })
             })
-          })
-        }), /*#__PURE__*/jsx_runtime_.jsx(next_link.default, {
-          href: "/paymentandshipping",
-          children: /*#__PURE__*/jsx_runtime_.jsx("a", {
-            className: classes.link,
-            children: /*#__PURE__*/jsx_runtime_.jsx(core_.Typography, {
-              color: "primary",
-              children: "\u041E\u043F\u043B\u0430\u0442\u0430 \u0438 \u0434\u043E\u0441\u0442\u0430\u0432\u043A\u0430"
+          }), /*#__PURE__*/jsx_runtime_.jsx(next_link.default, {
+            href: "/paymentandshipping",
+            children: /*#__PURE__*/jsx_runtime_.jsx("a", {
+              className: classes.link,
+              children: /*#__PURE__*/jsx_runtime_.jsx(core_.Typography, {
+                color: "primary",
+                children: "\u041E\u043F\u043B\u0430\u0442\u0430 \u0438 \u0434\u043E\u0441\u0442\u0430\u0432\u043A\u0430"
+              })
             })
-          })
-        }), /*#__PURE__*/jsx_runtime_.jsx(next_link.default, {
-          href: "/faq",
-          children: /*#__PURE__*/jsx_runtime_.jsx("a", {
-            className: classes.link,
-            children: /*#__PURE__*/jsx_runtime_.jsx(core_.Typography, {
-              color: "primary",
-              children: "\u0412\u043E\u043F\u0440\u043E\u0441\u044B"
+          }), /*#__PURE__*/jsx_runtime_.jsx(next_link.default, {
+            href: "/faq",
+            children: /*#__PURE__*/jsx_runtime_.jsx("a", {
+              className: classes.link,
+              children: /*#__PURE__*/jsx_runtime_.jsx(core_.Typography, {
+                color: "primary",
+                children: "\u0412\u043E\u043F\u0440\u043E\u0441\u044B"
+              })
             })
-          })
-        }), /*#__PURE__*/jsx_runtime_.jsx(next_link.default, {
-          href: "/contacts",
-          children: /*#__PURE__*/jsx_runtime_.jsx("a", {
-            className: classes.link,
-            children: /*#__PURE__*/jsx_runtime_.jsx(core_.Typography, {
-              color: "primary",
-              children: "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B"
+          }), /*#__PURE__*/jsx_runtime_.jsx(next_link.default, {
+            href: "/contacts",
+            children: /*#__PURE__*/jsx_runtime_.jsx("a", {
+              className: classes.link,
+              children: /*#__PURE__*/jsx_runtime_.jsx(core_.Typography, {
+                color: "primary",
+                children: "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B"
+              })
             })
-          })
-        }), currentRole === ERole/* ERole.Admin */.S.Admin && /*#__PURE__*/jsx_runtime_.jsx(next_link.default, {
-          href: "/admin",
-          children: /*#__PURE__*/jsx_runtime_.jsx("a", {
-            className: classes.link,
-            children: /*#__PURE__*/jsx_runtime_.jsx(core_.Typography, {
-              color: "inherit",
-              children: "\u0410\u0434\u043C\u0438\u043D\u0438\u0441\u0442\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435"
+          }), currentRole === ERole/* ERole.Admin */.S.Admin && /*#__PURE__*/jsx_runtime_.jsx(next_link.default, {
+            href: "/admin",
+            children: /*#__PURE__*/jsx_runtime_.jsx("a", {
+              className: classes.link,
+              children: /*#__PURE__*/jsx_runtime_.jsx(core_.Typography, {
+                color: "inherit",
+                children: "\u0410\u0434\u043C\u0438\u043D\u0438\u0441\u0442\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435"
+              })
             })
-          })
-        })]
+          })]
+        })
       })]
     }), /*#__PURE__*/jsx_runtime_.jsx("main", {
       className: classes.main,
-      children: /*#__PURE__*/jsx_runtime_.jsx("div", {
-        style: {
-          flexGrow: 1
-        },
-        children: children
+      children: /*#__PURE__*/jsx_runtime_.jsx(core_.Container, {
+        maxWidth: "lg",
+        children: /*#__PURE__*/jsx_runtime_.jsx("div", {
+          style: {
+            flexGrow: 1
+          },
+          children: children
+        })
       })
     }), /*#__PURE__*/(0,jsx_runtime_.jsxs)("footer", {
       className: classes.footer,
-      children: [/*#__PURE__*/jsx_runtime_.jsx(BottomAppBar, {}), /*#__PURE__*/jsx_runtime_.jsx(next_link.default, {
+      children: [/*#__PURE__*/jsx_runtime_.jsx(next_link.default, {
         href: "/",
         children: /*#__PURE__*/jsx_runtime_.jsx("a", {
           className: classes.link,
@@ -411,7 +417,7 @@ function Layout({
             children: "\u0418\u043D\u0442\u0435\u0440\u043D\u0435\u0442-\u043C\u0430\u0433\u0430\u0437\u0438\u043D. \u041D\u0443\u043C\u0438\u0437\u043C\u0430\u0442\u0438\u043A\u0430 \u0438 \u0431\u043E\u043D\u0438\u0441\u0442\u0438\u043A\u0430"
           })
         })
-      })]
+      }), /*#__PURE__*/jsx_runtime_.jsx(BottomAppBar, {})]
     })]
   });
 }
