@@ -88,10 +88,12 @@ export function AddNewItemForm({}: TProps) {
                     category: values.category,
                   }
 
-                  await axios.post(
+                  const res = await axios.post(
                     `${process.env.RESTURL}/api/addnewitem`,
                     newItem
                   )
+                  console.log(3333, res)
+
                   toast.success(
                     `Товар ${newItem.nameOfGoods} успешно добавлен`,
                     {

@@ -3,6 +3,8 @@ const {
   PHASE_PRODUCTION_BUILD,
 } = require('next/constants')
 
+const withImages = require('next-images')
+
 console.log('!!!PHASES:', PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD)
 
 // This uses phases as outlined here: https://nextjs.org/docs/#custom-configuration
@@ -43,5 +45,4 @@ module.exports = (phase) => {
   }
 }
 
-const withImages = require('next-images')
 module.exports = withImages()

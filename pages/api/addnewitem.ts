@@ -54,6 +54,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       const response = await newItem.save()
 
+      console.log(11111, response)
+
       return res
         .status(201)
         .json({ message: 'Товар успешно добавлен', item: response.toJSON() })
