@@ -38,8 +38,10 @@ module.exports = (phase) => {
     })(),
   }
 
-  // next.config.js object
   return {
     env,
   }
 }
+
+const withImages = require('next-images')
+module.exports = withImages()

@@ -2,6 +2,7 @@ import { Typography } from '@material-ui/core'
 import React from 'react'
 import Image from 'next/image'
 import Layout from '../components/layout'
+import logoIBNS from '../public/IBNSlogo.jpeg'
 
 export default function Contacts() {
   return (
@@ -28,12 +29,7 @@ export default function Contacts() {
           Обращаем внимание, что данные реквизиты не предназначены для оплаты
           заказов
         </Typography>
-        <Image
-          width={100}
-          height={50}
-          src="/../public/IBNSlogo.jpeg"
-          alt="IBNS Logo"
-        />
+        <Image width={110} height={50} src={logoIBNS} alt="IBNS Logo" />
         <Typography variant="subtitle2">
           Член Международного союза бонистов
         </Typography>
