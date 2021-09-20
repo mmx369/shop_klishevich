@@ -1092,7 +1092,7 @@ const AddNewFaqForm = () => {
         question,
         answer
       };
-      await external_axios_default.a.post(`${process.env.RESTURL}/api/addnewfaq`, addNewFaq);
+      await external_axios_default.a.post(`${"https://shop.klishevich.ru"}/api/addnewfaq`, addNewFaq);
       external_react_toastify_["toast"].success('Новая запись успешна добавлена', {
         position: external_react_toastify_["toast"].POSITION.TOP_LEFT,
         autoClose: 5000
@@ -1196,7 +1196,7 @@ const EditFaqForm = ({
 
   const deleteHandler = async () => {
     try {
-      await external_axios_default.a.delete(`${process.env.RESTURL}/api/deletefaq`, {
+      await external_axios_default.a.delete(`${"https://shop.klishevich.ru"}/api/deletefaq`, {
         data: id
       });
       external_react_toastify_["toast"].success('Запись успешна удалена', {
@@ -1220,7 +1220,7 @@ const EditFaqForm = ({
         question: newQuestion,
         id
       };
-      const res = await external_axios_default.a.put(`${process.env.RESTURL}/api/updatefaq`, updateFaq);
+      const res = await external_axios_default.a.put(`${"https://shop.klishevich.ru"}/api/updatefaq`, updateFaq);
 
       if (res.status === 200) {
         external_react_toastify_["toast"].success('Запись успешна изменена', {
@@ -3641,7 +3641,7 @@ const initItems = () => {
 };
 const addNewItem = (id, value) => {
   return async dispatch => {
-    const item = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(`${process.env.RESTURL}/api/getitembyid`, {
+    const item = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(`${"https://shop.klishevich.ru"}/api/getitembyid`, {
       params: {
         id
       }

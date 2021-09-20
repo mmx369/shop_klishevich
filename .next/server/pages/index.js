@@ -3635,7 +3635,7 @@ const initItems = () => {
 };
 const addNewItem = (id, value) => {
   return async dispatch => {
-    const item = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(`${process.env.RESTURL}/api/getitembyid`, {
+    const item = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(`${"https://shop.klishevich.ru"}/api/getitembyid`, {
       params: {
         id
       }

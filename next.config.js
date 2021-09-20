@@ -9,6 +9,7 @@ console.log('!!!PHASES:', PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD)
 
 // This uses phases as outlined here: https://nextjs.org/docs/#custom-configuration
 module.exports = (phase) => {
+  const defaultConfig = withImages()
   // when started in development mode `next dev` or `npm run dev` regardless of the value of STAGING environmental variable
   const isDev = phase === PHASE_DEVELOPMENT_SERVER
   // when `next build` or `npm run build` is used
@@ -41,8 +42,7 @@ module.exports = (phase) => {
   }
 
   return {
+    ...defaultConfig,
     env,
   }
 }
-
-module.exports = withImages()

@@ -1115,7 +1115,7 @@ function DialogSelect({
       id: currId,
       status
     };
-    const res = await external_axios_default.a.put(`${process.env.RESTURL}/api/changestatusorder`, newStatus);
+    const res = await external_axios_default.a.put(`${"https://shop.klishevich.ru"}/api/changestatusorder`, newStatus);
     setOpen(false);
     setStatus(currStatus);
     router.reload();
@@ -3588,7 +3588,7 @@ const initItems = () => {
 };
 const addNewItem = (id, value) => {
   return async dispatch => {
-    const item = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(`${process.env.RESTURL}/api/getitembyid`, {
+    const item = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(`${"https://shop.klishevich.ru"}/api/getitembyid`, {
       params: {
         id
       }

@@ -58,6 +58,8 @@ export function AddNewItemForm({}: TProps) {
     return 0
   })
 
+  console.log(22333, process.env.RESTURL)
+
   return (
     <>
       <Card>

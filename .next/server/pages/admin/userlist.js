@@ -1415,7 +1415,7 @@ const EditUserlistForm = ({
 
   const deleteHandler = async () => {
     try {
-      await external_axios_default.a.delete(`${process.env.RESTURL}/api/deleteuser`, {
+      await external_axios_default.a.delete(`${"https://shop.klishevich.ru"}/api/deleteuser`, {
         data: id
       });
       external_react_toastify_["toast"].success(`Пользователь успешно удален`, {
@@ -1440,7 +1440,7 @@ const EditUserlistForm = ({
         email: newEmail,
         id
       };
-      const res = await external_axios_default.a.put(`${process.env.RESTURL}/api/updateuser`, updateUser);
+      const res = await external_axios_default.a.put(`${"https://shop.klishevich.ru"}/api/updateuser`, updateUser);
 
       if (res.status === 200) {
         external_react_toastify_["toast"].success(`Данные пользователя ${name} успешно изменены`, {
@@ -1595,7 +1595,7 @@ const AddNewUserForm = () => {
         email,
         role
       };
-      await external_axios_default.a.post(`${process.env.RESTURL}/api/addnewuser`, addNewUser);
+      await external_axios_default.a.post(`${"https://shop.klishevich.ru"}/api/addnewuser`, addNewUser);
       external_react_toastify_["toast"].success(`Пользователь ${name} успешно добавлен`, {
         position: external_react_toastify_["toast"].POSITION.TOP_LEFT,
         autoClose: 5000
@@ -3719,7 +3719,7 @@ const initItems = () => {
 };
 const addNewItem = (id, value) => {
   return async dispatch => {
-    const item = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(`${process.env.RESTURL}/api/getitembyid`, {
+    const item = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(`${"https://shop.klishevich.ru"}/api/getitembyid`, {
       params: {
         id
       }
