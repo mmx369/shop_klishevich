@@ -14,7 +14,8 @@ import { translateCountry } from '../translate/country'
 const useStyles = makeStyles((theme) =>
   createStyles({
     media: {
-      height: 0,
+      backgroundSize:'contain',
+      // height: 0,
       paddingTop: '56.25%', // 16:9
     },
     avatar: {
@@ -39,7 +40,7 @@ export function ShopCard({ item }: ShopCardProps) {
         as={`/goods/${item.category}/${item.country}/${item._id}`}
       >
         <a className={classes.achorTag}>
-          <Card elevation={5}>
+          <Card elevation={5} >
             <CardHeader
               title={`${translateCategory(item.category)} | ${translateCountry(
                 item.country
@@ -50,6 +51,7 @@ export function ShopCard({ item }: ShopCardProps) {
               className={classes.media}
               image={item.imageUrl[0]}
               title={item.nameOfGoods}
+              // component='img'
             />
             <CardContent>
               <Typography variant="body2" color="textSecondary" component="p">

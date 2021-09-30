@@ -144,7 +144,7 @@ export default function Catalog({ listOfCountries, listOfCountriesCoins }) {
   }
 
   return (
-    <>
+    <div style={{overflow:'scroll'}}>
       <TreeView
         className={classes.root}
         defaultExpanded={['1', '2']}
@@ -196,6 +196,6 @@ export default function Catalog({ listOfCountries, listOfCountriesCoins }) {
           </StyledTreeItem>
         </StyledTreeItem>
       </TreeView>
-    </>
+    </div>
   )
 }
