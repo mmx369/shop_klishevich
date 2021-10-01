@@ -52,7 +52,7 @@ export function Nav({
   }
 
   return (
-    <AppBar position="static">
+    <AppBar position="fixed">
       <Container maxWidth="lg">
         <Toolbar variant="dense" className={classes.root}>
           <Typography variant="subtitle2" className={classes.root}>

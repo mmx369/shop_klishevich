@@ -23,6 +23,9 @@ const useStyles = makeStyles(() =>
     main: {
       margin: '15px',
     },
+    breadcrumps:{
+      marginTop:50,
+    },
     footer: {
       margin: '15px',
       textAlign: 'center',
@@ -99,7 +102,7 @@ export default function Layout({ children, title }: TProps) {
           isLoggedIn={isLoggedIn}
           isCartEmpty={isCartEmpty}
         />
-        <Container maxWidth="lg">
+        <Container maxWidth="lg" className={classes.breadcrumps}>
           <Breadcrumbs aria-label="breadcrumb" className={classes.bread}>
             <Link href="/">
               <a className={classes.link}>

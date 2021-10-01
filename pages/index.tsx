@@ -6,8 +6,9 @@ import { Country, getCountry } from '../database/getCountry'
 import { getAsString } from '../database/getAsString'
 import Search from '../components/Search'
 import Catalog from '../components/Catalog'
-import { Grid } from '@material-ui/core'
+import { Grid, makeStyles } from '@material-ui/core'
 import MainTextBlock from '../components/MainTextBlock'
+import { red } from '@material-ui/core/colors'
 
 export interface HomepageProps {
   types: Type[]
@@ -16,22 +17,25 @@ export interface HomepageProps {
   listOfCountriesCoins: Country[]
 }
 
+const useStyles = makeStyles({
+  mainTextBlock: {
+    margin: 10,
+    padding:2,
+    border:'ridge 3px',
+  },
+})
+
 export default function Homepage({
   types,
   countries,
   listOfCountries,
   listOfCountriesCoins,
 }: HomepageProps) {
+  const classes = useStyles()
   return (
     <Layout title="Нумизматика и бонистика | Интернет-магазин | Продажа банкнот и монет">
       <Grid container spacing={3} item xs={12}>
-        <div
-          style={{
-            border: 'ridge 5px',
-            padding: '5px',
-            margin: '10px',
-          }}
-        >
+        <div className ={classes.mainTextBlock}>
           <MainTextBlock />
         </div>
       </Grid>

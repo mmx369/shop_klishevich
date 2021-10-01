@@ -1,4 +1,4 @@
-import { Grid } from '@material-ui/core'
+import { createStyles, Grid, makeStyles } from '@material-ui/core'
 import React, { useState } from 'react'
 import Search from '../components/Search'
 import { getAsString } from '../database/getAsString'
@@ -15,6 +15,14 @@ import { ShopCard } from '../components/ShopCard'
 import Layout from '../components/layout'
 import { Skeleton } from '@material-ui/lab'
 
+const useStyles = makeStyles(() =>
+  createStyles({
+    root: {
+      marginBottom: '30px',
+    }
+  })
+)
+
 export interface ShopListProps {
   types: Type[]
   countries: Country[]
@@ -29,6 +37,7 @@ export default function ShopList({
   totalPages,
 }: ShopListProps) {
   const { query } = useRouter()
+  const classes = useStyles()
   const [serverQuery] = useState(query)
   const { data } = useSWR('/api/shop?' + stringify(query), {
     // dedupingInterval: 15000,
@@ -39,8 +48,8 @@ export default function ShopList({
 
   return (
     // //TODO: use skeleton to avoid blinking
-    <Layout title="Shop Page">
-      <Grid container spacing={2}>
+    <Layout title="Интернет-магазин | Бонистика и нумизматика">
+      <Grid container spacing={2} className={classes.root}>
         <Grid item xs={12} sm={5} md={3} lg={2}>
           <Search singleColumn types={types} countries={countries} />
         </Grid>
