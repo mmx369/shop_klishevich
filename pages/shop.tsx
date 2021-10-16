@@ -1,33 +1,33 @@
-import { createStyles, Grid, makeStyles } from '@material-ui/core'
-import React, { useState } from 'react'
-import Search from '../components/Search'
-import { getAsString } from '../database/getAsString'
-import { getTypes, Type } from '../database/getType'
-import { Country, getCountry } from '../database/getCountry'
-import { GetServerSideProps } from 'next'
-import { getPaginatedItem } from '../database/getPaginatedItems'
-import { useRouter } from 'next/router'
-import { stringify } from 'querystring'
-import useSWR from 'swr'
-import deepEqual from 'fast-deep-equal'
-import { ShopPagination } from '../components/ShopPagination'
-import { ShopCard } from '../components/ShopCard'
-import Layout from '../components/layout'
-import { Skeleton } from '@material-ui/lab'
+import { createStyles, Grid, makeStyles } from "@material-ui/core";
+import React, { useState } from "react";
+import Search from "../components/Search";
+import { getAsString } from "../database/getAsString";
+import { getTypes, Type } from "../database/getType";
+import { Country, getCountry } from "../database/getCountry";
+import { GetServerSideProps } from "next";
+import { getPaginatedItem } from "../database/getPaginatedItems";
+import { useRouter } from "next/router";
+import { stringify } from "querystring";
+import useSWR from "swr";
+import deepEqual from "fast-deep-equal";
+import { ShopPagination } from "../components/ShopPagination";
+import { ShopCard } from "../components/ShopCard";
+import Layout from "../components/layout";
+import { Skeleton } from "@material-ui/lab";
 
 const useStyles = makeStyles(() =>
   createStyles({
     root: {
-      marginBottom: '30px',
-    }
+      marginBottom: "30px",
+    },
   })
-)
+);
 
 export interface ShopListProps {
-  types: Type[]
-  countries: Country[]
-  goods: any
-  totalPages: number
+  types: Type[];
+  countries: Country[];
+  goods: any;
+  totalPages: number;
 }
 
 export default function ShopList({
@@ -36,15 +36,15 @@ export default function ShopList({
   goods,
   totalPages,
 }: ShopListProps) {
-  const { query } = useRouter()
-  const classes = useStyles()
-  const [serverQuery] = useState(query)
-  const { data } = useSWR('/api/shop?' + stringify(query), {
+  const { query } = useRouter();
+  const classes = useStyles();
+  const [serverQuery] = useState(query);
+  const { data } = useSWR("/api/shop?" + stringify(query), {
     // dedupingInterval: 15000,
     initialData: deepEqual(query, serverQuery)
       ? { goods, totalPages }
       : undefined,
-  })
+  });
 
   return (
     // //TODO: use skeleton to avoid blinking
@@ -68,24 +68,24 @@ export default function ShopList({
         </Grid>
       </Grid>
     </Layout>
-  )
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const type = getAsString(ctx.query.type)
+  const type = getAsString(ctx.query.type);
   const [types, countries, pagination] = await Promise.all([
     getTypes(),
     getCountry(type),
     getPaginatedItem(ctx.query),
-  ])
+  ]);
   //@ts-ignore
   const goodsSerialized = pagination.goods.map(
     //@ts-ignore
     ({ _doc: { _id, date, ...rest } }) => {
-      rest._id = _id.toString()
-      return rest
+      rest._id = _id.toString();
+      return rest;
     }
-  )
+  );
 
   return {
     props: {
@@ -94,5 +94,5 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       goods: goodsSerialized,
       totalPages: pagination.totalPages,
     },
-  }
-}
+  };
+};

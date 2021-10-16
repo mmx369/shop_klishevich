@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) =>
       margin: 'auto',
       maxWidth: 500,
       padding: theme.spacing(3),
+      backgroundColor:'#f9fbe7'
     },
   })
 )
