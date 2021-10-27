@@ -1,68 +1,68 @@
-import React from 'react'
-import Head from 'next/head'
-import { Nav } from './Nav'
+import React from "react";
+import Head from "next/head";
+import { Nav } from "./Nav";
 import {
   Breadcrumbs,
   Container,
   createStyles,
   makeStyles,
   Typography,
-} from '@material-ui/core'
-import Link from 'next/link'
-import { useDispatch, useSelector } from 'react-redux'
-import { IRootState } from '../redux/reducers'
-import { ELoggedIn } from '../types/ELoggedIn'
-import { getSession } from 'next-auth/client'
-import { updateIsLoggedInAC, updateUserAC } from '../redux/actions/appActions'
-import { ERole } from '../types/ERole'
-import { initItems } from '../redux/actions/cartActions'
-import BottomAppBar from './BottomAppBar'
+} from "@material-ui/core";
+import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { IRootState } from "../redux/reducers";
+import { ELoggedIn } from "../types/ELoggedIn";
+import { getSession } from "next-auth/client";
+import { updateIsLoggedInAC, updateUserAC } from "../redux/actions/appActions";
+import { ERole } from "../types/ERole";
+import { initItems } from "../redux/actions/cartActions";
+import BottomAppBar from "./BottomAppBar";
 
 const useStyles = makeStyles(() =>
   createStyles({
     main: {
-      margin: '15px',
+      margin: "15px",
     },
-    breadcrumps:{
-      marginTop:50,
+    breadcrumps: {
+      marginTop: 50,
     },
     footer: {
-      margin: '15px',
-      textAlign: 'center',
+      margin: "15px",
+      textAlign: "center",
     },
     link: {
-      textDecoration: 'none',
+      textDecoration: "none",
     },
     bread: {
-      marginTop: '10px',
-      marginLeft: '15px',
+      marginTop: "10px",
+      marginLeft: "15px",
     },
   })
-)
+);
 
 type TProps = {
-  children: React.ReactNode
-  title: string
-}
+  children: React.ReactNode;
+  title: string;
+};
 
 export default function Layout({ children, title }: TProps) {
-  const classes = useStyles()
-  const dispatch = useDispatch()
-  const currentUser = useSelector((state: IRootState) => state.app.currentUser)
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const currentUser = useSelector((state: IRootState) => state.app.currentUser);
   const currentEmail = useSelector(
     (state: IRootState) => state.app.currentEmail
-  )
-  const currentId = useSelector((state: IRootState) => state.app.currentId)
+  );
+  const currentId = useSelector((state: IRootState) => state.app.currentId);
 
-  const currentRole = useSelector((state: IRootState) => state.app.currentRole)
-  const isLoggedIn = useSelector((state: IRootState) => state.app.isLoggedIn)
+  const currentRole = useSelector((state: IRootState) => state.app.currentRole);
+  const isLoggedIn = useSelector((state: IRootState) => state.app.isLoggedIn);
 
   React.useEffect(() => {
     if (isLoggedIn === ELoggedIn.Unknown) {
-      ;(async () => {
-        const session = await getSession()
+      (async () => {
+        const session = await getSession();
         if (session) {
-          dispatch(updateIsLoggedInAC(ELoggedIn.True))
+          dispatch(updateIsLoggedInAC(ELoggedIn.True));
           dispatch(
             updateUserAC(
               session.user.name,
@@ -70,20 +70,20 @@ export default function Layout({ children, title }: TProps) {
               session.databaseId as string,
               session.role as string
             )
-          )
+          );
         } else {
-          dispatch(updateIsLoggedInAC(ELoggedIn.False))
-          dispatch(updateUserAC(undefined, undefined, undefined, undefined))
+          dispatch(updateIsLoggedInAC(ELoggedIn.False));
+          dispatch(updateUserAC(undefined, undefined, undefined, undefined));
         }
-      })()
+      })();
     }
-  }, [])
+  }, []);
 
   React.useEffect(() => {
-    dispatch(initItems())
-  }, [dispatch])
+    dispatch(initItems());
+  }, [dispatch]);
 
-  const isCartEmpty = useSelector((state: IRootState) => state.cart) || []
+  const isCartEmpty = useSelector((state: IRootState) => state.cart) || [];
 
   return (
     <div>
@@ -148,5 +148,5 @@ export default function Layout({ children, title }: TProps) {
         <BottomAppBar />
       </footer>
     </div>
-  )
+  );
 }

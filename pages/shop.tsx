@@ -1,5 +1,5 @@
 import { createStyles, Grid, makeStyles } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Search from "../components/Search";
 import { getAsString } from "../database/getAsString";
 import { getTypes, Type } from "../database/getType";
@@ -13,7 +13,6 @@ import deepEqual from "fast-deep-equal";
 import { ShopPagination } from "../components/ShopPagination";
 import { ShopCard } from "../components/ShopCard";
 import Layout from "../components/layout";
-import { Skeleton } from "@material-ui/lab";
 
 const useStyles = makeStyles(() =>
   createStyles({
