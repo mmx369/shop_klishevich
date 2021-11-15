@@ -1,8 +1,8 @@
 import { createStyles, Grid, makeStyles } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import Search from "../components/Search";
+import Search from "../components/homepage/Search";
 import { getAsString } from "../database/getAsString";
-import { getTypes, Type } from "../database/getType";
+import { getTypes, Type } from "../database/getTypes";
 import { Country, getCountry } from "../database/getCountry";
 import { GetServerSideProps } from "next";
 import { getPaginatedItem } from "../database/getPaginatedItems";
@@ -12,7 +12,7 @@ import useSWR from "swr";
 import deepEqual from "fast-deep-equal";
 import { ShopPagination } from "../components/ShopPagination";
 import { ShopCard } from "../components/ShopCard";
-import Layout from "../components/layout";
+import Layout from "../components/layout/layout";
 
 const useStyles = makeStyles(() =>
   createStyles({

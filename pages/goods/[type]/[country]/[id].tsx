@@ -11,11 +11,11 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import React from "react";
 import { useDispatch } from "react-redux";
-import Layout from "../../../../components/layout";
+import Layout from "../../../../components/layout/layout";
 import ShopGoods from "../../../../models/shopGoods";
 import { addNewItem } from "../../../../redux/actions/cartActions";
-import { translateCategory } from "../../../../translate/category";
-import { translateCountry } from "../../../../translate/country";
+import { translateCategory } from "../../../../lib/category";
+import { translateCountry } from "../../../../lib/country";
 
 interface ItemsDetailsProps {
   item: ItemModel | null | undefined;

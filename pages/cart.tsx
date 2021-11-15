@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import Button from '@material-ui/core/Button'
-import { CartEmpty } from '../components/CartEmpty'
-import { CartTable } from '../components/CartTable'
-import { initItems } from '../redux/actions/cartActions'
-import { makeStyles } from '@material-ui/core/styles'
-import { useRouter } from 'next/router'
-import { Grid } from '@material-ui/core'
-import Layout from '../components/layout'
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Button from "@material-ui/core/Button";
+import { CartEmpty } from "../components/CartEmpty";
+import { CartTable } from "../components/CartTable";
+import { initItems } from "../redux/actions/cartActions";
+import { makeStyles } from "@material-ui/core/styles";
+import { useRouter } from "next/router";
+import { Grid } from "@material-ui/core";
+import Layout from "../components/layout/layout";
 
 const useStyles = makeStyles({
   root: {
@@ -15,40 +15,40 @@ const useStyles = makeStyles({
   },
   button: {
     borderRadius: 13,
-    boxShadow: '0 3px 2px 2px',
-    padding: '0 10px',
+    boxShadow: "0 3px 2px 2px",
+    padding: "0 10px",
     margin: 10,
   },
-})
+});
 
 export default function Cart() {
-  const classes = useStyles()
-  const dispatch = useDispatch()
-  const router = useRouter()
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   useEffect(() => {
-    dispatch(initItems())
-  }, [dispatch])
+    dispatch(initItems());
+  }, [dispatch]);
 
-  let isCartEmpty
+  let isCartEmpty;
 
-  if (typeof window !== 'undefined') {
-    isCartEmpty = !window.localStorage.getItem('cart')
+  if (typeof window !== "undefined") {
+    isCartEmpty = !window.localStorage.getItem("cart");
   }
 
   const handleClearCart = () => {
-    window.localStorage.removeItem('cart')
-    router.reload()
-  }
+    window.localStorage.removeItem("cart");
+    router.reload();
+  };
 
   const handleClick = (e) => {
-    e.preventDefault()
-    router.push('/checkout')
-  }
+    e.preventDefault();
+    router.push("/checkout");
+  };
 
   const handleGoShopping = () => {
-    router.back()
-  }
+    router.back();
+  };
 
   return (
     <>
@@ -100,5 +100,5 @@ export default function Cart() {
         </div>
       </Layout>
     </>
-  )
+  );
 }

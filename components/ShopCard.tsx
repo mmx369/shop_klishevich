@@ -7,9 +7,8 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { ItemModel } from "../pages/goods/[type]/[country]/[id]";
 import Link from "next/link";
-import { translateCategory } from "../translate/category";
-import { translateCountry } from "../translate/country";
-import { Skeleton } from "@material-ui/lab";
+import { translateCategory } from "../lib/translate";
+import { translateCountry } from "../lib/translate";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
