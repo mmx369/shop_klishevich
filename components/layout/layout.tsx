@@ -17,10 +17,10 @@ import BottomAppBar from "./bottomAppBar";
 const useStyles = makeStyles(() =>
   createStyles({
     main: {
-      marginTop: "55px",
+      marginTop: "5px",
     },
     footer: {
-      marginTop: "50px",
+      marginTop: "55px",
       textAlign: "center",
     },
     link: {

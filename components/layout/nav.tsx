@@ -32,7 +32,10 @@ const useStyles = makeStyles(() =>
   createStyles({
     root: {
       flexGrow: 1,
-      // cursor: "pointer",
+    },
+    appBar: {
+      background: "transparent",
+      boxShadow: "none",
     },
     link: {
       color: "inherit",
@@ -64,7 +67,7 @@ export function Nav({
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    router.push("/cart");
+    router.push("/shop/cart");
   };
 
   type Anchor = "left";
@@ -157,7 +160,11 @@ export function Nav({
 
   return (
     <>
-      <AppBar position="fixed">
+      <AppBar
+        position="static"
+        className={classes.appBar}
+        // style={{ background: "transparent", boxShadow: "none" }}
+      >
         <Container maxWidth="lg">
           <Toolbar variant="dense" className={classes.root}>
             <IconButton
