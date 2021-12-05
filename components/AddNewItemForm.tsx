@@ -1,4 +1,4 @@
-import "react-toastify/dist/ReactToastify.css";
+import 'react-toastify/dist/ReactToastify.css'
 import {
   Box,
   Button,
@@ -8,57 +8,55 @@ import {
   Grid,
   MenuItem,
   TextField,
-} from "@material-ui/core";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+} from '@material-ui/core'
+import { ErrorMessage, Field, Form, Formik } from 'formik'
 import {
   MultipleFileUploadField,
   UploadableFile,
-} from "../upload/MultipleFileUploadField";
-import React, { useState } from "react";
-import { array, number, object, string } from "yup";
-import axios from "axios";
-import { categories } from "../lib/category";
-import { countryList } from "../lib/country";
-import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+} from '../upload/MultipleFileUploadField'
+import React, { useState } from 'react'
+import { array, number, object, string } from 'yup'
+import axios from 'axios'
+import { CATEGORIES } from '../constants/translate_map'
+import { COUNTRIES } from '../constants/translate_map'
+import { toast } from 'react-toastify'
+import { useDispatch } from 'react-redux'
 
 export interface NewItemDetails {
-  nameOfGoods: string;
-  amountOfGoods: number | "";
-  priceOfGoods: number | "";
-  catalogNumber: string;
-  country: string;
-  category: string;
-  files: any;
+  nameOfGoods: string
+  amountOfGoods: number | ''
+  priceOfGoods: number | ''
+  catalogNumber: string
+  country: string
+  category: string
+  files: any
 }
 
 const initialValues: NewItemDetails = {
-  nameOfGoods: "",
-  amountOfGoods: "",
-  priceOfGoods: "",
-  catalogNumber: "",
-  country: "",
-  category: "",
+  nameOfGoods: '',
+  amountOfGoods: '',
+  priceOfGoods: '',
+  catalogNumber: '',
+  country: '',
+  category: '',
   files: [],
-};
+}
 
-type TProps = {};
+type TProps = {}
 
 export function AddNewItemForm({}: TProps) {
-  const dispatch = useDispatch();
-  const [clearState, setClearState] = useState(false);
+  const dispatch = useDispatch()
+  const [clearState, setClearState] = useState(false)
 
-  const sortedCountryList = Object.entries(countryList).sort((a, b) => {
+  const sortedCountryList = Object.entries(COUNTRIES).sort((a, b) => {
     if (a[1] < b[1]) {
-      return -1;
+      return -1
     }
     if (a[1] > b[1]) {
-      return 1;
+      return 1
     }
-    return 0;
-  });
-
-  console.log(22333, process.env.RESTURL);
+    return 0
+  })
 
   return (
     <>
@@ -88,13 +86,13 @@ export function AddNewItemForm({}: TProps) {
                     ),
                     country: values.country,
                     category: values.category,
-                  };
+                  }
 
                   const res = await axios.post(
                     `${process.env.RESTURL}/api/addnewitem`,
                     newItem
-                  );
-                  console.log(3333, res);
+                  )
+                  console.log(3333, res)
 
                   toast.success(
                     `Товар ${newItem.nameOfGoods} успешно добавлен`,
@@ -102,22 +100,22 @@ export function AddNewItemForm({}: TProps) {
                       position: toast.POSITION.TOP_LEFT,
                       autoClose: 5000,
                     }
-                  );
-                  resetForm({});
-                  setStatus({ success: true });
-                  setClearState(true);
+                  )
+                  resetForm({})
+                  setStatus({ success: true })
+                  setClearState(true)
                 } catch (err) {
                   toast.error(`Ошибка: ${err.response.data.message}`, {
                     position: toast.POSITION.TOP_LEFT,
                     autoClose: 5000,
-                  });
-                  console.log(err);
-                  setStatus({ success: false });
+                  })
+                  console.log(err)
+                  setStatus({ success: false })
                 }
-              };
-              addNewItem();
-              console.log(values);
-              console.log("------------");
+              }
+              addNewItem()
+              console.log(values)
+              console.log('------------')
             }}
           >
             {(values, isSubmitting, isValidating) => (
@@ -125,48 +123,48 @@ export function AddNewItemForm({}: TProps) {
                 <Box marginBottom={2}>
                   <FormGroup>
                     <Field
-                      name="nameOfGoods"
+                      name='nameOfGoods'
                       as={TextField}
-                      label="Наименование товара"
+                      label='Наименование товара'
                     />
-                    <ErrorMessage name="nameOfGoods" />
+                    <ErrorMessage name='nameOfGoods' />
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
                   <FormGroup>
                     <Field
-                      name="catalogNumber"
+                      name='catalogNumber'
                       as={TextField}
-                      label="Номер товара в каталоге"
+                      label='Номер товара в каталоге'
                     />
-                    <ErrorMessage name="catalogNumber" />
+                    <ErrorMessage name='catalogNumber' />
                   </FormGroup>
                 </Box>
 
                 <Box marginBottom={2}>
                   <FormGroup>
                     <Field
-                      name="amountOfGoods"
+                      name='amountOfGoods'
                       as={TextField}
-                      label="Количество товара"
+                      label='Количество товара'
                     />
-                    <ErrorMessage name="amountOfGoods" />
+                    <ErrorMessage name='amountOfGoods' />
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
                   <FormGroup>
                     <Field
-                      name="priceOfGoods"
+                      name='priceOfGoods'
                       as={TextField}
-                      label="Цена товара"
+                      label='Цена товара'
                     />
-                    <ErrorMessage name="priceOfGoods" />
+                    <ErrorMessage name='priceOfGoods' />
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
                   <FormGroup>
-                    <Field name="country" as={TextField} select label="Страна">
-                      <MenuItem value={""}>Выберите...</MenuItem>
+                    <Field name='country' as={TextField} select label='Страна'>
+                      <MenuItem value={''}>Выберите...</MenuItem>
 
                       {Object.entries(sortedCountryList).map(
                         (country, index) => (
@@ -176,47 +174,46 @@ export function AddNewItemForm({}: TProps) {
                         )
                       )}
                     </Field>
-                    <ErrorMessage name="country" />
+                    <ErrorMessage name='country' />
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
                   <FormGroup>
                     <Field
-                      name="category"
+                      name='category'
                       as={TextField}
                       select
-                      label="Категория"
+                      label='Категория'
                     >
-                      <MenuItem value={""}>Выберите...</MenuItem>
+                      <MenuItem value={''}>Выберите...</MenuItem>
 
-                      {Object.entries(categories).map((el, index) => (
+                      {Object.entries(CATEGORIES).map((el, index) => (
                         <MenuItem key={index} value={el[0]}>
                           {el[1]}
                         </MenuItem>
                       ))}
                     </Field>
-                    <ErrorMessage name="category" />
+                    <ErrorMessage name='category' />
                   </FormGroup>
                 </Box>
-                <Grid container spacing={2} direction="column">
+                <Grid container spacing={2} direction='column'>
                   <MultipleFileUploadField
-                    name="files"
+                    name='files'
                     //@ts-ignore
                     clearState={clearState}
                     setClearState={setClearState}
                   />
                   <Grid item>
                     <Button
-                      variant="contained"
-                      color="primary"
-                      type="submit"
+                      variant='contained'
+                      color='primary'
+                      type='submit'
                       disabled={isSubmitting || isValidating}
                     >
                       Добавить
                     </Button>
                   </Grid>
                 </Grid>
-                {/* <pre>{JSON.stringify(errors, null, 4)}</pre> */}
 
                 <pre>{JSON.stringify(values, null, 4)}</pre>
               </Form>
@@ -225,5 +222,5 @@ export function AddNewItemForm({}: TProps) {
         </CardContent>
       </Card>
     </>
-  );
+  )
 }

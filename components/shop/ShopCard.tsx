@@ -1,43 +1,43 @@
-import { makeStyles, createStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardMedia from "@material-ui/core/CardMedia";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-import { ItemModel } from "../../pages/shop/goods/[type]/[country]/[id]";
-import Link from "next/link";
-import { translateCategory } from "../../lib/translate";
-import { translateCountry } from "../../lib/translate";
+import { makeStyles, createStyles } from '@material-ui/core/styles'
+import Card from '@material-ui/core/Card'
+import CardHeader from '@material-ui/core/CardHeader'
+import CardMedia from '@material-ui/core/CardMedia'
+import CardContent from '@material-ui/core/CardContent'
+import Typography from '@material-ui/core/Typography'
+import { ItemModel } from '../../pages/shop/goods/[type]/[country]/[id]'
+import Link from 'next/link'
+import { translateCategory } from '../../lib/translate'
+import { translateCountry } from '../../lib/translate'
 
 const useStyles = makeStyles((theme) =>
   createStyles({
     paper: {
-      backgroundColor: "#f9fbe7",
+      backgroundColor: 'white',
     },
     media: {
-      backgroundSize: "contain",
-      paddingTop: "56.25%", // 16:9
+      backgroundSize: 'contain',
+      paddingTop: '56.25%', // 16:9
     },
     achorTag: {
-      textDecoration: "none",
+      textDecoration: 'none',
     },
   })
-);
+)
 
 export interface ShopCardProps {
-  item: ItemModel;
+  item: ItemModel
 }
 
 export function ShopCard({ item }: ShopCardProps) {
-  const classes = useStyles();
+  const classes = useStyles()
   return (
     <>
       <Link
-        href="/shop/goods/[type]/[country]/[id]"
+        href='/shop/goods/[type]/[country]/[id]'
         as={`/shop/goods/${item.category}/${item.country}/${item._id}`}
       >
         <a className={classes.achorTag}>
-          <Card elevation={5} className={classes.paper}>
+          <Card elevation={1} className={classes.paper}>
             <CardHeader
               title={`${translateCategory(item.category)} | ${translateCountry(
                 item.country
@@ -50,16 +50,16 @@ export function ShopCard({ item }: ShopCardProps) {
               title={item.nameOfGoods}
             />
             <CardContent>
-              <Typography variant="body2" color="textSecondary" component="p">
-                Цена: {item.priceOfGoods} рублей. Остаток:{" "}
+              <Typography variant='body2' color='textSecondary' component='p'>
+                Цена: {item.priceOfGoods} рублей. Остаток:{' '}
                 {item.amountOfGoods > 0
-                  ? item.amountOfGoods + " шт."
-                  : "Товар отсутствует"}
+                  ? item.amountOfGoods + ' шт.'
+                  : 'Товар отсутствует'}
               </Typography>
             </CardContent>
           </Card>
         </a>
       </Link>
     </>
-  );
+  )
 }

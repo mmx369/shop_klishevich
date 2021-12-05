@@ -1,52 +1,51 @@
 const {
   PHASE_DEVELOPMENT_SERVER,
   PHASE_PRODUCTION_BUILD,
-} = require("next/constants");
+} = require('next/constants')
 
-const withImages = require("next-images");
+const withImages = require('next-images')
 
-console.log("!!!PHASES:", PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD);
+console.log('!!!PHASES:', PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD)
 
 // This uses phases as outlined here: https://nextjs.org/docs/#custom-configuration
 module.exports = (phase) => {
-  const defaultConfig = withImages();
+  const defaultConfig = withImages()
   // when started in development mode `next dev` or `npm run dev` regardless of the value of STAGING environmental variable
-  const isDev = phase === PHASE_DEVELOPMENT_SERVER;
+  const isDev = phase === PHASE_DEVELOPMENT_SERVER
   // when `next build` or `npm run build` is used
-  const isProd =
-    phase === PHASE_PRODUCTION_BUILD && process.env.STAGING !== "1";
+  const isProd = phase === PHASE_PRODUCTION_BUILD && process.env.STAGING !== '1'
   // when `next build` or `npm run build` is used
   const isStaging =
-    phase === PHASE_PRODUCTION_BUILD && process.env.STAGING === "1";
+    phase === PHASE_PRODUCTION_BUILD && process.env.STAGING === '1'
 
-  console.log(`isDev:${isDev}  isProd:${isProd}   isStaging:${isStaging}`);
+  console.log(`isDev:${isDev}  isProd:${isProd}   isStaging:${isStaging}`)
 
   const env = {
     RESTURL: (() => {
-      if (isDev) return "http://localhost:3000";
+      if (isDev) return 'http://localhost:3000'
       if (isProd) {
-        return "https://shop.klishevich.ru";
+        return 'http://localhost:3000'
       }
 
-      if (isStaging) return "http://localhost:3000";
-      return "RESTURL:not (isDev,isProd && !isStaging,isProd && isStaging)";
+      if (isStaging) return 'http://localhost:3000'
+      return 'RESTURL:not (isDev,isProd && !isStaging,isProd && isStaging)'
     })(),
 
     RESTURL_SESSIONS: (() => {
-      if (isDev) return "http://localhost:3000/sessions";
+      if (isDev) return 'http://localhost:3000/sessions'
       if (isProd) {
-        return "https://shop.klishevich.ru/sessions";
+        return 'http://localhost:3000/sessions'
       }
-      if (isStaging) return "http://localhost:3000";
-      return "RESTURL_SESSIONS:not (isDev,isProd && !isStaging,isProd && isStaging)";
+      if (isStaging) return 'http://localhost:3000'
+      return 'RESTURL_SESSIONS:not (isDev,isProd && !isStaging,isProd && isStaging)'
     })(),
-  };
+  }
 
   return {
     ...defaultConfig,
     env,
     images: {
-      domains: ["res.cloudinary.com"],
+      domains: ['res.cloudinary.com'],
     },
-  };
-};
+  }
+}

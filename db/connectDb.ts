@@ -8,8 +8,8 @@ const connectDB =
       return handler(req, res)
     }
     // Use new db connection
-    //@ts-ignore
     await mongoose.connect(process.env.MONGODB_URI, {
+      //@ts-ignore
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,

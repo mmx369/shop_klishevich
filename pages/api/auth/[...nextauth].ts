@@ -28,6 +28,7 @@ const options = {
     }),
   ],
   database: process.env.MONGODB_URI,
+  pages: { signIn: '/signin' },
 
   callbacks: {
     async signIn(user: User, account: any, profile: any) {

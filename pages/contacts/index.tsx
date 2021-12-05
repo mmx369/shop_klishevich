@@ -1,18 +1,18 @@
-import { Typography } from "@material-ui/core";
-import Image from "next/image";
-import Layout from "../../components/layout/layout";
-import logoIBNS from "../../public/IBNSlogo.jpeg";
+import { Typography } from '@material-ui/core'
+import Image from 'next/image'
+import Layout from '../../components/layout/layout'
+import logoIBNS from '../../public/IBNSlogo.jpeg'
 
 export default function Contacts() {
   return (
     <>
-      <Layout title="Нумизматика и бонистика | Интернет-магазин | Контакты">
-        <Typography variant="h5">Контакты</Typography>
+      <Layout title='Нумизматика и бонистика | Интернет-магазин | Контакты'>
+        <Typography variant='h5'>Контакты</Typography>
 
-        <Typography variant="subtitle1">Телефон: +7-926-333-33-33</Typography>
-        <Typography variant="subtitle1">
-          Электронная почта:{" "}
-          <a href="mailto:info@klishevich.com">info@klishevich.com</a>
+        <Typography variant='subtitle1'>Телефон: +7-968-429-62-04</Typography>
+        <Typography variant='subtitle1'>
+          Электронная почта:{' '}
+          <a href='mailto:info@klishevich.com'>info@klishevich.com</a>
         </Typography>
 
         <ul>
@@ -28,11 +28,11 @@ export default function Contacts() {
           Обращаем внимание, что данные реквизиты не предназначены для оплаты
           заказов
         </Typography>
-        <Image width={110} height={50} src={logoIBNS} alt="IBNS Logo" />
-        <Typography variant="subtitle2">
+        <Image width={110} height={50} src={logoIBNS} alt='IBNS Logo' />
+        <Typography variant='subtitle2'>
           Член Международного союза бонистов
         </Typography>
       </Layout>
     </>
-  );
+  )
 }

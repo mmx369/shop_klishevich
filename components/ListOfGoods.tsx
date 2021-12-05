@@ -9,15 +9,15 @@ import {
   Grid,
   makeStyles,
   Typography,
-} from "@material-ui/core";
-import React, { useState } from "react";
-import { translateCategory } from "../lib/category";
-import { translateCountry } from "../lib/country";
-import ModalEditGoods from "./ModalEditGoods";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
-import { useRouter } from "next/router";
+} from '@material-ui/core'
+import React, { useState } from 'react'
+import { translateCategory } from '../lib/translate'
+import { translateCountry } from '../lib/translate'
+import ModalEditGoods from './ModalEditGoods'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import axios from 'axios'
+import { useRouter } from 'next/router'
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -27,48 +27,48 @@ const useStyles = makeStyles((theme) =>
     },
     media: {
       height: 0,
-      paddingTop: "56.25%", // 16:9
+      paddingTop: '56.25%', // 16:9
     },
   })
-);
+)
 
 export default function ListOfGoods({ res }) {
-  const classes = useStyles();
+  const classes = useStyles()
 
-  const router = useRouter();
+  const router = useRouter()
 
-  const [open, setOpen] = useState(false);
-  const [id, setId] = useState("");
-  const [price, setPrice] = useState("");
-  const [amount, setAmount] = useState("");
+  const [open, setOpen] = useState(false)
+  const [id, setId] = useState('')
+  const [price, setPrice] = useState('')
+  const [amount, setAmount] = useState('')
 
   const handleOpen = (id, price, amount) => {
-    setOpen(true);
-    setId(id);
-    setPrice(price);
-    setAmount(amount);
-  };
+    setOpen(true)
+    setId(id)
+    setPrice(price)
+    setAmount(amount)
+  }
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${process.env.RESTURL}/api/deleteitem`, { data: id });
-      toast.success("Позиция успешна удалена", {
+      await axios.delete(`${process.env.RESTURL}/api/deleteitem`, { data: id })
+      toast.success('Позиция успешна удалена', {
         position: toast.POSITION.TOP_LEFT,
         autoClose: 5000,
-      });
-      router.replace(router.asPath);
+      })
+      router.replace(router.asPath)
     } catch (e) {
       toast.error(`Ошибка: ${e.response.data.message}`, {
         position: toast.POSITION.TOP_LEFT,
         autoClose: 5000,
-      });
-      console.log(e);
+      })
+      console.log(e)
     }
-  };
+  }
 
   const handleClose = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
   return (
     <>
@@ -90,20 +90,20 @@ export default function ListOfGoods({ res }) {
                 />
                 <CardContent>
                   <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
+                    variant='body2'
+                    color='textSecondary'
+                    component='p'
                   >
-                    Цена: {item.priceOfGoods} рублей. Остаток:{" "}
+                    Цена: {item.priceOfGoods} рублей. Остаток:{' '}
                     {item.amountOfGoods > 0
-                      ? item.amountOfGoods + " шт."
-                      : "Товар отсутствует"}
+                      ? item.amountOfGoods + ' шт.'
+                      : 'Товар отсутствует'}
                   </Typography>
                 </CardContent>
                 <CardActions>
                   <Button
-                    size="small"
-                    color="primary"
+                    size='small'
+                    color='primary'
                     onClick={() =>
                       handleOpen(item._id, item.priceOfGoods, null)
                     }
@@ -111,8 +111,8 @@ export default function ListOfGoods({ res }) {
                     Изменить цену
                   </Button>
                   <Button
-                    size="small"
-                    color="primary"
+                    size='small'
+                    color='primary'
                     onClick={() =>
                       handleOpen(item._id, null, item.amountOfGoods)
                     }
@@ -120,8 +120,8 @@ export default function ListOfGoods({ res }) {
                     Изменить количество
                   </Button>
                   <Button
-                    size="small"
-                    color="primary"
+                    size='small'
+                    color='primary'
                     onClick={() => handleDelete(item._id)}
                   >
                     Удалить товар
@@ -142,5 +142,5 @@ export default function ListOfGoods({ res }) {
       />
       <pre>{JSON.stringify(res, null, 3)}</pre>
     </>
-  );
+  )
 }
