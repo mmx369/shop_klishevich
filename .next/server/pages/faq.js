@@ -639,7 +639,6 @@ const useStyles = Object(core_["makeStyles"])(() => Object(core_["createStyles"]
     flexGrow: 1
   },
   appBar: {
-    // background: 'transparent',
     boxShadow: 'none'
   },
   link: {

@@ -656,7 +656,6 @@ const useStyles = Object(core_["makeStyles"])(() => Object(core_["createStyles"]
     flexGrow: 1
   },
   appBar: {
-    // background: 'transparent',
     boxShadow: 'none'
   },
   link: {
@@ -1192,8 +1191,8 @@ function ItemsDetails({
         className: classes.paper,
         children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
           className: classes.btn,
-          variant: "outlined",
-          color: "secondary",
+          variant: "contained",
+          color: "primary",
           onClick: () => router.back(),
           children: "\u043D\u0430\u0437\u0430\u0434"
         }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__["Grid"], {
@@ -1247,7 +1246,7 @@ function ItemsDetails({
                   children: ["\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E: ", item.amountOfGoods, " \u0448\u0442."]
                 }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
                   variant: "contained",
-                  color: "secondary",
+                  color: "primary",
                   onClick: () => {
                     handleDispatch(item._id);
                   },

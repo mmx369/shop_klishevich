@@ -674,7 +674,6 @@ const useStyles = Object(core_["makeStyles"])(() => Object(core_["createStyles"]
     flexGrow: 1
   },
   appBar: {
-    // background: 'transparent',
     boxShadow: 'none'
   },
   link: {
@@ -1597,6 +1596,12 @@ var Typography_default = /*#__PURE__*/__webpack_require__.n(Typography_);
 // EXTERNAL MODULE: ./lib/translate.ts
 var translate = __webpack_require__("0fuK");
 
+// EXTERNAL MODULE: external "react-redux"
+var external_react_redux_ = __webpack_require__("h74D");
+
+// EXTERNAL MODULE: ./redux/actions/cartActions.ts
+var cartActions = __webpack_require__("ks2Y");
+
 // CONCATENATED MODULE: ./components/shop/ShopCard.tsx
 
 
@@ -1610,32 +1615,42 @@ var translate = __webpack_require__("0fuK");
 
 
 
+
+
+
+
 const useStyles = Object(styles_["makeStyles"])(theme => Object(styles_["createStyles"])({
-  paper: {
-    backgroundColor: 'white'
-  },
   media: {
     backgroundSize: 'contain',
     paddingTop: '56.25%' // 16:9
 
   },
   achorTag: {
-    textDecoration: 'none'
+    textDecoration: 'none',
+    color: 'black'
+  },
+  btn: {
+    marginLeft: '5px'
   }
 }));
 function ShopCard({
   item
 }) {
   const classes = useStyles();
+  const dispatch = Object(external_react_redux_["useDispatch"])();
+
+  const handleDispatch = id => {
+    dispatch(Object(cartActions["b" /* addNewItem */])(id, 1));
+  };
+
   return /*#__PURE__*/Object(jsx_runtime_["jsx"])(jsx_runtime_["Fragment"], {
-    children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(link_default.a, {
-      href: "/shop/goods/[type]/[country]/[id]",
-      as: `/shop/goods/${item.category}/${item.country}/${item._id}`,
-      children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("a", {
-        className: classes.achorTag,
-        children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])(Card_default.a, {
-          elevation: 1,
-          className: classes.paper,
+    children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])(Card_default.a, {
+      elevation: 1,
+      children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])(link_default.a, {
+        href: "/shop/goods/[type]/[country]/[id]",
+        as: `/shop/goods/${item.category}/${item.country}/${item._id}`,
+        children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])("a", {
+          className: classes.achorTag,
           children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])(CardHeader_default.a, {
             title: `${Object(translate["a" /* translateCategory */])(item.category)} | ${Object(translate["b" /* translateCountry */])(item.country)}`,
             subheader: item.nameOfGoods
@@ -1643,16 +1658,27 @@ function ShopCard({
             className: classes.media,
             image: item.imageUrl[0],
             title: item.nameOfGoods
-          }), /*#__PURE__*/Object(jsx_runtime_["jsx"])(CardContent_default.a, {
-            children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])(Typography_default.a, {
-              variant: "body2",
-              color: "textSecondary",
-              component: "p",
-              children: ["\u0426\u0435\u043D\u0430: ", item.priceOfGoods, " \u0440\u0443\u0431\u043B\u0435\u0439. \u041E\u0441\u0442\u0430\u0442\u043E\u043A:", ' ', item.amountOfGoods > 0 ? item.amountOfGoods + ' шт.' : 'Товар отсутствует']
+          })]
+        })
+      }), /*#__PURE__*/Object(jsx_runtime_["jsx"])(CardContent_default.a, {
+        children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])(Typography_default.a, {
+          variant: "body2",
+          color: "textSecondary",
+          component: "p",
+          children: ["\u0426\u0435\u043D\u0430: ", item.priceOfGoods, " \u0440\u0443\u0431\u043B\u0435\u0439. \u041E\u0441\u0442\u0430\u0442\u043E\u043A:", ' ', item.amountOfGoods > 0 ? item.amountOfGoods + ' шт.' : 'Товар отсутствует', /*#__PURE__*/Object(jsx_runtime_["jsx"])("span", {
+            children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(core_["Button"], {
+              size: "small",
+              variant: "contained",
+              color: "primary",
+              className: classes.btn,
+              onClick: () => {
+                handleDispatch(item._id);
+              },
+              children: "\u0432 \u043A\u043E\u0440\u0437\u0438\u043D\u0443"
             })
           })]
         })
-      })
+      })]
     })
   });
 }

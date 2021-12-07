@@ -8,18 +8,23 @@ import { ItemModel } from '../../pages/shop/goods/[type]/[country]/[id]'
 import Link from 'next/link'
 import { translateCategory } from '../../lib/translate'
 import { translateCountry } from '../../lib/translate'
+import React from 'react'
+import { Button } from '@material-ui/core'
+import { useDispatch } from 'react-redux'
+import { addNewItem } from '../../redux/actions/cartActions'
 
 const useStyles = makeStyles((theme) =>
   createStyles({
-    paper: {
-      backgroundColor: 'white',
-    },
     media: {
       backgroundSize: 'contain',
       paddingTop: '56.25%', // 16:9
     },
     achorTag: {
       textDecoration: 'none',
+      color: 'black',
+    },
+    btn: {
+      marginLeft: '5px',
     },
   })
 )
@@ -30,14 +35,20 @@ export interface ShopCardProps {
 
 export function ShopCard({ item }: ShopCardProps) {
   const classes = useStyles()
+  const dispatch = useDispatch()
+
+  const handleDispatch = (id) => {
+    dispatch(addNewItem(id, 1))
+  }
+
   return (
     <>
-      <Link
-        href='/shop/goods/[type]/[country]/[id]'
-        as={`/shop/goods/${item.category}/${item.country}/${item._id}`}
-      >
-        <a className={classes.achorTag}>
-          <Card elevation={1} className={classes.paper}>
+      <Card elevation={1}>
+        <Link
+          href='/shop/goods/[type]/[country]/[id]'
+          as={`/shop/goods/${item.category}/${item.country}/${item._id}`}
+        >
+          <a className={classes.achorTag}>
             <CardHeader
               title={`${translateCategory(item.category)} | ${translateCountry(
                 item.country
@@ -49,17 +60,30 @@ export function ShopCard({ item }: ShopCardProps) {
               image={item.imageUrl[0]}
               title={item.nameOfGoods}
             />
-            <CardContent>
-              <Typography variant='body2' color='textSecondary' component='p'>
-                Цена: {item.priceOfGoods} рублей. Остаток:{' '}
-                {item.amountOfGoods > 0
-                  ? item.amountOfGoods + ' шт.'
-                  : 'Товар отсутствует'}
-              </Typography>
-            </CardContent>
-          </Card>
-        </a>
-      </Link>
+          </a>
+        </Link>
+        <CardContent>
+          <Typography variant='body2' color='textSecondary' component='p'>
+            Цена: {item.priceOfGoods} рублей. Остаток:{' '}
+            {item.amountOfGoods > 0
+              ? item.amountOfGoods + ' шт.'
+              : 'Товар отсутствует'}
+            <span>
+              <Button
+                size='small'
+                variant='contained'
+                color='primary'
+                className={classes.btn}
+                onClick={() => {
+                  handleDispatch(item._id)
+                }}
+              >
+                в корзину
+              </Button>
+            </span>
+          </Typography>
+        </CardContent>
+      </Card>
     </>
   )
 }

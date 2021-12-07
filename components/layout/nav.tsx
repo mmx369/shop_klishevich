@@ -34,7 +34,6 @@ const useStyles = makeStyles(() =>
       flexGrow: 1,
     },
     appBar: {
-      // background: 'transparent',
       boxShadow: 'none',
     },
     link: {

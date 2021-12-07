@@ -92,8 +92,8 @@ export default function ItemsDetails({ item }: ItemsDetailsProps) {
         <Paper className={classes.paper}>
           <Button
             className={classes.btn}
-            variant='outlined'
-            color='secondary'
+            variant='contained'
+            color='primary'
             onClick={() => router.back()}
           >
             назад
@@ -132,7 +132,7 @@ export default function ItemsDetails({ item }: ItemsDetailsProps) {
                   </Typography>
                   <Button
                     variant='contained'
-                    color='secondary'
+                    color='primary'
                     onClick={() => {
                       handleDispatch(item._id)
                     }}
