@@ -50,7 +50,7 @@ export default function Cart() {
     <>
       <Layout title='Корзина'>
         <div>{isCartEmpty && <CartEmpty />}</div>
-        <div> {isCartEmpty || <CartTable />} </div>
+        <div> {isCartEmpty || <CartTable />}</div>
 
         {isCartEmpty || (
           <div>

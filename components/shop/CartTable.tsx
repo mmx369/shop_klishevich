@@ -15,6 +15,8 @@ import FormControl from '@material-ui/core/FormControl'
 import FormLabel from '@material-ui/core/FormLabel'
 import { SHIPPING_PRICES } from '../../constants'
 import { addShippingPrice } from '../../redux/actions/shippingAction'
+import { deleteItem } from '../../redux/actions/cartActions'
+import router from 'next/router'
 
 const useStyles = makeStyles({
   root: {
@@ -45,11 +47,20 @@ export const CartTable = () => {
     setValue((event.target as HTMLInputElement).value)
   }
 
+  const handleDispatch = (id: string) => {
+    dispatch(deleteItem(id))
+  }
+
+  if (cart.length === 0) {
+    return <div>Ваша корзина пуста</div>
+  }
+
   return (
     <>
       <div>
         <Typography variant='h6'>Ваши покупки</Typography>
       </div>
+
       <div>
         <Grid container spacing={3}>
           {cart.map((item) => (
@@ -97,6 +108,7 @@ export const CartTable = () => {
                   fullWidth
                   onClick={() => {
                     console.log('Deleting...', item._id)
+                    handleDispatch(item._id)
                   }}
                 >
                   удалить

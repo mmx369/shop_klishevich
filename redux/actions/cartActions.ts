@@ -3,6 +3,7 @@ import axios from 'axios'
 export enum CartActionTypes {
   INIT_ITEMS = 'INIT_ITEMS',
   NEW_ITEM = 'NEW_ITEM',
+  DELETE_ITEM = 'DELETE_ITEM',
   DEFAULT = 'DEFAULT',
 }
 
@@ -37,5 +38,16 @@ export const addNewItem = (id: string, value: number) => {
         stockamount: itemAmount,
       })
     }
+  }
+}
+
+export const deleteItem = (id: string) => {
+  console.log('Action: ', id)
+
+  return async (dispatch) => {
+    dispatch({
+      type: CartActionTypes.DELETE_ITEM,
+      data: id,
+    })
   }
 }

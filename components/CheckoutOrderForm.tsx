@@ -121,7 +121,7 @@ export function CheckoutOrderForm() {
                   window.localStorage.removeItem('cart')
                   toast.success(`Заказ успешно оформлен`, {
                     position: toast.POSITION.TOP_LEFT,
-                    autoClose: 5000,
+                    autoClose: 3000,
                   })
                   router.push('/')
                 } catch (err) {
@@ -136,98 +136,96 @@ export function CheckoutOrderForm() {
               <Form>
                 <Box marginBottom={2}>
                   <FormGroup>
-                    <Field name="secondName" as={TextField} label="Фамилия" />
-                    <ErrorMessage name="secondName" />
+                    <Field name='secondName' as={TextField} label='Фамилия' />
+                    <ErrorMessage name='secondName' />
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
                   <FormGroup>
-                    <Field name="firstName" as={TextField} label="Имя" />
-                    <ErrorMessage name="firstName" />
-                  </FormGroup>
-                </Box>
-                <Box marginBottom={2}>
-                  <FormGroup>
-                    <Field
-                      name="fatherName"
-                      as={TextField}
-                      label="Отчество(при наличии)"
-                    />
-                    <ErrorMessage name="fatherName" />
-                  </FormGroup>
-                </Box>
-                <Box marginBottom={2}>
-                  <FormGroup>
-                    <Field name="zip" as={TextField} label="Индекс" />
-                    <ErrorMessage name="zip" />
-                  </FormGroup>
-                </Box>
-                <Box marginBottom={2}>
-                  <FormGroup>
-                    <Field name="country" as={TextField} label="Страна" />
-                    <ErrorMessage name="country" />
+                    <Field name='firstName' as={TextField} label='Имя' />
+                    <ErrorMessage name='firstName' />
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
                   <FormGroup>
                     <Field
-                      name="region"
+                      name='fatherName'
                       as={TextField}
-                      label="Регион(Область, край)"
+                      label='Отчество(при наличии)'
                     />
-                    <ErrorMessage name="region" />
+                    <ErrorMessage name='fatherName' />
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
                   <FormGroup>
-                    <Field name="city" as={TextField} label="Город" />
-                    <ErrorMessage name="city" />
+                    <Field name='zip' as={TextField} label='Индекс' />
+                    <ErrorMessage name='zip' />
+                  </FormGroup>
+                </Box>
+                <Box marginBottom={2}>
+                  <FormGroup>
+                    <Field name='country' as={TextField} label='Страна' />
+                    <ErrorMessage name='country' />
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
                   <FormGroup>
                     <Field
-                      name="address"
+                      name='region'
                       as={TextField}
-                      label="Адрес(улица, дом, квартира)"
+                      label='Регион(Область, край)'
                     />
-                    <ErrorMessage name="address" />
+                    <ErrorMessage name='region' />
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
                   <FormGroup>
-                    <Field name="phone" as={TextField} label="Телефон" />
-                    <ErrorMessage name="phone" />
+                    <Field name='city' as={TextField} label='Город' />
+                    <ErrorMessage name='city' />
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
                   <FormGroup>
                     <Field
-                      name="comments"
+                      name='address'
                       as={TextField}
-                      label="Комментарии к заказу"
+                      label='Адрес(улица, дом, квартира)'
                     />
-                    <ErrorMessage name="comments" />
+                    <ErrorMessage name='address' />
+                  </FormGroup>
+                </Box>
+                <Box marginBottom={2}>
+                  <FormGroup>
+                    <Field name='phone' as={TextField} label='Телефон' />
+                    <ErrorMessage name='phone' />
+                  </FormGroup>
+                </Box>
+                <Box marginBottom={2}>
+                  <FormGroup>
+                    <Field
+                      name='comments'
+                      as={TextField}
+                      label='Комментарии к заказу'
+                    />
+                    <ErrorMessage name='comments' />
                   </FormGroup>
                 </Box>
                 <Button
-                  variant="contained"
-                  color="primary"
-                  type="submit"
+                  variant='contained'
+                  color='primary'
+                  type='submit'
                   disabled={isSubmitting || isValidating}
                 >
                   Завершить оформление
                 </Button>
-                <pre>{JSON.stringify(errors, null, 4)}</pre>
+                {/* <pre>{JSON.stringify(errors, null, 4)}</pre> */}
 
-                <pre>{JSON.stringify(values, null, 4)}</pre>
+                {/* <pre>{JSON.stringify(values, null, 4)}</pre> */}
               </Form>
             )}
           </Formik>
         </CardContent>
       </Card>
-
-      <pre>{JSON.stringify(currentOrder, null, 2)}</pre>
     </>
   )
 }

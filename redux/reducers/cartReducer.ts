@@ -16,7 +16,7 @@ export const cartReducer = (state = [], action: any) => {
         localStorage.setItem('cart', JSON.stringify(newState))
         toast.success(`${action.data.nameOfGoods} успешно добавлен в корзину`, {
           position: toast.POSITION.TOP_LEFT,
-          autoClose: 5000,
+          autoClose: 3000,
         })
         return newState
       } else {
@@ -36,14 +36,14 @@ export const cartReducer = (state = [], action: any) => {
             `${action.data.nameOfGoods} успешно добавлен в корзину`,
             {
               position: toast.POSITION.TOP_LEFT,
-              autoClose: 5000,
+              autoClose: 3000,
             }
           )
           return newState
         } else {
           toast.error(`Ошибка: на складе нет такого количества товара`, {
             position: toast.POSITION.TOP_LEFT,
-            autoClose: 5000,
+            autoClose: 3000,
           })
           return state
         }
@@ -52,10 +52,19 @@ export const cartReducer = (state = [], action: any) => {
     case CartActionTypes.INIT_ITEMS:
       return action.data
 
+    case CartActionTypes.DELETE_ITEM:
+      const newState = state.filter((el) => el._id !== action.data)
+      localStorage.setItem('cart', JSON.stringify(newState))
+      toast.success(`Товар успешно удален из корзины`, {
+        position: toast.POSITION.TOP_LEFT,
+        autoClose: 3000,
+      })
+      return newState
+
     case CartActionTypes.DEFAULT:
       toast.error(`Ошибка: на складе нет такого количества товара`, {
         position: toast.POSITION.TOP_LEFT,
-        autoClose: 5000,
+        autoClose: 3000,
       })
       return state
 
