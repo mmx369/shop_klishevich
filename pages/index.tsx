@@ -1,18 +1,18 @@
-import { GetServerSideProps } from "next";
-import { Grid } from "@material-ui/core";
-import Layout from "../components/layout/layout";
-import { getTypes, Type } from "../database/getTypes";
-import { Country, getCountry } from "../database/getCountry";
-import { getAsString } from "../database/getAsString";
-import Search from "../components/homepage/Search";
-import Catalog from "../components/homepage/Catalog";
-import MainTextBlock from "../components/homepage/MainTextBlock";
+import { GetServerSideProps } from 'next'
+import { Grid } from '@material-ui/core'
+import Layout from '../components/layout/layout'
+import { getTypes, Type } from '../database/getTypes'
+import { Country, getCountry } from '../database/getCountry'
+import { getAsString } from '../database/getAsString'
+import Search from '../components/homepage/Search'
+import Catalog from '../components/homepage/Catalog'
+import MainTextBlock from '../components/homepage/MainTextBlock'
 
 export interface HomepageProps {
-  types: Type[];
-  countries: Country[];
-  listOfCountries: Country[];
-  listOfCountriesCoins: Country[];
+  types: Type[]
+  countries: Country[]
+  listOfCountries: Country[]
+  listOfCountriesCoins: Country[]
 }
 
 export default function Homepage({
@@ -22,7 +22,7 @@ export default function Homepage({
   listOfCountriesCoins,
 }: HomepageProps) {
   return (
-    <Layout title="Нумизматика и бонистика | Интернет-магазин | Продажа банкнот и монет">
+    <Layout title='Нумизматика и бонистика | Интернет-магазин | Продажа банкнот и монет'>
       <Grid container spacing={3} item xs={12}>
         <MainTextBlock />
       </Grid>
@@ -38,29 +38,28 @@ export default function Homepage({
         </Grid>
       </Grid>
     </Layout>
-  );
+  )
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
-    const type = getAsString(ctx.query.type);
-    console.log(type);
+    const type = getAsString(ctx.query.type)
 
     const [types, countries, listOfCountries, listOfCountriesCoins] =
       await Promise.all([
         getTypes(),
         getCountry(type),
-        getCountry("Paper Money"),
-        getCountry("Coins"),
-      ]);
+        getCountry('Paper Money'),
+        getCountry('Coins'),
+      ])
 
     return {
       props: { types, countries, listOfCountries, listOfCountriesCoins },
-    };
+    }
   } catch (err) {
-    console.error(err);
+    console.error(err)
     return {
       notFound: true,
-    };
+    }
   }
-};
+}

@@ -16,7 +16,6 @@ import FormLabel from '@material-ui/core/FormLabel'
 import { SHIPPING_PRICES } from '../../constants'
 import { addShippingPrice } from '../../redux/actions/shippingAction'
 import { deleteItem } from '../../redux/actions/cartActions'
-import router from 'next/router'
 
 const useStyles = makeStyles({
   root: {
@@ -34,6 +33,7 @@ export const CartTable = () => {
 
   useEffect(() => {
     dispatch(addShippingPrice(SHIPPING_PRICES[value]))
+    localStorage.setItem('shippingPrice', SHIPPING_PRICES[value])
   }, [value])
 
   const cart = useSelector((state: IRootState) => state.cart) || []

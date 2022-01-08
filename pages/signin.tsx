@@ -66,7 +66,7 @@ export default function SignIn({ providers, csrfToken }: ISignInProps) {
                           })
                         }
                       >
-                        Sign in with {provider.name}
+                        Войти с помощью {provider.name}
                       </Button>
                     </a>
                   </Paper>
@@ -80,7 +80,7 @@ export default function SignIn({ providers, csrfToken }: ISignInProps) {
                     defaultValue={csrfToken}
                   />
                   <label>
-                    Email address
+                    Эл.почта
                     <input
                       className={classes.input}
                       type='email'
@@ -89,7 +89,7 @@ export default function SignIn({ providers, csrfToken }: ISignInProps) {
                     />
                   </label>
                   <Button type='submit' color='primary' variant='contained'>
-                    Sign in with Email
+                    Получить ссылку для входа
                   </Button>
                 </form>
               </Paper>

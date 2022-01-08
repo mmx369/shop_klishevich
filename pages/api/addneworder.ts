@@ -4,22 +4,32 @@ import { getSession } from 'next-auth/client'
 import NewOrder from '../../models/newOrder'
 import ShopGoods from '../../models/shopGoods'
 
-async function decreaseAmountOfGoods(arr) {
-  const goodsOutOfStock = []
-  for (let i = 0; i < arr.length; i++) {
-    const el = arr[i]
-    const [id, amountOfGoods] = el
-    const goods = await ShopGoods.findById(id)
-    console.log('goods', goods)
-    if (goods.amountOfGoods - amountOfGoods < 0) {
-      goodsOutOfStock.push(goods)
-    } else {
-      await ShopGoods.findByIdAndUpdate(id, {
-        amountOfGoods: goods.amountOfGoods - amountOfGoods,
-      })
+async function checkAmountOfProducts(products) {
+  const productsOutOfStock = []
+  for (let product of products) {
+    const [id, amount] = product
+    const currentProductData = await ShopGoods.findById(id)
+    if (currentProductData.amountOfGoods - amount < 0) {
+      productsOutOfStock.push(currentProductData)
     }
   }
-  return goodsOutOfStock
+  return productsOutOfStock
+}
+
+async function decreaseProducts(products) {
+  let result = true
+  for (let product of products) {
+    const [id, amount] = product
+    const currentProductData = await ShopGoods.findById(id)
+    if (currentProductData.amountOfGoods - amount >= 0) {
+      await ShopGoods.findByIdAndUpdate(id, {
+        amountOfGoods: currentProductData.amountOfGoods - amount,
+      })
+    } else {
+      result = false
+    }
+  }
+  return result
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -27,7 +37,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (!session) {
     res.send({
-      error: 'You must be authorized',
+      error: 'Вы должны быть авторизованы',
     })
     return
   }
@@ -51,9 +61,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       } = req.body
 
       const goodsFromOrders = order.map((el) => [el._id, el.amountOfGoods])
-      const checkAmount = await decreaseAmountOfGoods(goodsFromOrders)
+
+      const checkAmount = await checkAmountOfProducts(goodsFromOrders)
+
+      if (checkAmount.length != 0) {
+        return res.status(201).json({
+          message: 'Отдельные позиции отсутствуют на складе',
+          outOfStock: checkAmount,
+        })
+      }
 
       const newOrder = new NewOrder({
+        email: session.user.email,
         firstName,
         secondName,
         fatherName,
@@ -70,18 +89,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         date: new Date(),
       })
 
-      const response = await newOrder.save()
+      console.log(1111, newOrder)
 
-      if (checkAmount.length != 0) {
-        return res.status(201).json({
-          message: 'Отдельные позиции отсутствуют на складе',
-          order: response.toJSON(),
-          outOfStock: checkAmount,
-        })
-      } else {
+      const decreaseStatus = await decreaseProducts(goodsFromOrders)
+
+      if (decreaseStatus) {
+        const response = await newOrder.save()
         return res
           .status(201)
           .json({ message: 'Заказ успешно оформлен', order: response.toJSON() })
+      } else {
+        return res.status(201).json({
+          message: 'Что-то пошло не так попробуйте позднее',
+        })
       }
     } catch (err) {
       return res.status(500).send(err.message)

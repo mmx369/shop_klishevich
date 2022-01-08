@@ -51,7 +51,13 @@ export function CheckoutOrderForm() {
   const currentOrder = data.map(
     ({ imageUrl, date, __v, ...keepAttrs }) => keepAttrs
   )
-  const shippingPrice = useSelector((state: IRootState) => state.shippingPrice)
+  let { shippingPrice } = useSelector(
+    (state: IRootState) => state.shippingPrice
+  )
+  if (shippingPrice === null) {
+    shippingPrice = +localStorage.getItem('shippingPrice')
+    console.log(555, shippingPrice)
+  }
 
   return (
     <>
@@ -210,6 +216,7 @@ export function CheckoutOrderForm() {
                     <ErrorMessage name='comments' />
                   </FormGroup>
                 </Box>
+
                 <Button
                   variant='contained'
                   color='primary'

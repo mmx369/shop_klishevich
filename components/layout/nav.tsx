@@ -154,16 +154,24 @@ export function Nav({
           </a>
         </Link>
       )}
+      {currentRole === ERole.Client && (
+        <Link href='/client'>
+          <a className={classes.link}>
+            <ListItem button>
+              <ListItemIcon>
+                <SupervisorAccountIcon />
+              </ListItemIcon>
+              <ListItemText primary='Личный кабинет' />
+            </ListItem>
+          </a>
+        </Link>
+      )}
     </div>
   )
 
   return (
     <>
-      <AppBar
-        position='fixed'
-        className={classes.appBar}
-        // style={{ background: "transparent", boxShadow: "none" }}
-      >
+      <AppBar position='fixed' className={classes.appBar}>
         <Container maxWidth='lg'>
           <Toolbar variant='dense' className={classes.root}>
             <IconButton
