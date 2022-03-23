@@ -37,7 +37,6 @@ export const CartTable = () => {
   }, [value])
 
   const cart = useSelector((state: IRootState) => state.cart) || []
-  console.log('Cart ', cart)
 
   const totalPrice = cart.reduce(function (acc, sum) {
     return acc + sum.priceOfGoods * sum.amountOfGoods

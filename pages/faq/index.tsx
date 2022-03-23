@@ -7,7 +7,8 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { GetStaticProps } from 'next'
 import Layout from '../../components/layout/layout'
-import { connectDatabase, getAllDocuments } from '../../db/db-connect'
+import { dbConnect } from '../../db/dbConnect'
+import FaqModel from '../../models/shopFaq'
 
 export interface FaqModel {
   id: string
@@ -43,29 +44,24 @@ export default function Faq({ faq }: FaqProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  let client
-  try {
-    client = await connectDatabase()
-  } catch (err) {
-    throw new Error('Connecting failed')
-  }
-  const documents = await getAllDocuments(client, 'faqs', { _id: 1 })
-  client.close()
+  await dbConnect()
+  const faqList = await FaqModel.find().select('-date -__v')
 
-  if (!documents) {
+  if (!faqList) {
     return {
       notFound: true,
     }
   }
-  const faqData = documents.map((el) => ({
+
+  const faqListSerialized = faqList.map((el) => ({
     id: el._id.toString(),
-    answer: el.answer,
     question: el.question,
+    answer: el.answer,
   }))
 
   return {
     props: {
-      faq: faqData,
+      faq: faqListSerialized,
     },
     revalidate: 3600,
   }

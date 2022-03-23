@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Badge,
   Container,
   createStyles,
   Divider,
@@ -14,7 +15,7 @@ import {
   Toolbar,
   Typography,
 } from '@material-ui/core'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { ELoggedIn } from '../../types/ELoggedIn'
 import SignInButtons from '../auth/sign_in_button'
@@ -27,6 +28,11 @@ import LiveHelpIcon from '@material-ui/icons/LiveHelp'
 import ContactsIcon from '@material-ui/icons/Contacts'
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount'
 import { ERole } from '../../types/ERole'
+import { useDispatch, useSelector } from 'react-redux'
+import { IRootState } from '../../redux/reducers'
+import { Cart } from '../shop/Cart'
+import { CartItemType } from '../../types/Cart'
+import { addNewItem, removeFromCart } from '../../redux/actions/cartActions'
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -63,6 +69,7 @@ export function Nav({
 }: TProps) {
   const classes = useStyles()
   const router = useRouter()
+  const dispatch = useDispatch()
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -74,6 +81,15 @@ export function Nav({
   const [state, setState] = useState({
     left: false,
   })
+
+  const cartItems: CartItemType[] =
+    useSelector((state: IRootState) => state.cart) || []
+
+  const [cartOpen, setCartOpen] = useState(false)
+
+  const getTotalItems = (cartItems: CartItemType[]) => {
+    return cartItems.reduce((acc: number, item) => acc + item.amountOfGoods, 0)
+  }
 
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
@@ -169,8 +185,23 @@ export function Nav({
     </div>
   )
 
+  const handleAddToCart = (id: string, value = 1) => {
+    dispatch(addNewItem(id, value))
+  }
+
+  const handleRemoveFromCart = (id: string, value = 1) => {
+    dispatch(removeFromCart(id, value))
+  }
+
   return (
     <>
+      <Drawer anchor='right' open={cartOpen} onClose={() => setCartOpen(false)}>
+        <Cart
+          cartItems={cartItems}
+          addToCart={handleAddToCart}
+          removeFromCart={handleRemoveFromCart}
+        />
+      </Drawer>
       <AppBar position='fixed' className={classes.appBar}>
         <Container maxWidth='lg'>
           <Toolbar variant='dense' className={classes.root}>
@@ -192,16 +223,23 @@ export function Nav({
                 <div>Вы вошли как {currentEmail}</div>
               )}
             </Hidden>
-            {!!isCartEmpty.length && (
-              <div>
-                <IconButton color='inherit' onClick={handleClick}>
-                  <ShoppingCartRoundedIcon />
-                </IconButton>
-              </div>
-            )}
+
             {isLoggedIn !== ELoggedIn.Unknown && (
               <SignInButtons isSignedIn={isLoggedIn === ELoggedIn.True} />
             )}
+            {/* {!!isCartEmpty.length && ( */}
+            <div>
+              <IconButton
+                color='inherit'
+                // onClick={handleClick}
+                onClick={() => setCartOpen(true)}
+              >
+                <Badge badgeContent={getTotalItems(cartItems)} color='error'>
+                  <ShoppingCartRoundedIcon />
+                </Badge>
+              </IconButton>
+            </div>
+            {/* // )} */}
           </Toolbar>
         </Container>
       </AppBar>

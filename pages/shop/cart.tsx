@@ -34,7 +34,6 @@ export default function Cart() {
 
   const handleClearCart = () => {
     window.localStorage.removeItem('cart')
-    router.reload()
   }
 
   const handleClick = (e) => {

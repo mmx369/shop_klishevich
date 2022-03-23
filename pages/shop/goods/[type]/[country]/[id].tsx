@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Layout from '../../../../../components/layout/layout'
 import ShopGoods from '../../../../../models/shopGoods'
 import { addNewItem } from '../../../../../redux/actions/cartActions'
@@ -19,6 +19,11 @@ import {
   translateCountry,
 } from '../../../../../lib/translate'
 import Image from 'next/image'
+import { toast } from 'react-toastify'
+import axios from 'axios'
+import { IRootState } from '../../../../../redux/reducers'
+
+toast.configure()
 
 interface ItemsDetailsProps {
   item: ItemModel | null | undefined
@@ -64,7 +69,11 @@ export default function ItemsDetails({ item }: ItemsDetailsProps) {
   const dispatch = useDispatch()
   const router = useRouter()
 
-  const [value, setValue] = useState<number>(item.amountOfGoods > 0 ? 1 : 0)
+  const isLoggedIn = useSelector((state: IRootState) => state.app.isLoggedIn)
+
+  console.log(111, isLoggedIn)
+
+  const [value, setValue] = useState(item.amountOfGoods > 0 ? 1 : 0)
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(Number(event.target.value))
@@ -78,8 +87,28 @@ export default function ItemsDetails({ item }: ItemsDetailsProps) {
     }
   }
 
-  const handleDispatch = (id) => {
+  const addToCart = async (id: string, value: number) => {
+    try {
+      const cartData = { id, quantity: value }
+      await axios.post(`${process.env.RESTURL}/api/addtocart`, cartData)
+      toast.success(`Товар успешно добавлен`, {
+        position: toast.POSITION.TOP_LEFT,
+        autoClose: 5000,
+      })
+    } catch (e) {
+      toast.error(`Ошибка: ${e.response.data.message}`, {
+        position: toast.POSITION.TOP_LEFT,
+        autoClose: 5000,
+      })
+      console.error(e)
+    }
+  }
+
+  const handleDispatch = (id: string) => {
     dispatch(addNewItem(id, value))
+    if (isLoggedIn) {
+      addToCart(id, value)
+    }
   }
 
   if (item === null) {
@@ -167,15 +196,13 @@ export default function ItemsDetails({ item }: ItemsDetailsProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const id = ctx.params.id
-  const data = await ShopGoods.findById(id).exec()
-  //@ts-ignore
+  const productId = ctx.params.id
+  const data = await ShopGoods.findById(productId).select('-date -__v')
   const item = data._doc
 
   const serializedItem = {
     ...item,
     _id: item._id.toString(),
-    date: item.date.toString(),
   }
 
   return { props: { item: serializedItem || null } }

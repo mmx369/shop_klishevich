@@ -5,7 +5,6 @@ import React from 'react'
 import Layout from '../../components/layout/layout'
 import { ERole } from '../../types/ERole'
 import { getSession } from 'next-auth/client'
-import User from '../../models/shopUser'
 import NewOrder from '../../models/newOrder'
 
 const useStyles = makeStyles(() =>

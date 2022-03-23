@@ -1,4 +1,4 @@
-import { connectDB } from '../db/connect'
+import { dbConnect } from '../db/dbConnect'
 import ShopGoods from '../models/shopGoods'
 
 export interface Type {
@@ -7,7 +7,7 @@ export interface Type {
 }
 
 export async function getTypes() {
-  await connectDB()
+  await dbConnect()
   const countTypeBanknote = await (
     await ShopGoods.find({ category: 'Paper Money' })
   ).length

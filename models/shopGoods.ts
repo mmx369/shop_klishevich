@@ -10,6 +10,7 @@ interface IShopGoods extends Document {
   category: string
   imagePath: string[]
   date: Date
+  _doc: any
 }
 
 const shopGoods = new Schema<IShopGoods>({
