@@ -1,7 +1,7 @@
 import { useSession } from 'next-auth/client'
 import React from 'react'
 import { CheckoutOrderForm } from '../components/CheckoutOrderForm'
-import Layout from '../components/layout'
+import Layout from '../components/layout/layout'
 
 export default function Checkout() {
   const [session, loading] = useSession()
@@ -10,7 +10,7 @@ export default function Checkout() {
   if (!session) {
     return (
       <>
-        <Layout title="Paper Money Shop">
+        <Layout title='Нумизматика и бонистика | Интернет-магазин | Продажа банкнот и монет'>
           <h1>Вам неоходимо авторизоваться</h1>;
         </Layout>
       </>
@@ -18,9 +18,10 @@ export default function Checkout() {
   }
 
   return (
-    <div>
-      <CheckoutOrderForm />
-      checkout
-    </div>
+    <Layout title='Нумизматика и бонистика | Интернет-магазин | Продажа банкнот и монет'>
+      <div>
+        <CheckoutOrderForm />
+      </div>
+    </Layout>
   )
 }

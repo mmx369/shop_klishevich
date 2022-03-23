@@ -1,10 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import Faq from '../../models/shopFaq'
-import connectDB from '../../db/connectDb'
 import { getSession } from 'next-auth/client'
 import { ERole } from '../../types/ERole'
+import { dbConnect } from '../../db/dbConnect'
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  await dbConnect()
   const session = await getSession({ req })
 
   if (!session) {
@@ -43,5 +47,3 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(422).send('Request method not supported')
   }
 }
-
-export default connectDB(handler)

@@ -3,7 +3,7 @@ import Providers from 'next-auth/providers'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { TUserSession } from '../../../types/userSession'
 import ShopUser from '../../../models/shopUser'
-import { connectDB } from '../../../db/connect'
+import { dbConnect } from '../../../db/dbConnect'
 
 const options = {
   providers: [
@@ -28,10 +28,11 @@ const options = {
     }),
   ],
   database: process.env.MONGODB_URI,
+  pages: { signIn: '/signin' },
 
   callbacks: {
     async signIn(user: User, account: any, profile: any) {
-      await connectDB()
+      await dbConnect()
       try {
         const candidate = await ShopUser.findOne({
           email: user.email,
@@ -67,7 +68,7 @@ const options = {
     },
 
     async session(session: TUserSession, token: any) {
-      await connectDB()
+      await dbConnect()
       if (session) {
         try {
           const { email } = session.user

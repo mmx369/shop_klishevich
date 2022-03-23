@@ -1,10 +1,10 @@
 import { ParsedUrlQuery } from 'querystring'
-import { connectDB } from '../db/connect'
+import { dbConnect } from '../db/dbConnect'
 import ShopGoods from '../models/shopGoods'
 import { getAsString } from './getAsString'
 
 export async function getPaginatedItem(query: ParsedUrlQuery) {
-  await connectDB()
+  await dbConnect()
   const page = getValueNumber(query.page) || 1
   const rowsPerPage = getValueNumber(query.rowsPerPage) || 4
   const offset = (page - 1) * rowsPerPage

@@ -1,8 +1,8 @@
 import mongoose, { Document } from 'mongoose'
-import { number } from 'yup/lib/locale'
 const Schema = mongoose.Schema
 
 interface INewOrder extends Document {
+  email: string
   firstName: string
   secondName: string
   fatherName: string
@@ -21,6 +21,7 @@ interface INewOrder extends Document {
 }
 
 const newOrder = new Schema<INewOrder>({
+  email: String,
   firstName: String,
   secondName: String,
   fatherName: String,

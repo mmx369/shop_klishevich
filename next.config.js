@@ -24,7 +24,7 @@ module.exports = (phase) => {
     RESTURL: (() => {
       if (isDev) return 'http://localhost:3000'
       if (isProd) {
-        return 'https://shop.klishevich.ru'
+        return 'http://localhost:3000'
       }
 
       if (isStaging) return 'http://localhost:3000'
@@ -34,7 +34,7 @@ module.exports = (phase) => {
     RESTURL_SESSIONS: (() => {
       if (isDev) return 'http://localhost:3000/sessions'
       if (isProd) {
-        return 'https://shop.klishevich.ru/sessions'
+        return 'http://localhost:3000/sessions'
       }
       if (isStaging) return 'http://localhost:3000'
       return 'RESTURL_SESSIONS:not (isDev,isProd && !isStaging,isProd && isStaging)'
@@ -44,5 +44,8 @@ module.exports = (phase) => {
   return {
     ...defaultConfig,
     env,
+    images: {
+      domains: ['res.cloudinary.com'],
+    },
   }
 }

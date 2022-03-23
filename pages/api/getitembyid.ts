@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { connectDB } from '../../db/connect'
+import { dbConnect } from '../../db/dbConnect'
 import ShopGoods from '../../models/shopGoods'
 
 export default async function getItemById(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  await connectDB()
-  const item = await ShopGoods.findById(req.query.id).exec()
+  await dbConnect()
+  const item = await ShopGoods.findById(req.query.id).select('-date -__v')
   return res.json(item)
 }

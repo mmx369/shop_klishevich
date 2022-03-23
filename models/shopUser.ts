@@ -1,5 +1,6 @@
-import mongoose, { Document } from 'mongoose'
+import mongoose, { Document, Model, Types } from 'mongoose'
 import { ERole } from '../types/ERole'
+
 const Schema = mongoose.Schema
 
 interface IShopUser extends Document {
@@ -8,7 +9,8 @@ interface IShopUser extends Document {
   role: ERole.Admin | ERole.Client
   date: Date
   passwordHash: string
-  orders: string[]
+  orders: Types.ObjectId
+  cart: any[]
 }
 
 const shopUser = new Schema<IShopUser>({
@@ -26,10 +28,19 @@ const shopUser = new Schema<IShopUser>({
       ref: 'ShopOrders',
     },
   ],
+  cart: [
+    {
+      productId: {
+        type: Schema.Types.ObjectId,
+        ref: 'ShopGoods',
+        required: true,
+      },
+      quantity: { type: Number, required: true },
+    },
+  ],
 })
 
-// to avoid overwrite errror???
-// @ts-ignore
+//@ts-ignore
 mongoose.models = {}
 
 const ShopUser = mongoose.model<IShopUser>('ShopUser', shopUser)

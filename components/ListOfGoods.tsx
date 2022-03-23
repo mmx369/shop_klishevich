@@ -11,8 +11,8 @@ import {
   Typography,
 } from '@material-ui/core'
 import React, { useState } from 'react'
-import { translateCategory } from '../translate/category'
-import { translateCountry } from '../translate/country'
+import { translateCategory } from '../lib/translate'
+import { translateCountry } from '../lib/translate'
 import ModalEditGoods from './ModalEditGoods'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -90,9 +90,9 @@ export default function ListOfGoods({ res }) {
                 />
                 <CardContent>
                   <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
+                    variant='body2'
+                    color='textSecondary'
+                    component='p'
                   >
                     Цена: {item.priceOfGoods} рублей. Остаток:{' '}
                     {item.amountOfGoods > 0
@@ -102,8 +102,8 @@ export default function ListOfGoods({ res }) {
                 </CardContent>
                 <CardActions>
                   <Button
-                    size="small"
-                    color="primary"
+                    size='small'
+                    color='primary'
                     onClick={() =>
                       handleOpen(item._id, item.priceOfGoods, null)
                     }
@@ -111,8 +111,8 @@ export default function ListOfGoods({ res }) {
                     Изменить цену
                   </Button>
                   <Button
-                    size="small"
-                    color="primary"
+                    size='small'
+                    color='primary'
                     onClick={() =>
                       handleOpen(item._id, null, item.amountOfGoods)
                     }
@@ -120,8 +120,8 @@ export default function ListOfGoods({ res }) {
                     Изменить количество
                   </Button>
                   <Button
-                    size="small"
-                    color="primary"
+                    size='small'
+                    color='primary'
                     onClick={() => handleDelete(item._id)}
                   >
                     Удалить товар

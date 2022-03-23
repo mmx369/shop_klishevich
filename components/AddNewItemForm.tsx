@@ -17,8 +17,8 @@ import {
 import React, { useState } from 'react'
 import { array, number, object, string } from 'yup'
 import axios from 'axios'
-import { categories } from '../translate/category'
-import { countryList } from '../translate/country'
+import { CATEGORIES } from '../constants/translate_map'
+import { COUNTRIES } from '../constants/translate_map'
 import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux'
 
@@ -48,7 +48,7 @@ export function AddNewItemForm({}: TProps) {
   const dispatch = useDispatch()
   const [clearState, setClearState] = useState(false)
 
-  const sortedCountryList = Object.entries(countryList).sort((a, b) => {
+  const sortedCountryList = Object.entries(COUNTRIES).sort((a, b) => {
     if (a[1] < b[1]) {
       return -1
     }
@@ -57,8 +57,6 @@ export function AddNewItemForm({}: TProps) {
     }
     return 0
   })
-
-  console.log(22333, process.env.RESTURL)
 
   return (
     <>
@@ -125,47 +123,47 @@ export function AddNewItemForm({}: TProps) {
                 <Box marginBottom={2}>
                   <FormGroup>
                     <Field
-                      name="nameOfGoods"
+                      name='nameOfGoods'
                       as={TextField}
-                      label="Наименование товара"
+                      label='Наименование товара'
                     />
-                    <ErrorMessage name="nameOfGoods" />
+                    <ErrorMessage name='nameOfGoods' />
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
                   <FormGroup>
                     <Field
-                      name="catalogNumber"
+                      name='catalogNumber'
                       as={TextField}
-                      label="Номер товара в каталоге"
+                      label='Номер товара в каталоге'
                     />
-                    <ErrorMessage name="catalogNumber" />
+                    <ErrorMessage name='catalogNumber' />
                   </FormGroup>
                 </Box>
 
                 <Box marginBottom={2}>
                   <FormGroup>
                     <Field
-                      name="amountOfGoods"
+                      name='amountOfGoods'
                       as={TextField}
-                      label="Количество товара"
+                      label='Количество товара'
                     />
-                    <ErrorMessage name="amountOfGoods" />
+                    <ErrorMessage name='amountOfGoods' />
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
                   <FormGroup>
                     <Field
-                      name="priceOfGoods"
+                      name='priceOfGoods'
                       as={TextField}
-                      label="Цена товара"
+                      label='Цена товара'
                     />
-                    <ErrorMessage name="priceOfGoods" />
+                    <ErrorMessage name='priceOfGoods' />
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
                   <FormGroup>
-                    <Field name="country" as={TextField} select label="Страна">
+                    <Field name='country' as={TextField} select label='Страна'>
                       <MenuItem value={''}>Выберите...</MenuItem>
 
                       {Object.entries(sortedCountryList).map(
@@ -176,47 +174,46 @@ export function AddNewItemForm({}: TProps) {
                         )
                       )}
                     </Field>
-                    <ErrorMessage name="country" />
+                    <ErrorMessage name='country' />
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
                   <FormGroup>
                     <Field
-                      name="category"
+                      name='category'
                       as={TextField}
                       select
-                      label="Категория"
+                      label='Категория'
                     >
                       <MenuItem value={''}>Выберите...</MenuItem>
 
-                      {Object.entries(categories).map((el, index) => (
+                      {Object.entries(CATEGORIES).map((el, index) => (
                         <MenuItem key={index} value={el[0]}>
                           {el[1]}
                         </MenuItem>
                       ))}
                     </Field>
-                    <ErrorMessage name="category" />
+                    <ErrorMessage name='category' />
                   </FormGroup>
                 </Box>
-                <Grid container spacing={2} direction="column">
+                <Grid container spacing={2} direction='column'>
                   <MultipleFileUploadField
-                    name="files"
+                    name='files'
                     //@ts-ignore
                     clearState={clearState}
                     setClearState={setClearState}
                   />
                   <Grid item>
                     <Button
-                      variant="contained"
-                      color="primary"
-                      type="submit"
+                      variant='contained'
+                      color='primary'
+                      type='submit'
                       disabled={isSubmitting || isValidating}
                     >
                       Добавить
                     </Button>
                   </Grid>
                 </Grid>
-                {/* <pre>{JSON.stringify(errors, null, 4)}</pre> */}
 
                 <pre>{JSON.stringify(values, null, 4)}</pre>
               </Form>
