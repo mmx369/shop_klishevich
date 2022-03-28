@@ -6,7 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import Head from 'next/head'
 import theme from '../theme'
 
-import { AppProps } from 'next/dist/next-server/lib/router/router'
+import { AppProps } from 'next/app'
 import { Provider as SessionProvider } from 'next-auth/client'
 import { Provider } from 'react-redux'
 import { useStore } from '../store'
