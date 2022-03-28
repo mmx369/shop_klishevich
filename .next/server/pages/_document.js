@@ -1344,10 +1344,10 @@ module.exports = __webpack_require__(/*! ./dist/pages/_document */ "./node_modul
 
 /***/ }),
 
-/***/ "./pages/_document.tsx":
-/*!*****************************!*\
-  !*** ./pages/_document.tsx ***!
-  \*****************************/
+/***/ "./src/pages/_document.tsx":
+/*!*********************************!*\
+  !*** ./src/pages/_document.tsx ***!
+  \*********************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1362,7 +1362,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var next_document__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(next_document__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _theme__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../theme */ "./theme.ts");
+/* harmony import */ var _theme__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../theme */ "./src/theme.ts");
 
 var _jsxFileName = "C:\\projects\\shop_klishevich\\pages\\_document.tsx";
 
@@ -1467,10 +1467,10 @@ MyDocument.getInitialProps = async ctx => {
 
 /***/ }),
 
-/***/ "./theme.ts":
-/*!******************!*\
-  !*** ./theme.ts ***!
-  \******************/
+/***/ "./src/theme.ts":
+/*!**********************!*\
+  !*** ./src/theme.ts ***!
+  \**********************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1509,7 +1509,7 @@ const theme = Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_1__["crea
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! private-next-pages/_document.tsx */"./pages/_document.tsx");
+module.exports = __webpack_require__(/*! private-next-pages/_document.tsx */"./src/pages/_document.tsx");
 
 
 /***/ }),
