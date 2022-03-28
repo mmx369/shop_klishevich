@@ -1,0 +1,6 @@
+CSS -> change to module CSS
+fix CSS structure
+CEO optimisation - robot.txt, sttemap, meta tag robots. h1=> each page
+update to v12 next?
+layaot - разобраться по страничный или как?
+error boundaries

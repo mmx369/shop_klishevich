@@ -1,0 +1,9 @@
+.root {
+    margin: auto;
+    max-width: 600px;
+}
+
+.input {
+    width: 42px;
+    margin: 10px;
+}
