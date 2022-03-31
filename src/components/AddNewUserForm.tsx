@@ -8,7 +8,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
-} from '@material-ui/core'
+} from '@mui/material'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'

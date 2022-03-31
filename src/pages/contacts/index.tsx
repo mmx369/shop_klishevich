@@ -1,4 +1,4 @@
-import { Typography } from '@material-ui/core'
+import { Typography } from '@mui/material'
 import Image from 'next/image'
 
 import Layout from '../../components/layout/layout'

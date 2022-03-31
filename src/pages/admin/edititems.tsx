@@ -1,6 +1,5 @@
 import { GetServerSideProps } from 'next'
 import { useSession } from 'next-auth/client'
-import React from 'react'
 import Layout from '../../components/layout/layout'
 import ListOfGoods from '../../components/ListOfGoods'
 import ShopGoods from '../../models/shopGoods'

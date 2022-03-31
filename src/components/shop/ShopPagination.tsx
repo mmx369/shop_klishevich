@@ -2,7 +2,7 @@ import {
   Pagination,
   PaginationItem,
   PaginationRenderItemParams,
-} from '@material-ui/lab'
+} from '@mui/material'
 import Link from 'next/link'
 import { ParsedUrlQuery } from 'querystring'
 import { forwardRef } from 'react'

@@ -1,6 +1,6 @@
 import classes from './MainTextBlock.module.css'
 
-import { Typography } from '@material-ui/core'
+import Typography from '@mui/material/Typography'
 import Link from 'next/link'
 
 export default function MainTextBlock() {

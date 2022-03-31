@@ -2,7 +2,7 @@ import classes from './signin.module.css'
 
 import { providers, signIn, getCsrfToken } from 'next-auth/client'
 import { useRouter } from 'next/router'
-import { Button, Grid } from '@material-ui/core'
+import { Button, Grid } from '@mui/material'
 
 import Layout from '../components/layout/layout'
 

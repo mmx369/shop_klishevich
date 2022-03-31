@@ -1,4 +1,4 @@
-import { Grid } from '@material-ui/core'
+import { Grid } from '@mui/material'
 import { useState } from 'react'
 import Search from '../../components/homepage/Search'
 import { getAsString } from '../../database/getAsString'

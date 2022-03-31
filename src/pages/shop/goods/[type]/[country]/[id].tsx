@@ -1,7 +1,7 @@
 import classes from './[id].module.css'
 
 import { useState } from 'react'
-import { Button, Grid, Input, Typography } from '@material-ui/core'
+import { Button, Grid, Input, Typography } from '@mui/material'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'

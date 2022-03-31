@@ -1,5 +1,4 @@
 import { useSession } from 'next-auth/client'
-import React from 'react'
 import Layout from '../../components/layout/layout'
 import { ERole } from '../../types/ERole'
 import { getSession } from 'next-auth/client'

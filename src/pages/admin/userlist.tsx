@@ -1,5 +1,5 @@
 import { useSession } from 'next-auth/client'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Layout from '../../components/layout/layout'
 import { ERole } from '../../types/ERole'
 import User from '../../models/shopUser'
@@ -14,8 +14,8 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-} from '@material-ui/core'
-import EditIcon from '@material-ui/icons/Edit'
+} from '@mui/material'
+import EditIcon from '@mui/icons-material/Edit'
 import { useRouter } from 'next/router'
 import { EditUserlistForm } from '../../components/EditUserlistForm'
 import { AddNewUserForm } from '../../components/AddNewUserForm'

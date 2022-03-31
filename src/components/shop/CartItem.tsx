@@ -1,5 +1,5 @@
-import Button from '@material-ui/core/Button'
-import { createStyles, makeStyles } from '@material-ui/core/styles'
+import Button from '@mui/material/Button'
+import { createStyles, makeStyles } from '@mui/styles'
 import { translateCountry } from '../../lib/translate'
 import { CartItemType } from '../../types/Cart'
 

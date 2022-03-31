@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next'
-import { Grid } from '@material-ui/core'
+import { Grid } from '@mui/material'
 import Layout from '../components/layout/layout'
 import { getTypes, Type } from '../database/getTypes'
 import { Country, getCountry } from '../database/getCountry'

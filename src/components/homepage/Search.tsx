@@ -9,7 +9,7 @@ import {
   Select,
   Button,
   SelectProps,
-} from '@material-ui/core'
+} from '@mui/material'
 import { Formik, Form, Field, useField, useFormikContext } from 'formik'
 import useSWR from 'swr'
 import router, { useRouter } from 'next/router'

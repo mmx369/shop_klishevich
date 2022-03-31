@@ -1,5 +1,10 @@
-import { red } from '@material-ui/core/colors'
-import { createTheme } from '@material-ui/core/styles'
+import { red } from '@mui/material/colors'
+import { createTheme } from '@mui/material/styles'
+import { Theme } from '@mui/material/styles'
+
+declare module '@mui/styles' {
+  interface DefaultTheme extends Theme {}
+}
 
 const theme = createTheme({
   palette: {

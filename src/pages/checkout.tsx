@@ -1,5 +1,4 @@
 import { useSession } from 'next-auth/client'
-import React from 'react'
 import { CheckoutOrderForm } from '../components/CheckoutOrderForm'
 import Layout from '../components/layout/layout'
 

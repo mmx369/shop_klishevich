@@ -1,18 +1,20 @@
 import React from 'react'
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import InputLabel from '@material-ui/core/InputLabel'
-import Input from '@material-ui/core/Input'
-import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
+import { createStyles, makeStyles } from '@mui/styles'
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  DialogContent,
+  InputLabel,
+  Input,
+  FormControl,
+  Select,
+} from '@mui/material'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     container: {
       display: 'flex',
@@ -40,7 +42,7 @@ export default function DialogSelect({
 
   const [status, setStatus] = React.useState<string>(currStatus)
 
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+  const handleChange = (event: any) => {
     setStatus(String(event.target.value) || '')
   }
 
