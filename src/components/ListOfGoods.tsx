@@ -5,11 +5,10 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
-  createStyles,
   Grid,
-  makeStyles,
   Typography,
-} from '@material-ui/core'
+} from '@mui/material'
+import { createStyles, makeStyles } from '@mui/styles'
 import React, { useState } from 'react'
 import { translateCategory } from '../lib/translate'
 import { translateCountry } from '../lib/translate'

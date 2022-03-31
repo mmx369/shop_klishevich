@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import Button from '@material-ui/core/Button'
+import Button from '@mui/material/Button'
 import { CartEmpty } from '../../components/shop/CartEmpty'
 import { CartTable } from '../../components/shop/CartTable'
 import { initItems } from '../../redux/actions/cartActions'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/styles'
 import { useRouter } from 'next/router'
 import Layout from '../../components/layout/layout'
 

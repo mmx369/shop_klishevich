@@ -1,5 +1,5 @@
-import { Grid, LinearProgress } from '@material-ui/core'
-import React, { useEffect, useState } from 'react'
+import { Grid, LinearProgress } from '@mui/material'
+import { useEffect, useState } from 'react'
 import { CONSTANTS } from '../constants'
 import FileHeader from './FileHeader'
 
@@ -26,7 +26,7 @@ export default function SingleFileUploadWithProgress({
   return (
     <Grid item>
       <FileHeader file={file} onDelete={onDelete} />
-      <LinearProgress variant="determinate" value={progress} />
+      <LinearProgress variant='determinate' value={progress} />
     </Grid>
   )
 }

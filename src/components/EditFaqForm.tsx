@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { Button, Grid, TextareaAutosize } from '@material-ui/core'
+import { Button, Grid, TextareaAutosize } from '@mui/material'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'

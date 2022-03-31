@@ -3,8 +3,8 @@ import {
   AccordionDetails,
   AccordionSummary,
   Typography,
-} from '@material-ui/core'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+} from '@mui/material'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { InferGetStaticPropsType } from 'next'
 
 import Layout from '../../components/layout/layout'

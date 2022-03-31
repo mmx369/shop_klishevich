@@ -1,5 +1,4 @@
 import { useSession } from 'next-auth/client'
-import React from 'react'
 import { AddNewItemForm } from '../../components/AddNewItemForm'
 import Layout from '../../components/layout/layout'
 import { ERole } from '../../types/ERole'

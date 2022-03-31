@@ -8,7 +8,7 @@ import {
   FormControl,
   InputLabel,
   Grid,
-} from '@material-ui/core'
+} from '@mui/material'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -36,7 +36,7 @@ export const EditUserlistForm = ({
     setName(event.target.value as string)
   }
 
-  const changeHandlerRole = (event: React.ChangeEvent<{ value: unknown }>) => {
+  const changeHandlerRole = (event: any) => {
     setRole(event.target.value as string)
   }
 
@@ -46,7 +46,7 @@ export const EditUserlistForm = ({
 
   const deleteHandler = async () => {
     try {
-      await axios.delete(`${process.env['RESTURL']}/api/deleteuser`, {
+      await axios.delete(`${process.env.RESTURL}/api/deleteuser`, {
         data: id,
       })
       toast.success(`Пользователь успешно удален`, {
@@ -72,7 +72,7 @@ export const EditUserlistForm = ({
         id,
       }
       const res = await axios.put(
-        `${process.env['RESTURL']}/api/updateuser`,
+        `${process.env.RESTURL}/api/updateuser`,
         updateUser
       )
       if (res.status === 200) {

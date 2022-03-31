@@ -1,14 +1,16 @@
-import { Paper, Typography } from '@material-ui/core'
+import {
+  Paper,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from '@mui/material'
 import { GetServerSideProps } from 'next'
-import React from 'react'
 import Layout from '../../../components/layout/layout'
 import NewOrder from '../../../models/newOrder'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableContainer from '@material-ui/core/TableContainer'
-import TableHead from '@material-ui/core/TableHead'
-import TableRow from '@material-ui/core/TableRow'
 import DialogSelect from '../../../components/DialogSelect'
 
 export interface ItemsDetailsProps {

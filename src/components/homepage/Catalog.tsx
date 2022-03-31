@@ -1,8 +1,6 @@
-import { TreeView } from '@material-ui/lab'
+import { TreeView } from '@mui/lab'
 import router from 'next/router'
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
-import ArrowRightIcon from '@material-ui/icons/ArrowRight'
-import { ArrowRight, Label, Money } from '@material-ui/icons'
+import { ArrowRight, Label, Money, ArrowDropDown } from '@mui/icons-material'
 import { translateCountry } from '../../lib/translate'
 import { StyledTreeItem } from './StyledTreeItem'
 import { Country } from '../../database/getCountry'
@@ -34,8 +32,8 @@ export default function Catalog({
   return (
     <TreeView
       defaultExpanded={['1', '2']}
-      defaultCollapseIcon={<ArrowDropDownIcon />}
-      defaultExpandIcon={<ArrowRightIcon />}
+      defaultCollapseIcon={<ArrowDropDown />}
+      defaultExpandIcon={<ArrowRight />}
       defaultEndIcon={<div style={{ width: 24 }} />}
     >
       <StyledTreeItem nodeId='1' labelText='Каталог' labelIcon={Label}>
@@ -44,7 +42,7 @@ export default function Catalog({
             nodeId='8'
             labelText='Показать все'
             labelIcon={ArrowRight}
-            onLabelClick={() => handleClick('Paper Money', 'all')}
+            onClick={() => handleClick('Paper Money', 'all')}
           />
 
           {listOfCountries?.map((el, index) => (
@@ -56,7 +54,7 @@ export default function Catalog({
               labelInfo={el.count.toString()}
               color='#1a73e8'
               bgColor='#e8f0fe'
-              onLabelClick={() => handleClick('Paper Money', el.country)}
+              onClick={() => handleClick('Paper Money', el.country)}
             />
           ))}
         </StyledTreeItem>
@@ -65,7 +63,7 @@ export default function Catalog({
             nodeId='9'
             labelText='Показать все'
             labelIcon={ArrowRight}
-            onLabelClick={() => handleClick('Coins', 'all')}
+            onClick={() => handleClick('Coins', 'all')}
           />
           {listOfCountriesCoins.map((el, index) => (
             <StyledTreeItem
@@ -76,7 +74,7 @@ export default function Catalog({
               labelInfo={el.count.toString()}
               color='#1a73e8'
               bgColor='#e8f0fe'
-              onLabelClick={() => handleClick('Coins', el.country)}
+              onClick={() => handleClick('Coins', el.country)}
             />
           ))}
         </StyledTreeItem>

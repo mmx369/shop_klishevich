@@ -1,8 +1,7 @@
 import '../styles/global.css'
-
-import React from 'react'
-import { ThemeProvider } from '@material-ui/core/styles'
-import CssBaseline from '@material-ui/core/CssBaseline'
+import { ThemeProvider } from '@mui/styles'
+import CssBaseline from '@mui/material/CssBaseline'
+import { CacheProvider } from '@emotion/react'
 import Head from 'next/head'
 import theme from '../theme'
 
@@ -10,20 +9,23 @@ import { AppProps } from 'next/app'
 import { Provider as SessionProvider } from 'next-auth/client'
 import { Provider } from 'react-redux'
 import { useStore } from '../store'
-import Layout from '../components/layout/layout'
 
-export default function App({ Component, pageProps }: AppProps) {
+import createEmotionCache from '../createEmotionCash'
+
+// Client-side cache, shared for the whole session of the user in the browser.
+const clientSideEmotionCache = createEmotionCache()
+
+export default function App(props: AppProps) {
+  const {
+    Component,
+    //@ts-ignore
+    emotionCache = clientSideEmotionCache,
+    pageProps,
+  } = props
   const store = useStore(pageProps.initialReduxState)
-  React.useEffect(() => {
-    // Remove the server-side injected CSS.
-    const jssStyles = document.querySelector('#jss-server-side')
-    if (jssStyles) {
-      jssStyles.parentElement!.removeChild(jssStyles)
-    }
-  }, [])
 
   return (
-    <ThemeProvider theme={theme}>
+    <CacheProvider value={emotionCache}>
       <Provider store={store}>
         <SessionProvider session={pageProps.session}>
           <CssBaseline />
@@ -43,9 +45,11 @@ export default function App({ Component, pageProps }: AppProps) {
               монет
             </title>
           </Head>
-          <Component {...pageProps} />
+          <ThemeProvider theme={theme}>
+            <Component {...pageProps} />
+          </ThemeProvider>
         </SessionProvider>
       </Provider>
-    </ThemeProvider>
+    </CacheProvider>
   )
 }

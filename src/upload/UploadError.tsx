@@ -1,10 +1,5 @@
-import {
-  createStyles,
-  LinearProgress,
-  Typography,
-  withStyles,
-} from '@material-ui/core'
-import React from 'react'
+import { LinearProgress, Typography } from '@mui/material'
+import { createStyles, withStyles } from '@mui/styles'
 import { FileError } from 'react-dropzone'
 import FileHeader from './FileHeader'
 
@@ -30,10 +25,10 @@ export default function UploadError({
   return (
     <>
       <FileHeader file={file} onDelete={onDelete} />
-      <ErrorLinearProgress variant="determinate" value={100} />
+      <ErrorLinearProgress variant='determinate' value={100} />
       {errors.map((error) => (
         <div>
-          <Typography color="error">{error.message}</Typography>
+          <Typography color='error'>{error.message}</Typography>
         </div>
       ))}
     </>

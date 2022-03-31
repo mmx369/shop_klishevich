@@ -1,7 +1,6 @@
-import { Typography } from '@material-ui/core'
+import { Typography } from '@mui/material'
 import { useSession } from 'next-auth/client'
 import Link from 'next/link'
-import React from 'react'
 import Layout from '../../components/layout/layout'
 import { ERole } from '../../types/ERole'
 
