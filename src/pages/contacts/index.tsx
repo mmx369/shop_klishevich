@@ -1,13 +1,26 @@
 import { Typography } from '@mui/material'
+import { makeStyles, createStyles } from '@mui/styles'
 import Image from 'next/image'
 
 import Layout from '../../components/layout/layout'
 
+const useStyles = makeStyles(() =>
+  createStyles({
+    root: {
+      marginTop: '50px',
+      maxWidth: '900px',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  })
+)
+
 export default function Contacts() {
+  const classes = useStyles()
   return (
     <>
-      <Layout title='Нумизматика и бонистика | Интернет-магазин | Контакты'>
-        <main>
+      <Layout title='Нумизматика и бонистика | Интернет-магазин | Продажа банкнот и монет | Контакты'>
+        <main className={classes.root}>
           <Typography variant='h5'>Контакты</Typography>
 
           <Typography variant='subtitle1'>Телефон: +7-968-429-62-04</Typography>

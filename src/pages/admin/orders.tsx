@@ -1,12 +1,26 @@
+import { createStyles, makeStyles } from '@mui/styles'
 import { GetServerSideProps } from 'next'
 import { useSession } from 'next-auth/client'
+import React from 'react'
 import Layout from '../../components/layout/layout'
 import TableOrders from '../../components/TableOrders'
+import { serializeData } from '../../lib/serialize'
 import NewOrder from '../../models/newOrder'
 import { ERole } from '../../types/ERole'
 
+const useStyles = makeStyles(() =>
+  createStyles({
+    root: {
+      marginTop: '50px',
+      maxWidth: '900px',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  })
+)
+
 export interface IOrders {
-  res: IListOfOrders[] | undefined
+  orderList: IListOfOrders[]
 }
 
 export interface IListOfOrders {
@@ -27,47 +41,42 @@ export interface IListOfOrders {
   order: string
 }
 
-export default function Orders({ res }: IOrders) {
+export default function Orders({ orderList }: IOrders) {
+  const classes = useStyles()
   const [session, loading] = useSession()
 
   if (typeof window !== 'undefined' && loading) return null
+
   if (!session) {
     return (
-      <Layout title='Admin profile'>
+      <Layout title='Администрирование'>
         <h1>Вы должны авторизоваться</h1>;
       </Layout>
     )
   }
   if (session.role !== ERole.Admin) {
     return (
-      <Layout title='Admin profile'>
+      <Layout title='Администрирование'>
         <h1>Вы должны быть администратором</h1>;
       </Layout>
     )
   }
   return (
     <Layout title='Администрирование | Работа с заказами'>
-      <TableOrders listOfOrders={res} />
+      <div className={classes.root}>
+        <TableOrders orderList={orderList} />
+      </div>
     </Layout>
   )
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    const data = await NewOrder.find({})
-
-    const resSerialized = data.map(
-      //@ts-ignore
-      ({ _doc: { _id, date, __v, order, ...rest } }) => {
-        rest._id = _id.toString()
-        rest.date = date.toString()
-        rest.order = order.toString()
-        return rest
-      }
-    )
+    const data = await NewOrder.find({}).select('-__v')
+    const dataSerialized = serializeData(data)
 
     return {
-      props: { res: resSerialized }, // will be passed to the page component as props
+      props: { orderList: dataSerialized },
     }
   } catch (err) {
     console.error(err)

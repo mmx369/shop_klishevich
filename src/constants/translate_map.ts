@@ -1,10 +1,18 @@
-export const CATEGORIES = {
+type CategoryMap = {
+  [key: string]: string
+}
+
+export const CATEGORIES: CategoryMap = {
   'Paper Money': 'Банкноты',
   Coins: 'Монеты',
   Other: 'Прочие',
 }
 
-export const COUNTRIES = {
+type CountryMap = {
+  [key: string]: string
+}
+
+export const COUNTRIES: CountryMap = {
   USSR: 'СССР',
   Russia: 'Россия',
   Tajikistan: 'Таджикистан',

@@ -1,3 +1,4 @@
+import EditIcon from '@mui/icons-material/Edit'
 import {
   Button,
   Grid,
@@ -10,19 +11,31 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material'
+import { createStyles, makeStyles } from '@mui/styles'
 import { GetServerSideProps } from 'next'
 import { useSession } from 'next-auth/client'
 import router from 'next/router'
 import React, { useState } from 'react'
-import Layout from '../../components/layout/layout'
-import Faq from '../../models/shopFaq'
-import { ERole } from '../../types/ERole'
-import EditIcon from '@mui/icons-material/Edit'
 import { AddNewFaqForm } from '../../components/AddNewFaqForm'
 import { EditFaqForm } from '../../components/EditFaqForm'
+import Layout from '../../components/layout/layout'
+import { serializeData } from '../../lib/serialize'
+import Faq from '../../models/shopFaq'
+import { ERole } from '../../types/ERole'
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    root: {
+      marginTop: '50px',
+      maxWidth: '900px',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  })
+)
 
 export interface AddNewFaqProps {
-  res: IListOfFaq[] | undefined
+  faqList: IListOfFaq[] | undefined
 }
 
 export interface IListOfFaq {
@@ -31,80 +44,107 @@ export interface IListOfFaq {
   _id: string
 }
 
-export default function AddNewFaq({ res }: AddNewFaqProps) {
+export default function AddNewFaq({ faqList }: AddNewFaqProps) {
+  const classes = useStyles()
+
   const [session, loading] = useSession()
-  const [showAddFaqForm, setShowAddFaqForm] = useState(false)
-  const [visible, setVisible] = useState(false)
   const [id, setId] = useState('')
   const [question, setQuestion] = useState('')
   const [answer, setAnswer] = useState('')
 
+  const [toggleVisability, setToggleVisability] = useState({
+    addNewFaq: false,
+    editForm: false,
+    addContentButton: true,
+  })
+
+  const [reloadFaqForm, setReloadFaqForm] = useState(false)
+
   if (typeof window !== 'undefined' && loading) return null
+
   if (!session) {
     return (
-      <Layout title='Admin profile'>
+      <Layout title='Администрирование'>
         <h1>Вы должны авторизоваться</h1>;
       </Layout>
     )
   }
   if (session.role !== ERole.Admin) {
     return (
-      <Layout title='Admin profile'>
+      <Layout title='Администрирование'>
         <h1>Вы должны быть администратором</h1>;
       </Layout>
     )
   }
 
   const addNewFaq = () => {
-    setShowAddFaqForm(true)
-    console.log('add new faq')
+    setToggleVisability({
+      addNewFaq: true,
+      editForm: false,
+      addContentButton: false,
+    })
   }
 
-  const updateFaqList: Function = () => {
+  const updateFaqList = () => {
     router.replace(router.asPath)
   }
 
   const handleEdit = (id: string, question: string, answer: string) => () => {
-    setVisible(true)
-    setShowAddFaqForm(false)
+    window.scrollTo(0, 0)
+    reloadFaqForm ? setReloadFaqForm(false) : setReloadFaqForm(true)
+    setToggleVisability({
+      addNewFaq: false,
+      editForm: true,
+      addContentButton: false,
+    })
+
     setId(id)
     setQuestion(question)
     setAnswer(answer)
   }
 
   const changeVisibility: Function = () => {
-    setVisible(false)
+    setToggleVisability({
+      addNewFaq: false,
+      editForm: true,
+      addContentButton: false,
+    })
   }
 
   return (
     <Layout title='Администрирование | Редактировать страницу вопросов и ответов'>
-      <div>
+      <div className={classes.root}>
         <Grid container spacing={2} justifyContent='center' alignItems='center'>
           <Grid item>
-            {!showAddFaqForm && (
+            {toggleVisability.addContentButton && (
               <Button
                 variant='outlined'
                 color='secondary'
                 fullWidth
                 onClick={addNewFaq}
               >
-                Добавить новый вопрос(ответ)
+                Добавить новый вопрос (ответ)
               </Button>
             )}
           </Grid>
 
           <Grid item>
-            {visible && !showAddFaqForm && (
+            {toggleVisability.editForm && (
               <EditFaqForm
                 id={id}
                 updateFaqList={updateFaqList}
-                changeVisibility={changeVisibility}
+                setToggleVisability={setToggleVisability}
+                reloadFaqForm={reloadFaqForm}
                 answer={answer}
                 question={question}
               />
             )}
           </Grid>
-          <Grid item>{showAddFaqForm && <AddNewFaqForm />}</Grid>
+          <Grid item>
+            {toggleVisability.addNewFaq && (
+              <AddNewFaqForm setToggleVisability={setToggleVisability} />
+            )}
+          </Grid>
         </Grid>
         <TableContainer component={Paper}>
           <Table aria-label='simple table'>
@@ -116,8 +156,8 @@ export default function AddNewFaq({ res }: AddNewFaqProps) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {res &&
-                res.map((row) => (
+              {faqList &&
+                faqList.map((row) => (
                   <TableRow key={row._id}>
                     <TableCell component='th' scope='row'>
                       {row.question}
@@ -138,7 +178,6 @@ export default function AddNewFaq({ res }: AddNewFaqProps) {
             </TableBody>
           </Table>
         </TableContainer>
-        {/* <pre>{JSON.stringify(res, null, 4)}</pre> */}
       </div>
     </Layout>
   )
@@ -146,16 +185,10 @@ export default function AddNewFaq({ res }: AddNewFaqProps) {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    const data = await Faq.find({})
-    const resSerialized = data.map(
-      //@ts-ignore
-      ({ _doc: { _id, date, __v, ...rest } }) => {
-        rest._id = _id.toString()
-        return rest
-      }
-    )
+    const data = await Faq.find({}).select('-date -__v')
+    const dataSerialized = serializeData(data)
     return {
-      props: { res: resSerialized }, // will be passed to the page component as props
+      props: { faqList: dataSerialized },
     }
   } catch (err) {
     console.error(err)

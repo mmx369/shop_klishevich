@@ -5,12 +5,24 @@ import {
   Typography,
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import { makeStyles, createStyles } from '@mui/styles'
 import { InferGetStaticPropsType } from 'next'
 
 import Layout from '../../components/layout/layout'
 import { dbConnect } from '../../db/dbConnect'
 import { serializeData } from '../../lib/serialize'
 import FaqModel from '../../models/shopFaq'
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    root: {
+      marginTop: '50px',
+      maxWidth: '900px',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  })
+)
 
 export interface IFaqModel {
   _id: string
@@ -21,9 +33,10 @@ export interface IFaqModel {
 export default function Faq({
   faq,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const classes = useStyles()
   return (
-    <Layout title='Вопросы и ответы'>
-      <div>
+    <Layout title='Нумизматика и бонистика | Интернет-магазин | Продажа банкнот и монет |Вопросы и ответы'>
+      <div className={classes.root}>
         {faq.map((f) => (
           <Accordion key={f._id}>
             <AccordionSummary

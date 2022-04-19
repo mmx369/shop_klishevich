@@ -10,3 +10,7 @@ export const SHIPPING_PRICES = {
   mail: 200,
   mailOverseas: 500,
 } as any
+
+export const PRODUCTS_TYPES = ['Paper Money', 'Coins', 'Other']
+
+export const ROUBLE = '\u20bd'

@@ -1,12 +1,10 @@
-import classes from './nav.module.css'
-
 import {
   AppBar,
   Badge,
+  Box,
   Container,
   Divider,
   Drawer,
-  Hidden,
   IconButton,
   List,
   ListItem,
@@ -15,7 +13,8 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material'
-import { useState } from 'react'
+import { makeStyles, createStyles, styled } from '@mui/styles'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { ELoggedIn } from '../../types/ELoggedIn'
 import SignInButtons from '../auth/sign_in_button'
@@ -33,6 +32,19 @@ import { IRootState } from '../../redux/reducers'
 import { Cart } from '../shop/Cart'
 import { CartItemType } from '../../types/Cart'
 import { addNewItem, removeFromCart } from '../../redux/actions/cartActions'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    drawer: {
+      width: 250,
+      height: '100%',
+    },
+  })
+)
 
 type TProps = {
   currentEmail: string | undefined
@@ -48,6 +60,7 @@ export function Nav({
 }: // isCartEmpty,
 TProps) {
   // const router = useRouter()
+  const classes = useStyles()
   const dispatch = useDispatch()
 
   // const handleClick = (e: React.MouseEvent) => {
@@ -82,6 +95,15 @@ TProps) {
       }
       setState({ ...state, [anchor]: open })
     }
+
+  const DrawerHeader = styled('div')(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
+  }))
 
   const list = (anchor: Anchor) => (
     <div
@@ -181,7 +203,7 @@ TProps) {
           removeFromCart={handleRemoveFromCart}
         />
       </Drawer>
-      <AppBar position='fixed' style={{ boxShadow: 'none' }}>
+      <AppBar position='fixed' sx={{ boxShadow: 'none' }}>
         <Container maxWidth='lg'>
           <Toolbar variant='dense' className={classes.root}>
             <IconButton
@@ -197,11 +219,15 @@ TProps) {
                 <a>Нумизматика и бонистика</a>
               </Link>
             </Typography>
-            <Hidden xsDown>
+            <Box
+              sx={{
+                display: { xs: 'none', sm: 'block' },
+              }}
+            >
               {isLoggedIn === ELoggedIn.True && (
                 <div>Вы вошли как {currentEmail}</div>
               )}
-            </Hidden>
+            </Box>
 
             {isLoggedIn !== ELoggedIn.Unknown && (
               <SignInButtons isSignedIn={isLoggedIn === ELoggedIn.True} />
@@ -228,6 +254,12 @@ TProps) {
         open={state['left']}
         onClose={toggleDrawer('left', false)}
       >
+        <DrawerHeader>
+          <IconButton onClick={toggleDrawer('left', false)}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </DrawerHeader>
+        <Divider />
         {list('left')}
       </Drawer>
     </>

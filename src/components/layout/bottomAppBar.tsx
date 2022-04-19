@@ -1,17 +1,36 @@
 import Link from 'next/link'
-import { Container, Hidden, AppBar, Toolbar, Button } from '@mui/material'
+import { Container, AppBar, Toolbar, Button, Box } from '@mui/material'
+import { makeStyles, createStyles } from '@mui/styles'
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    root: {
+      marginBottom: '50px',
+      textAlign: 'center',
+      padding: '1rem',
+    },
+  })
+)
 
 export default function BottomAppBar() {
+  const classes = useStyles()
   return (
     <>
-      <AppBar
-        position='fixed'
-        color='primary'
-        style={{ top: 'auto', bottom: 0 }}
-      >
+      <Box className={classes.root}>
+        <Link href='/'>
+          <a>
+            <strong>Интернет-магазин. Нумизматика и бонистика</strong>
+          </a>
+        </Link>
+      </Box>
+      <AppBar position='fixed' color='primary' sx={{ top: 'auto', bottom: 0 }}>
         <Container maxWidth='lg'>
           <Toolbar variant='dense'>
-            <Hidden xsDown>
+            <Box
+              sx={{
+                display: { xs: 'none', sm: 'block' },
+              }}
+            >
               <Link href='/'>
                 <a>
                   <Button
@@ -24,7 +43,7 @@ export default function BottomAppBar() {
                   </Button>
                 </a>
               </Link>
-            </Hidden>
+            </Box>
             <Link href='/paymentandshipping'>
               <a>
                 <Button

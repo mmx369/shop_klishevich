@@ -1,19 +1,19 @@
-import { makeStyles, createStyles } from '@mui/styles'
-import { ItemModel } from '../../pages/shop/goods/[type]/[country]/[id]'
-import Link from 'next/link'
-import { translateCategory } from '../../lib/translate'
-import { translateCountry } from '../../lib/translate'
-import React from 'react'
 import {
   Button,
   Card,
+  CardContent,
   CardHeader,
   CardMedia,
-  CardContent,
   Typography,
 } from '@mui/material'
+import { createStyles, makeStyles } from '@mui/styles'
+import Link from 'next/link'
+import React from 'react'
 import { useDispatch } from 'react-redux'
+import { ROUBLE } from '../../constants'
+import { translateCategory, translateCountry } from '../../lib/translate'
 import { addNewItem } from '../../redux/actions/cartActions'
+import { IProduct } from '../../types/Product'
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -21,21 +21,17 @@ const useStyles = makeStyles(() =>
       backgroundSize: 'contain',
       paddingTop: '56.25%', // 16:9
     },
-    achorTag: {
-      textDecoration: 'none',
-      color: 'black',
-    },
     btn: {
-      marginLeft: '5px',
+      marginTop: '5px',
     },
   })
 )
 
-export interface ShopCardProps {
-  item: ItemModel
+export interface IShopCardProps {
+  item: IProduct
 }
 
-export function ShopCard({ item }: ShopCardProps) {
+export function ShopCard({ item }: IShopCardProps) {
   const classes = useStyles()
   const dispatch = useDispatch()
 
@@ -50,7 +46,7 @@ export function ShopCard({ item }: ShopCardProps) {
           href='/shop/goods/[type]/[country]/[id]'
           as={`/shop/goods/${item.category}/${item.country}/${item._id}`}
         >
-          <a className={classes.achorTag}>
+          <a>
             <CardHeader
               title={`${translateCategory(item.category)} | ${translateCountry(
                 item.country
@@ -66,23 +62,25 @@ export function ShopCard({ item }: ShopCardProps) {
         </Link>
         <CardContent>
           <Typography variant='body2' color='textSecondary' component='p'>
-            Цена: {item.priceOfGoods} рублей. Остаток:{' '}
+            Цена:{' '}
+            <strong>
+              {item.priceOfGoods} {ROUBLE}
+            </strong>
+            . Остаток:{' '}
             {item.amountOfGoods > 0
               ? item.amountOfGoods + ' шт.'
               : 'Товар отсутствует'}
-            <span>
-              <Button
-                size='small'
-                variant='contained'
-                color='primary'
-                className={classes.btn}
-                onClick={() => {
-                  handleDispatch(item._id)
-                }}
-              >
-                в корзину
-              </Button>
-            </span>
+            <Button
+              size='small'
+              variant='contained'
+              color='primary'
+              className={classes.btn}
+              onClick={() => {
+                handleDispatch(item._id)
+              }}
+            >
+              в корзину
+            </Button>
           </Typography>
         </CardContent>
       </Card>

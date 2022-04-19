@@ -4,8 +4,8 @@ import { useRouter } from 'next/router'
 
 const useStyles = makeStyles({
   button: {
-    padding: '0 10px',
-    margin: 10,
+    // padding: '0 10px',
+    // margin: 10,
   },
 })
 

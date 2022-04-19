@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { CONSTANTS } from '../constants'
 import FileHeader from './FileHeader'
 
-export interface SingleFileUploadWithProgreesProps {
+export interface ISingleFileUploadWithProgreesProps {
   file: File
   onDelete: (file: File) => void
   onUpload: (file: File, url: string) => void
@@ -13,12 +13,11 @@ export default function SingleFileUploadWithProgress({
   file,
   onDelete,
   onUpload,
-}: SingleFileUploadWithProgreesProps) {
+}: ISingleFileUploadWithProgreesProps) {
   const [progress, setProgress] = useState(0)
   useEffect(() => {
     async function upload() {
       const url = await uploadFile(file, setProgress)
-      console.log('URL', url)
       onUpload(file, url)
     }
     upload()

@@ -1,4 +1,3 @@
-import 'react-toastify/dist/ReactToastify.css'
 import {
   Box,
   Button,
@@ -9,26 +8,26 @@ import {
   MenuItem,
   TextField,
 } from '@mui/material'
-import { ErrorMessage, Field, Form, Formik } from 'formik'
-import { MultipleFileUploadField } from '../upload/MultipleFileUploadField'
-import React, { useState } from 'react'
-import { array, number, object, string } from 'yup'
 import axios from 'axios'
-import { CATEGORIES } from '../constants/translate_map'
-import { COUNTRIES } from '../constants/translate_map'
+import { ErrorMessage, Field, Form, Formik } from 'formik'
+import React, { useState } from 'react'
 import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { array, number, object, string } from 'yup'
+import { CATEGORIES, COUNTRIES } from '../constants/translate_map'
+import { MultipleFileUploadField } from '../upload/MultipleFileUploadField'
 
-export interface NewItemDetails {
+export interface INewItemDetails {
   nameOfGoods: string
   amountOfGoods: number | ''
   priceOfGoods: number | ''
-  catalogNumber: string
+  catalogNumber?: string
   country: string
   category: string
   files: any
 }
 
-const initialValues: NewItemDetails = {
+const initialValues: INewItemDetails = {
   nameOfGoods: '',
   amountOfGoods: '',
   priceOfGoods: '',
@@ -38,9 +37,7 @@ const initialValues: NewItemDetails = {
   files: [],
 }
 
-type TProps = {}
-
-export function AddNewItemForm({}: TProps) {
+export function AddNewItemForm() {
   const [clearState, setClearState] = useState(false)
 
   const sortedCountryList = Object.entries(COUNTRIES).sort((a, b) => {
@@ -61,12 +58,28 @@ export function AddNewItemForm({}: TProps) {
             initialValues={initialValues}
             validationSchema={object({
               files: array(object({ url: string().required() })),
-              nameOfGoods: string().required().min(5).max(100),
-              amountOfGoods: number().required().min(0),
-              priceOfGoods: number().required().min(0),
+              nameOfGoods: string()
+                .required('Наименование товара обязательное поле')
+                .min(5, 'Наименование должно содержать более 5 символов')
+                .max(
+                  100,
+                  'Наименование товара должно быть не более 100 символов '
+                ),
+              amountOfGoods: number()
+                .required('Обязательное поле')
+                .min(0, 'Количество должно быть положительным'),
+              priceOfGoods: number()
+                .required('Обязательное поле')
+                .min(0, 'Цена должна быть более 0'),
               catalogNumber: string().min(2).max(6),
-              country: string().required().min(2).max(100),
-              category: string().required().min(2).max(100),
+              country: string()
+                .required('Обязательное поле')
+                .min(2, 'Минимальное количество символов равно 2')
+                .max(100, 'Максимум 100 символов'),
+              category: string()
+                .required('Обязательное поле')
+                .min(2, 'Минимальное количество символов равно 2')
+                .max(100, 'Максимум 100 символов'),
             })}
             onSubmit={async (values, { setStatus, resetForm }) => {
               const addNewItem = async () => {
@@ -77,17 +90,16 @@ export function AddNewItemForm({}: TProps) {
                     priceOfGoods: Number(values.priceOfGoods),
                     catalogNumber: values.catalogNumber,
                     imageUrl: values.files.map(
-                      (file: { url: any }) => file.url
+                      (file: { url: string }) => file.url
                     ),
                     country: values.country,
                     category: values.category,
                   }
 
                   const res = await axios.post(
-                    `${process.env['RESTURL']}/api/addnewitem`,
+                    `${process.env.RESTURL}/api/addnewitem`,
                     newItem
                   )
-                  console.log(3333, res)
 
                   toast.success(
                     `Товар ${newItem.nameOfGoods} успешно добавлен`,
@@ -109,11 +121,13 @@ export function AddNewItemForm({}: TProps) {
                 }
               }
               addNewItem()
-              console.log(values)
-              console.log('------------')
             }}
           >
-            {(values: any, isSubmitting: any, isValidating: any) => (
+            {(
+              _values: INewItemDetails,
+              isSubmitting: boolean,
+              isValidating: boolean
+            ) => (
               <Form>
                 <Box marginBottom={2}>
                   <FormGroup>
@@ -122,7 +136,9 @@ export function AddNewItemForm({}: TProps) {
                       as={TextField}
                       label='Наименование товара'
                     />
-                    <ErrorMessage name='nameOfGoods' />
+                    <ErrorMessage name='nameOfGoods'>
+                      {(msg) => <div style={{ color: 'red' }}>{msg}</div>}
+                    </ErrorMessage>
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
@@ -132,7 +148,9 @@ export function AddNewItemForm({}: TProps) {
                       as={TextField}
                       label='Номер товара в каталоге'
                     />
-                    <ErrorMessage name='catalogNumber' />
+                    <ErrorMessage name='catalogNumber'>
+                      {(msg) => <div style={{ color: 'red' }}>{msg}</div>}
+                    </ErrorMessage>
                   </FormGroup>
                 </Box>
 
@@ -143,7 +161,9 @@ export function AddNewItemForm({}: TProps) {
                       as={TextField}
                       label='Количество товара'
                     />
-                    <ErrorMessage name='amountOfGoods' />
+                    <ErrorMessage name='amountOfGoods'>
+                      {(msg) => <div style={{ color: 'red' }}>{msg}</div>}
+                    </ErrorMessage>
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
@@ -153,7 +173,9 @@ export function AddNewItemForm({}: TProps) {
                       as={TextField}
                       label='Цена товара'
                     />
-                    <ErrorMessage name='priceOfGoods' />
+                    <ErrorMessage name='priceOfGoods'>
+                      {(msg) => <div style={{ color: 'red' }}>{msg}</div>}
+                    </ErrorMessage>
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
@@ -169,7 +191,9 @@ export function AddNewItemForm({}: TProps) {
                         )
                       )}
                     </Field>
-                    <ErrorMessage name='country' />
+                    <ErrorMessage name='country'>
+                      {(msg) => <div style={{ color: 'red' }}>{msg}</div>}
+                    </ErrorMessage>
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
@@ -188,13 +212,14 @@ export function AddNewItemForm({}: TProps) {
                         </MenuItem>
                       ))}
                     </Field>
-                    <ErrorMessage name='category' />
+                    <ErrorMessage name='category'>
+                      {(msg) => <div style={{ color: 'red' }}>{msg}</div>}
+                    </ErrorMessage>
                   </FormGroup>
                 </Box>
                 <Grid container spacing={2} direction='column'>
                   <MultipleFileUploadField
                     name='files'
-                    //@ts-ignore
                     clearState={clearState}
                     setClearState={setClearState}
                   />
@@ -209,8 +234,6 @@ export function AddNewItemForm({}: TProps) {
                     </Button>
                   </Grid>
                 </Grid>
-
-                <pre>{JSON.stringify(values, null, 4)}</pre>
               </Form>
             )}
           </Formik>

@@ -1,29 +1,32 @@
-import React from 'react'
-import { makeStyles, createStyles } from '@mui/styles'
-import { Button, Input, Modal, Backdrop, Fade } from '@mui/material'
+import { Backdrop, Box, Button, Fade, Input, Modal } from '@mui/material'
+import { createStyles, makeStyles } from '@mui/styles'
 import axios from 'axios'
+import router from 'next/router'
+import React from 'react'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { ROUBLE } from '../constants'
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
-    modal: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
     input: {
       width: 42,
       margin: 10,
     },
-    paper: {
-      backgroundColor: theme.palette.background.paper,
-      border: '2px solid #000',
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-    },
   })
 )
+
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+}
 
 type TProps = {
   open: boolean
@@ -40,8 +43,6 @@ export default function ModalEditGoods({
   price,
   amount,
   id,
-  setOpen,
-  handleOpen,
   handleClose,
 }: TProps) {
   const classes = useStyles()
@@ -54,7 +55,7 @@ export default function ModalEditGoods({
       setValue(0)
     }
   }
-  console.log(setOpen, handleOpen)
+
   const updatePriceHandler = async () => {
     try {
       const updatePrice = {
@@ -72,6 +73,7 @@ export default function ModalEditGoods({
         })
         setValue(0)
         handleClose()
+        router.replace(router.asPath)
       }
     } catch (e) {
       toast.error(`Ошибка: ${e.response.data.message}`, {
@@ -93,12 +95,13 @@ export default function ModalEditGoods({
         updateAmount
       )
       if (res.status === 200) {
-        toast.success('Количество успешна изменено', {
+        toast.success('Количество успешно изменено', {
           position: toast.POSITION.TOP_LEFT,
           autoClose: 5000,
         })
         setValue(0)
         handleClose()
+        router.replace(router.asPath)
       }
     } catch (e) {
       toast.error(`Ошибка: ${e.response.data.message}`, {
@@ -114,7 +117,6 @@ export default function ModalEditGoods({
       <Modal
         aria-labelledby='transition-modal-title'
         aria-describedby='transition-modal-description'
-        className={classes.modal}
         open={open}
         onClose={handleClose}
         closeAfterTransition
@@ -124,19 +126,21 @@ export default function ModalEditGoods({
         }}
       >
         <Fade in={open}>
-          <div className={classes.paper}>
+          <Box sx={style}>
             {price && (
               <h2 id='transition-modal-title'>Установите новую цену</h2>
             )}
             {price && (
-              <p id='transition-modal-description'>Старая цена: {price} руб.</p>
+              <p id='transition-modal-description'>
+                Старая цена: {price} {ROUBLE}
+              </p>
             )}
             {amount && (
               <h2 id='transition-modal-title'>Установите новое количество</h2>
             )}
             {amount && (
               <p id='transition-modal-description'>
-                Старое количество: {amount} руб.
+                Старое количество: {amount} ед.
               </p>
             )}
             <Input
@@ -155,11 +159,12 @@ export default function ModalEditGoods({
             <Button
               variant='contained'
               color='primary'
+              size='small'
               onClick={price ? updatePriceHandler : updateAmountHandler}
             >
               Сохранить
             </Button>
-          </div>
+          </Box>
         </Fade>
       </Modal>
     </div>

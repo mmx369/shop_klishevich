@@ -1,17 +1,32 @@
+import { createStyles, makeStyles } from '@mui/styles'
 import { useSession } from 'next-auth/client'
 import { AddNewItemForm } from '../../components/AddNewItemForm'
 import Layout from '../../components/layout/layout'
 import { ERole } from '../../types/ERole'
 
+const useStyles = makeStyles(() =>
+  createStyles({
+    root: {
+      marginTop: '50px',
+      maxWidth: '600px',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      textAlign: 'center',
+    },
+  })
+)
+
 export default function AddNewItem() {
+  const classes = useStyles()
   const [session, loading] = useSession()
 
   if (typeof window !== 'undefined' && loading) return null
+
   if (!session) {
     return (
       <>
         <Layout title='Admin profile'>
-          <h1>You must sign in</h1>;
+          <h1>Вы должны авторизоваться.</h1>
         </Layout>
       </>
     )
@@ -19,13 +34,15 @@ export default function AddNewItem() {
   if (session.role !== ERole.Admin) {
     return (
       <Layout title='Admin profile'>
-        <h1>You must be an admin to see this page</h1>;
+        <h1>Вы должны иметь права администратора.</h1>
       </Layout>
     )
   }
   return (
     <Layout title='Администрирование | Добавить новый товар'>
-      <AddNewItemForm />
+      <div className={classes.root}>
+        <AddNewItemForm />
+      </div>
     </Layout>
   )
 }

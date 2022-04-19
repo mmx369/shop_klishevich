@@ -10,10 +10,10 @@ import Layout from '../../components/layout/layout'
 
 const useStyles = makeStyles({
   root: {
-    margin: 10,
+    // margin: 10,
   },
   button: {
-    margin: 5,
+    // margin: 5,
   },
 })
 

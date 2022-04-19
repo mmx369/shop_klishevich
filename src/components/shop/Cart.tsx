@@ -8,16 +8,16 @@ import {
   RadioGroup,
   Typography,
 } from '@mui/material'
-import { makeStyles, createStyles } from '@mui/styles'
+import { createStyles, makeStyles } from '@mui/styles'
+import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { ROUBLE, SHIPPING_PRICES } from '../../constants'
+import { addShippingPrice } from '../../redux/actions/shippingAction'
 import { CartItemType } from '../../types/Cart'
 import { CartItem } from './CartItem'
-import { useRouter } from 'next/router'
-import { useDispatch } from 'react-redux'
-import { addShippingPrice } from '../../redux/actions/shippingAction'
-import { SHIPPING_PRICES } from '../../constants'
 
-type Props = {
+type TProps = {
   cartItems: CartItemType[]
   addToCart: (id: string) => void
   removeFromCart: (id: string) => void
@@ -39,7 +39,7 @@ const useStyles = makeStyles(() =>
   })
 )
 
-export const Cart: React.FC<Props> = ({
+export const Cart: React.FC<TProps> = ({
   cartItems,
   addToCart,
   removeFromCart,
@@ -70,15 +70,20 @@ export const Cart: React.FC<Props> = ({
     router.reload()
   }
 
-  const handleCheckout = (e: any) => {
-    e.preventDefault()
+  const handleCheckout = () => {
     router.push('/checkout')
   }
 
   return (
     <div className={classes.root}>
-      <h2>Ваша корзина</h2>
-      {cartItems.length === 0 ? <p>Корзина пуста</p> : null}
+      <h3 style={{ textAlign: 'center', borderBottom: '1px solid lightblue' }}>
+        Ваша корзина
+      </h3>
+
+      {cartItems.length === 0 ? (
+        <h4 style={{ textAlign: 'center' }}>Корзина пуста</h4>
+      ) : null}
+
       {cartItems.map((item: CartItemType) => (
         <CartItem
           key={item._id}
@@ -87,9 +92,12 @@ export const Cart: React.FC<Props> = ({
           removeFromCart={removeFromCart}
         />
       ))}
+
       {!!cartItems.length && (
         <>
-          <h2>Всего: {calculateTotal(cartItems).toFixed(2)} руб.</h2>
+          <h3>
+            Всего: {calculateTotal(cartItems).toFixed(0)} {ROUBLE}
+          </h3>
           <div>
             <Typography variant='subtitle2'>Способ доставки</Typography>
             <Grid item xs={12}>
@@ -134,7 +142,7 @@ export const Cart: React.FC<Props> = ({
                 Итого к оплате с учетом доставки:
                 {SHIPPING_PRICES[value] +
                   +calculateTotal(cartItems).toFixed(2)}{' '}
-                руб.
+                {ROUBLE}
               </Typography>
             </Grid>
           </div>
@@ -144,6 +152,7 @@ export const Cart: React.FC<Props> = ({
             color='primary'
             onClick={handleCheckout}
             fullWidth
+            size='small'
           >
             Оформить
           </Button>
@@ -152,6 +161,7 @@ export const Cart: React.FC<Props> = ({
             color='primary'
             onClick={handleClearCart}
             fullWidth
+            size='small'
           >
             Очистить
           </Button>

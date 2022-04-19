@@ -1,5 +1,3 @@
-import React from 'react'
-import { makeStyles } from '@mui/styles'
 import {
   Paper,
   Table,
@@ -10,7 +8,10 @@ import {
   TablePagination,
   TableRow,
 } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import { useRouter } from 'next/router'
+import React from 'react'
+import { IListOfOrders } from '../pages/admin/orders'
 
 const columns = [
   { id: 'date', label: 'Дата заказа', minWidth: 170 },
@@ -36,45 +37,49 @@ const columns = [
 ]
 
 const useStyles = makeStyles({
-  root: {
-    width: '100%',
-  },
-  container: {
-    maxHeight: 440,
+  rows: {
+    cursor: 'pointer',
   },
 })
 
-export default function TableOrders({ listOfOrders }: any) {
+type TProps = {
+  orderList: IListOfOrders[]
+}
+
+export default function TableOrders({ orderList }: TProps) {
   const classes = useStyles()
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   const router = useRouter()
 
-  const handleChangePage = (_event: any, newPage: any) => {
+  const handleChangePage = (
+    _event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
     setPage(newPage)
   }
 
-  const handleChangeRowsPerPage = (event: any) => {
-    setRowsPerPage(+event.target.value)
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10))
     setPage(0)
   }
 
-  const handleOrder = (event: any, id: string) => {
-    event.preventDefault()
+  const handleOrder = (id: string) => {
     router.push(`orders/${id}`)
   }
 
   return (
-    <Paper className={classes.root}>
-      <TableContainer className={classes.container}>
+    <Paper>
+      <TableContainer>
         <Table stickyHeader aria-label='sticky table'>
           <TableHead>
             <TableRow>
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
-                  //@ts-ignore
-                  align={column.align}
+                  align={column.align as 'right'}
                   style={{ minWidth: column.minWidth }}
                 >
                   {column.label}
@@ -83,16 +88,17 @@ export default function TableOrders({ listOfOrders }: any) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {listOfOrders
+            {orderList
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((order: any) => {
+              .map((order) => {
                 return (
                   <TableRow
+                    className={classes.rows}
                     hover
                     role='checkbox'
                     tabIndex={-1}
                     key={order._id}
-                    onClick={() => handleOrder(event, order._id)}
+                    onClick={() => handleOrder(order._id)}
                   >
                     {columns.map((column) => {
                       const value =
@@ -100,10 +106,12 @@ export default function TableOrders({ listOfOrders }: any) {
                           ? new Date(order[column.id]).toLocaleDateString()
                           : column.id === 'firstName'
                           ? order[column.id] + ' ' + order.secondName
-                          : order[column.id]
+                          : order[column.id as keyof IListOfOrders]
                       return (
-                        //@ts-ignore
-                        <TableCell key={column.id} align={column.align}>
+                        <TableCell
+                          key={column.id}
+                          align={column.align as 'right'}
+                        >
                           {value}
                         </TableCell>
                       )
@@ -117,7 +125,7 @@ export default function TableOrders({ listOfOrders }: any) {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component='div'
-        count={listOfOrders.length}
+        count={orderList.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

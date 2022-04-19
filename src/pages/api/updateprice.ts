@@ -1,14 +1,15 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/client'
 import { dbConnect } from '../../db/dbConnect'
-import { ERole } from '../../types/ERole'
 import ShopGoods from '../../models/shopGoods'
+import { ERole } from '../../types/ERole'
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   await dbConnect()
+
   const session = await getSession({ req })
   if (!session) {
     res.send({
@@ -27,7 +28,6 @@ export default async function handler(
   if (req.method === 'PUT') {
     try {
       const { id, newPrice } = req.body
-      console.log(id, newPrice)
 
       if (newPrice <= 0) {
         return res.status(400).send({ message: 'Цена должна быть больше ноля' })

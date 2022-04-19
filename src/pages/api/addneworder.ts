@@ -1,29 +1,33 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { dbConnect } from '../../db/dbConnect'
 import { getSession } from 'next-auth/client'
+import * as yup from 'yup'
+import { dbConnect } from '../../db/dbConnect'
 import NewOrder from '../../models/newOrder'
 import ShopGoods from '../../models/shopGoods'
+import { IProduct } from '../../types/Product'
 
-async function checkAmountOfProducts(products: any) {
+async function checkAmountOfProducts(products: [string, number][]) {
   const productsOutOfStock = []
   for (let product of products) {
     const [id, amount] = product
-    const currentProductData: any = await ShopGoods.findById(id)
-    if (currentProductData.amountOfGoods - amount < 0) {
+    const currentProductData: { _id: object; amountOfGoods: number } | null =
+      await ShopGoods.findById(id).select('amountOfGoods')
+    if (currentProductData!.amountOfGoods - amount < 0) {
       productsOutOfStock.push(currentProductData)
     }
   }
   return productsOutOfStock
 }
 
-async function decreaseProducts(products: any) {
+async function decreaseProducts(products: [string, number][]) {
   let result = true
   for (let product of products) {
     const [id, amount] = product
-    const currentProductData: any = await ShopGoods.findById(id)
-    if (currentProductData.amountOfGoods - amount >= 0) {
+    const currentProductData: { _id: object; amountOfGoods: number } | null =
+      await ShopGoods.findById(id).select('amountOfGoods')
+    if (currentProductData!.amountOfGoods - amount >= 0) {
       await ShopGoods.findByIdAndUpdate(id, {
-        amountOfGoods: currentProductData.amountOfGoods - amount,
+        amountOfGoods: currentProductData!.amountOfGoods - amount,
       })
     } else {
       result = false
@@ -37,7 +41,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   await dbConnect()
-  const session: any = await getSession({ req })
+  const session = await getSession({ req })
 
   if (!session) {
     res.send({
@@ -47,7 +51,30 @@ export default async function handler(
   }
 
   if (req.method === 'POST') {
+    const phoneRegExp =
+      /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/
+
+    let schema = yup.object().shape({
+      firstName: yup.string().required().min(3).max(100),
+      secondName: yup.string().required().max(100),
+      fatherName: yup.string().max(100),
+      zip: yup.string().required().max(10),
+      country: yup.string().required().max(100),
+      region: yup.string().max(100),
+      city: yup.string().required().max(100),
+      address: yup.string().required().max(100),
+      phone: yup.string().matches(phoneRegExp).required().min(10).max(15),
+      comments: yup.string().max(100),
+    })
+
     try {
+      const isValid = await schema.isValid(req.body)
+      if (!isValid) {
+        return res.status(400).send({
+          message: `Введены не полные или не корректные данные`,
+        })
+      }
+
       const {
         firstName,
         secondName,
@@ -62,9 +89,26 @@ export default async function handler(
         order,
         totalPrice,
         shippingPrice,
-      } = req.body
+      } = req.body as {
+        firstName: string
+        secondName: string
+        fatherName: string
+        zip: string
+        country: string
+        region: string
+        city: string
+        address: string
+        phone: string
+        comments: string
+        order: IProduct[]
+        totalPrice: number
+        shippingPrice: number
+      }
 
-      const goodsFromOrders = order.map((el: any) => [el._id, el.amountOfGoods])
+      const goodsFromOrders: [string, number][] = order.map((el) => [
+        el._id,
+        el.amountOfGoods,
+      ])
 
       const checkAmount = await checkAmountOfProducts(goodsFromOrders)
 
@@ -76,7 +120,7 @@ export default async function handler(
       }
 
       const newOrder = new NewOrder({
-        email: session.user.email,
+        email: session.user!.email,
         firstName,
         secondName,
         fatherName,
@@ -92,8 +136,6 @@ export default async function handler(
         shippingPrice,
         date: new Date(),
       })
-
-      console.log(1111, newOrder)
 
       const decreaseStatus = await decreaseProducts(goodsFromOrders)
 

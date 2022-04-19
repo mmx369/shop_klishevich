@@ -22,10 +22,10 @@ import { deleteItem } from '../../redux/actions/cartActions'
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 230,
+    // maxWidth: 230,
   },
   media: {
-    backgroundSize: 'contain',
+    // backgroundSize: 'contain',
   },
 })
 

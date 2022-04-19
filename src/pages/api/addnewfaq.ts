@@ -1,14 +1,16 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { dbConnect } from '../../db/dbConnect'
 import { getSession } from 'next-auth/client'
-import { ERole } from '../../types/ERole'
+import * as yup from 'yup'
+import { dbConnect } from '../../db/dbConnect'
 import Faq from '../../models/shopFaq'
+import { ERole } from '../../types/ERole'
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   await dbConnect()
+
   const session = await getSession({ req })
 
   if (!session) {
@@ -26,9 +28,20 @@ export default async function handler(
   }
 
   if (req.method === 'POST') {
-    try {
-      const { answer, question } = req.body
+    let schema = yup.object().shape({
+      question: yup.string().min(5).max(1000).required(),
+      answer: yup.string().min(3).max(1000).required(),
+    })
 
+    try {
+      const isValid = await schema.isValid(req.body)
+      if (!isValid) {
+        return res.status(400).send({
+          message: `Введены не полные или не корректные данные`,
+        })
+      }
+
+      const { answer, question } = req.body
       const newFaq = new Faq({
         question,
         answer,
@@ -36,7 +49,6 @@ export default async function handler(
       })
 
       const response = await newFaq.save()
-      console.log(1111, response)
 
       return res
         .status(201)

@@ -1,9 +1,10 @@
 import Button from '@mui/material/Button'
 import { createStyles, makeStyles } from '@mui/styles'
-import { translateCountry } from '../../lib/translate'
+import { ROUBLE } from '../../constants'
+import { translateCategory, translateCountry } from '../../lib/translate'
 import { CartItemType } from '../../types/Cart'
 
-type Props = {
+type TProps = {
   item: CartItemType
   addToCart: (id: string) => void
   removeFromCart: (id: string) => void
@@ -19,8 +20,7 @@ const useStyles = makeStyles(() =>
       paddingBottom: '10px',
     },
     info: {
-      display: 'flex',
-      justifyContent: 'space-between',
+      fontSize: 'small',
     },
     buttons: {
       display: 'flex',
@@ -34,7 +34,7 @@ const useStyles = makeStyles(() =>
   })
 )
 
-export const CartItem: React.FC<Props> = ({
+export const CartItem: React.FC<TProps> = ({
   item,
   addToCart,
   removeFromCart,
@@ -44,20 +44,24 @@ export const CartItem: React.FC<Props> = ({
   return (
     <div className={classes.root}>
       <div>
-        <h3>
-          {item.nameOfGoods} | {translateCountry(item.country)}
-        </h3>
+        <h5 style={{ marginBottom: '5px' }}>
+          {translateCategory(item.category)} | {translateCountry(item.country)}{' '}
+          | {item.nameOfGoods}
+        </h5>
         <div className={classes.info}>
-          <p>Цена: {item.priceOfGoods} руб.</p>
-          <p>
-            Итого: {(item.amountOfGoods * item.priceOfGoods).toFixed(2)} руб.
-          </p>
+          <div>
+            Цена: {item.priceOfGoods} {ROUBLE}
+          </div>
+          <div>
+            Итого: {(item.amountOfGoods * item.priceOfGoods).toFixed(0)}{' '}
+            {ROUBLE}
+          </div>
         </div>
         <div className={classes.buttons}>
           <Button
             size='small'
             disableElevation
-            variant='contained'
+            variant='outlined'
             onClick={() => removeFromCart(item._id)}
           >
             -
@@ -66,7 +70,7 @@ export const CartItem: React.FC<Props> = ({
           <Button
             size='small'
             disableElevation
-            variant='contained'
+            variant='outlined'
             onClick={() => addToCart(item._id)}
           >
             +

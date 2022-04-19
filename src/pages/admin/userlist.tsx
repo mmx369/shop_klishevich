@@ -1,8 +1,4 @@
-import { useSession } from 'next-auth/client'
-import { useState } from 'react'
-import Layout from '../../components/layout/layout'
-import { ERole } from '../../types/ERole'
-import User from '../../models/shopUser'
+import EditIcon from '@mui/icons-material/Edit'
 import {
   Button,
   Grid,
@@ -15,17 +11,31 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material'
-import EditIcon from '@mui/icons-material/Edit'
+import { createStyles, makeStyles } from '@mui/styles'
+import { InferGetServerSidePropsType } from 'next'
+import { useSession } from 'next-auth/client'
 import { useRouter } from 'next/router'
-import { EditUserlistForm } from '../../components/EditUserlistForm'
+import { useState } from 'react'
 import { AddNewUserForm } from '../../components/AddNewUserForm'
+import { EditUserlistForm } from '../../components/EditUserlistForm'
+import Layout from '../../components/layout/layout'
+import { serializeData } from '../../lib/serialize'
+import ShopUser from '../../models/shopUser'
+import { ERole } from '../../types/ERole'
 
-export interface UserListProps {
-  res: any
-}
+const useStyles = makeStyles(() =>
+  createStyles({
+    root: {
+      marginTop: '50px',
+      maxWidth: '900px',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  })
+)
 
 export interface IListOfUsers {
-  date: Date
+  date?: Date
   email: string
   name: string
   role: string
@@ -33,90 +43,104 @@ export interface IListOfUsers {
   _id: string
 }
 
-export default function Userlist({ res }: UserListProps) {
+export default function Userlist({
+  userlist,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const classes = useStyles()
   const router = useRouter()
 
   const [session, loading] = useSession()
   const [id, setId] = useState('')
   const [email, setEmail] = useState('')
 
-  const [visible, setVisible] = useState(false)
-  const [showAddUserForm, setShowAddUserForm] = useState(false)
+  const [reloadEditForm, setReloadEditForm] = useState(false)
 
-  const list: IListOfUsers[] = JSON.parse(res)
-  console.log(list)
+  const [toggleVisability, setToggleVisability] = useState({
+    addUserForm: false,
+    editForm: false,
+    addUserButton: true,
+  })
 
   if (typeof window !== 'undefined' && loading) return null
+
   if (!session) {
     return (
-      <Layout title='Admin profile'>
-        <h1>You must sign in</h1>;
+      <Layout title='Администрирование'>
+        <h1>Вы должны авторизоваться.</h1>
       </Layout>
     )
   }
   if (session.role !== ERole.Admin) {
     return (
-      <Layout title='Admin profile'>
-        <h1>You must be an admin to see this page</h1>;
+      <Layout title='Администрирование'>
+        <h1>Вы должны иметь права администратора.</h1>
       </Layout>
     )
   }
 
-  const updateUserList: Function = () => {
+  const updateUserList = () => {
     router.replace(router.asPath)
   }
 
   const handleEdit = (id: string, email: string) => () => {
-    setVisible(true)
-    setShowAddUserForm(false)
+    reloadEditForm ? setReloadEditForm(false) : setReloadEditForm(true)
+    setToggleVisability({
+      addUserForm: false,
+      addUserButton: false,
+      editForm: true,
+    })
     setId(id)
     setEmail(email)
   }
 
-  const changeVisibility: Function = () => {
-    setVisible(false)
-  }
-
   const addNewUser = () => {
-    setShowAddUserForm(true)
-    console.log('add new user')
+    setToggleVisability({
+      addUserForm: true,
+      addUserButton: false,
+      editForm: false,
+    })
   }
 
   return (
     <Layout title='Администрирование | Редактировать список пользователей'>
-      <div>
+      <div className={classes.root}>
         <Grid container spacing={2} justifyContent='center' alignItems='center'>
           <Grid item>
-            {!showAddUserForm && (
+            {toggleVisability.addUserButton && (
               <Button
                 variant='outlined'
                 color='secondary'
                 fullWidth
                 onClick={addNewUser}
               >
-                Добавить нового пользователя
+                Добавить пользователя
               </Button>
             )}
           </Grid>
 
           <Grid item>
-            {visible && !showAddUserForm && (
+            {toggleVisability.editForm && (
               <EditUserlistForm
                 id={id}
                 email={email}
                 updateUserList={updateUserList}
-                changeVisibility={changeVisibility}
+                setToggleVisability={setToggleVisability}
+                reloadEditForm={reloadEditForm}
               />
             )}
           </Grid>
 
-          <Grid item>{showAddUserForm && <AddNewUserForm />}</Grid>
+          <Grid item>
+            {toggleVisability.addUserForm && (
+              <AddNewUserForm setToggleVisability={setToggleVisability} />
+            )}
+          </Grid>
         </Grid>
         <TableContainer component={Paper}>
           <Table aria-label='simple table'>
             <TableHead>
               <TableRow>
-                <TableCell>E-mail</TableCell>
+                <TableCell>Электронная почта</TableCell>
                 <TableCell align='right'>Имя</TableCell>
                 <TableCell align='right'>Роль</TableCell>
                 <TableCell align='right'>Заказы</TableCell>
@@ -124,8 +148,8 @@ export default function Userlist({ res }: UserListProps) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {list &&
-                list.map((row) => (
+              {userlist &&
+                userlist.map((row) => (
                   <TableRow key={row._id}>
                     <TableCell component='th' scope='row'>
                       {row.email}
@@ -155,19 +179,11 @@ export default function Userlist({ res }: UserListProps) {
   )
 }
 
-export const getServerSideProps: any = async () => {
-  try {
-    const data = await User.find({})
-    if (!data) {
-      return {
-        notFound: true,
-      }
-    }
-    const res = JSON.stringify(data)
-    return {
-      props: { res }, // will be passed to the page component as props
-    }
-  } catch (e) {
-    console.error(e)
+export const getServerSideProps = async () => {
+  const data = await ShopUser.find({}).select('-__v -date -cart')
+  const userlist: IListOfUsers[] = serializeData(data)
+
+  return {
+    props: { userlist },
   }
 }

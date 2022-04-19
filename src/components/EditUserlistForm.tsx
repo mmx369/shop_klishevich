@@ -1,57 +1,129 @@
-import React, { useState } from 'react'
-import axios from 'axios'
 import {
-  TextField,
   Button,
-  Select,
-  MenuItem,
   FormControl,
-  InputLabel,
   Grid,
+  InputLabel,
+  MenuItem,
+  TextField,
 } from '@mui/material'
+import axios from 'axios'
+import { useFormik } from 'formik'
 import { useRouter } from 'next/router'
+import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import * as yup from 'yup'
 
-export interface EditFormProps {
+type TEditFormProps = {
   id: string
   email: string
-  updateUserList: Function
-  changeVisibility: Function
+  updateUserList: () => void
+  setToggleVisability: (x: {
+    addUserForm: boolean
+    editForm: boolean
+    addUserButton: boolean
+  }) => void
+  reloadEditForm: boolean
 }
+
+const validationSchema = yup.object({
+  username: yup
+    .string()
+    .min(3, 'Имя пользователя должно содержать минимум 3 символа')
+    .max(40, 'Имя пользователя должно содержать не более 40 символов')
+    .required('Имя пользователя обязательно'),
+  email: yup
+    .string()
+    .email('Введите корректный адрес')
+    .required('Поле является обязательным'),
+  role: yup.string().required('Поле является обязательным'),
+})
 
 export const EditUserlistForm = ({
   id,
   email,
   updateUserList,
-  changeVisibility,
-}: EditFormProps) => {
+  setToggleVisability,
+  reloadEditForm,
+}: TEditFormProps) => {
   const router = useRouter()
 
-  const [name, setName] = useState('')
-  const [role, setRole] = useState('')
-  const [newEmail, setNewEmail] = useState('')
+  const [initialValues, setInitialValues] = useState({
+    username: '',
+    email: '',
+    role: '',
+  })
 
-  const changeHandlerName = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setName(event.target.value as string)
-  }
+  useEffect(() => {
+    axios
+      .get(`${process.env.RESTURL}/api/getuserdata?id=${id}`)
+      .then(({ data }) => {
+        setInitialValues({
+          username: data.name || '',
+          email: data.email || '',
+          role: data.role || '',
+        })
+      })
+      .catch((err) => console.log(err))
+  }, [reloadEditForm])
 
-  const changeHandlerRole = (event: any) => {
-    setRole(event.target.value as string)
-  }
-
-  const changeHandlerEmail = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setNewEmail(event.target.value as string)
-  }
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues,
+    validationSchema,
+    onSubmit: async (values) => {
+      const updateUserHandler = async () => {
+        try {
+          const updateUser = {
+            username: values.username,
+            email: values.email,
+            role: values.role,
+            id,
+          }
+          const res = await axios.put(
+            `${process.env.RESTURL}/api/updateuser`,
+            updateUser
+          )
+          if (res.status === 200) {
+            toast.success(
+              `Данные пользователя ${values.username} успешно изменены`,
+              {
+                position: toast.POSITION.TOP_LEFT,
+                autoClose: 5000,
+              }
+            )
+            updateUserList()
+            setToggleVisability({
+              addUserForm: false,
+              editForm: false,
+              addUserButton: true,
+            })
+          }
+        } catch (e) {
+          toast.error(`Ошибка: ${e.response.data.message}`, {
+            position: toast.POSITION.TOP_LEFT,
+            autoClose: 5000,
+          })
+          console.log(e)
+        }
+      }
+      updateUserHandler()
+    },
+  })
 
   const deleteHandler = async () => {
     try {
       await axios.delete(`${process.env.RESTURL}/api/deleteuser`, {
         data: id,
       })
-      toast.success(`Пользователь успешно удален`, {
+      toast.success(`Пользователь удален`, {
         position: toast.POSITION.TOP_LEFT,
         autoClose: 5000,
+      })
+      setToggleVisability({
+        addUserForm: false,
+        editForm: false,
+        addUserButton: true,
       })
       router.replace(router.asPath)
     } catch (e) {
@@ -63,111 +135,102 @@ export const EditUserlistForm = ({
     }
   }
 
-  const updateHandler = async () => {
-    try {
-      const updateUser = {
-        name,
-        role,
-        email: newEmail,
-        id,
-      }
-      const res = await axios.put(
-        `${process.env.RESTURL}/api/updateuser`,
-        updateUser
-      )
-      if (res.status === 200) {
-        toast.success(`Данные пользователя ${name} успешно изменены`, {
-          position: toast.POSITION.TOP_LEFT,
-          autoClose: 5000,
-        })
-        updateUserList()
-        setName('')
-        setRole('')
-        setNewEmail('')
-        changeVisibility()
-      }
-    } catch (e) {
-      toast.error(`Ошибка: ${e.response.data.message}`, {
-        position: toast.POSITION.TOP_LEFT,
-        autoClose: 5000,
-      })
-      console.log(e)
-    }
+  const cancelEditUser = () => {
+    setToggleVisability({
+      addUserForm: false,
+      editForm: false,
+      addUserButton: true,
+    })
   }
 
   return (
-    <React.Fragment>
+    <>
       <Grid container spacing={2} direction='column'>
-        <Grid item>
-          <div>
-            <h3>Пользователь: {email}</h3>
-          </div>
+        <Grid item sx={{ textAlign: 'center' }}>
+          <h3>Пользователь: {email}</h3>
         </Grid>
-        <div>
+        <form onSubmit={formik.handleSubmit}>
           <Grid item>
             <TextField
-              onChange={changeHandlerName}
-              margin='normal'
-              name='name'
-              value={name}
+              id='username'
+              name='username'
+              label='Имя пользователя'
               type='text'
-              label='Имя'
+              value={formik.values.username}
+              onChange={formik.handleChange}
+              error={formik.touched.username && Boolean(formik.errors.username)}
+              helperText={formik.touched.username && formik.errors.username}
+              variant='standard'
+              margin='none'
               fullWidth
             />
           </Grid>
-        </div>
-        <div>
           <Grid item>
             <TextField
-              onChange={changeHandlerEmail}
-              margin='normal'
+              id='email'
               name='email'
-              value={newEmail}
-              type='text'
               label='Электронная почта'
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+              variant='standard'
+              margin='none'
               fullWidth
             />
           </Grid>
-        </div>
-        <Grid item>
-          <div>
-            <FormControl fullWidth>
-              <InputLabel id='select-label'>Роль</InputLabel>
-              <Select
-                labelId='select-label'
-                value={role}
-                onChange={changeHandlerRole}
+          <Grid item>
+            <FormControl fullWidth margin='normal' size='small'>
+              <InputLabel id='role' />
+              <TextField
+                select
+                id='role'
+                label='Роль'
+                variant='outlined'
+                name='role'
+                value={formik.values.role}
+                onChange={formik.handleChange}
+                error={formik.touched.role && Boolean(formik.errors.role)}
+                helperText={formik.touched.role && formik.errors.role}
               >
-                <MenuItem value=''>
-                  <em>None</em>
+                <MenuItem value={''}>
+                  <em>Выберите роль</em>
                 </MenuItem>
                 <MenuItem value={'admin'}>Администратор</MenuItem>
                 <MenuItem value={'client'}>Клиент</MenuItem>
-              </Select>
+              </TextField>
             </FormControl>
-          </div>
-        </Grid>
-        <Grid item>
-          <Button
-            variant='outlined'
-            color='secondary'
-            fullWidth
-            onClick={updateHandler}
-          >
-            Сохранить изменения
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button
-            variant='outlined'
-            color='secondary'
-            fullWidth
-            onClick={deleteHandler}
-          >
-            Удалить пользователя
-          </Button>
-        </Grid>
+          </Grid>
+          <Grid item sx={{ textAlign: 'center' }}>
+            <Button
+              sx={{ margin: '5px' }}
+              variant='outlined'
+              color='secondary'
+              type='submit'
+            >
+              Сохранить
+            </Button>
+            <Button
+              sx={{ margin: '5px' }}
+              variant='outlined'
+              color='secondary'
+              onClick={cancelEditUser}
+            >
+              Отменить
+            </Button>
+          </Grid>
+          <Grid item sx={{ marginBottom: '5px' }}>
+            <Button
+              variant='outlined'
+              color='secondary'
+              fullWidth
+              onClick={deleteHandler}
+            >
+              Удалить пользователя
+            </Button>
+          </Grid>
+        </form>
       </Grid>
-    </React.Fragment>
+    </>
   )
 }

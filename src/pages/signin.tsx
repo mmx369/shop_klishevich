@@ -1,15 +1,33 @@
-import classes from './signin.module.css'
-
 import { providers, signIn, getCsrfToken } from 'next-auth/client'
 import { useRouter } from 'next/router'
 import { Button, Grid } from '@mui/material'
+import { makeStyles, createStyles } from '@mui/styles'
+import { GetServerSidePropsContext } from 'next'
 
 import Layout from '../components/layout/layout'
+import { TProviderNextAuth } from '../types/providerNextAuth'
+import { getAsString } from '../lib/getAsString'
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    root: {
+      marginTop: '50px',
+      maxWidth: '900px',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+    block: {
+      margin: '5px',
+      textAlign: 'center',
+    },
+    input: {
+      margin: '10px',
+    },
+  })
+)
 
 export interface ISignInProps {
-  // providers: IProvider | undefined
-  // csrfToken: string | undefined
-  providers: any
+  providers: TProviderNextAuth
   csrfToken: string | undefined
 }
 
@@ -20,21 +38,22 @@ export interface IProvider {
 }
 
 export default function SignIn({ providers, csrfToken }: ISignInProps) {
-  const newProvider = Object.values(providers).filter(
-    (el: any) => el.id != 'email'
-  )
+  const classes = useStyles()
+  const newProvider = Object.values(providers).filter((el) => el.id != 'email')
 
   const {
     query: { callbackUrl },
-  }: any = useRouter()
+  } = useRouter()
+
+  const cbUrl = getAsString(callbackUrl)
 
   return (
     <>
-      <Layout title='Sign in'>
+      <Layout title='Вход в систему | Регистрация'>
         <div className={classes.root}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              {newProvider.map((provider: any) => (
+              {newProvider.map((provider) => (
                 <div key={provider.name}>
                   <div className={classes.block}>
                     <a
@@ -47,7 +66,7 @@ export default function SignIn({ providers, csrfToken }: ISignInProps) {
                         variant='contained'
                         onClick={() =>
                           signIn(provider.id, {
-                            callbackUrl,
+                            cbUrl,
                           })
                         }
                       >
@@ -89,7 +108,7 @@ export default function SignIn({ providers, csrfToken }: ISignInProps) {
     </>
   )
 }
-export async function getServerSideProps(context: any) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   const csrfToken = await getCsrfToken(context)
   return { props: { providers: await providers(), csrfToken } }
 }
