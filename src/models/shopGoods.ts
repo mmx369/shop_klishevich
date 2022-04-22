@@ -8,9 +8,10 @@ interface IShopGoods extends Document {
   catalogNumber: string
   country: string
   category: string
-  imagePath: string[]
+  imageUrl: string[]
   date: Date
   _doc: any
+  _id: any
 }
 
 const shopGoods = new Schema<IShopGoods>({
@@ -29,7 +30,6 @@ const shopGoods = new Schema<IShopGoods>({
   date: Date,
 })
 
-// to avoid overwrite errror???
 // @ts-ignore
 mongoose.models = {}
 

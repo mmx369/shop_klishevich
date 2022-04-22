@@ -6,14 +6,15 @@ import {
 import Link from 'next/link'
 import { ParsedUrlQuery } from 'querystring'
 import { forwardRef } from 'react'
-import { useRouter } from 'next/router'
-import { getAsString } from '../../database/getAsString'
+import { NextRouter, useRouter } from 'next/router'
+import { getAsString } from '../../lib/getAsString'
 
 export function ShopPagination({ totalPages }: { totalPages: number }) {
-  const { query }: any = useRouter()
+  const { query }: NextRouter = useRouter()
+
   return (
     <Pagination
-      page={parseInt(getAsString(query.page) || '1')}
+      page={parseInt(getAsString(query.page!) || '1')}
       count={totalPages}
       renderItem={(item) => (
         <PaginationItem

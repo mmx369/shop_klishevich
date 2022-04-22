@@ -3,7 +3,7 @@
     "target": "es6",
     "module": "esnext",
     "moduleResolution": "node",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["es6", "dom", "dom.iterable", "esnext"],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "allowJs": false,
@@ -45,7 +45,8 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "tests/**/*.tsx",
+    "src/types/global.d.ts"
   ],
   "exclude": ["node_modules"]
 }

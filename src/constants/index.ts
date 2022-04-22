@@ -5,8 +5,18 @@ export const CONSTANTS = {
   },
 }
 
+export type TShippingPrices = {
+  courier: number
+  mail: number
+  mailOverseas: number
+}
+
 export const SHIPPING_PRICES = {
   courier: 400,
   mail: 200,
   mailOverseas: 500,
-} as any
+}
+
+export const PRODUCTS_TYPES = ['Paper Money', 'Coins', 'Other']
+
+export const ROUBLE = '\u20bd'

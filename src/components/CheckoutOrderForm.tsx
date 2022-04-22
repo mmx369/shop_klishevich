@@ -6,17 +6,34 @@ import {
   FormGroup,
   TextField,
 } from '@mui/material'
-import { ErrorMessage, Field, Form, Formik } from 'formik'
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { IRootState } from '../redux/reducers'
-import { object, string } from 'yup'
+import { createStyles, makeStyles } from '@mui/styles'
 import axios from 'axios'
+import { ErrorMessage, Field, Form, Formik } from 'formik'
+import { useRouter } from 'next/router'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { useRouter } from 'next/router'
+import { object, string } from 'yup'
+import { addShippingPrice } from '../redux/actions/shippingAction'
+import { IRootState } from '../redux/reducers'
+import { IProduct } from '../types/Product'
 
 toast.configure()
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    errorMsg: {
+      color: 'red',
+      fontStyle: 'italic',
+      fontSize: 'x-small',
+    },
+    btnWrapper: {
+      display: 'flex',
+      justifyContent: 'center',
+    },
+  })
+)
 
 export interface CheckoutFields {
   firstName: string
@@ -52,18 +69,24 @@ export interface CurrentOrder {
 
 export function CheckoutOrderForm() {
   const router = useRouter()
+  const classes = useStyles()
+  const dispatch = useDispatch()
 
-  const data: CurrentOrder[] = useSelector((state: IRootState) => state.cart)
-  const currentOrder = data.map(
-    ({ imageUrl, date, __v, ...keepAttrs }) => keepAttrs
+  const currentOrder: IProduct[] = useSelector(
+    (state: IRootState) => state.cart
   )
-  let { shippingPrice } = useSelector(
-    (state: IRootState) => state.shippingPrice
+
+  let shippingPrice = useSelector(
+    (state: IRootState) => state.shippingState.shippingPrice
   )
-  if (shippingPrice === null) {
-    shippingPrice = +localStorage.getItem('shippingPrice')!
-    console.log(555, shippingPrice)
-  }
+  console.log(1111, shippingPrice)
+
+  useEffect(() => {
+    dispatch(addShippingPrice(+window.localStorage.getItem('shippingPrice')!))
+  }, [])
+
+  const phoneRegExp =
+    /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/
 
   return (
     <>
@@ -73,36 +96,32 @@ export function CheckoutOrderForm() {
             initialValues={initialValues}
             validationSchema={object({
               firstName: string()
-                .required('Данное поле является обязательным')
-                .min(1)
-                .max(100),
+                .required('Поле является обязательным')
+                .min(3, 'Имя должно содержать минимум 3 символа')
+                .max(100, 'Не более 100 символов'),
               secondName: string()
-                .required('Данное поле является обязательным')
-                .min(1)
-                .max(100),
-              fatherName: string().min(1).max(100),
+                .required('Поле является обязательным')
+                .max(100, 'Не более 100 символов'),
+              fatherName: string().max(100, 'Не более 100 символов'),
               zip: string()
                 .required('Данное поле является обязательным')
-                .min(1)
                 .max(10),
               country: string()
                 .required('Данное поле является обязательным')
-                .min(1)
                 .max(100),
-              region: string().min(1).max(100),
+              region: string().max(100),
               city: string()
                 .required('Данное поле является обязательным')
-                .min(1)
                 .max(100),
               address: string()
                 .required('Данное поле является обязательным')
-                .min(1)
                 .max(100),
               phone: string()
+                .matches(phoneRegExp, 'Номер телефона не валидный')
                 .required('Данное поле является обязательным')
-                .min(10)
-                .max(15),
-              comments: string().min(1).max(100),
+                .min(10, 'Не менее 10 символов')
+                .max(15, 'Не более 15 символов'),
+              comments: string().max(100, 'Не более 100 символов'),
             })}
             onSubmit={async (values, { setStatus }) => {
               const addNewOrder = async () => {
@@ -119,27 +138,23 @@ export function CheckoutOrderForm() {
                     phone: values.phone,
                     comments: values.comments,
                     order: currentOrder,
-                    totalPrice: currentOrder.reduce(function (
-                      acc: any,
-                      sum: any
-                    ) {
+                    totalPrice: currentOrder.reduce(function (acc, sum) {
                       return acc + sum.priceOfGoods * sum.amountOfGoods
-                    },
-                    0),
+                    }, 0),
                     shippingPrice,
                   }
-                  console.log('!!newOrder!!', newOrder)
                   const res = await axios.post(
-                    `${process.env['RESTURL']}/api/addneworder`,
+                    `${process.env.RESTURL}/api/addneworder`,
                     newOrder
                   )
-                  console.log('!!res', res.data.message)
+                  console.log('!!res', res.data)
                   window.localStorage.removeItem('cart')
+                  window.localStorage.removeItem('shippingPrice')
                   toast.success(`Заказ успешно оформлен`, {
                     position: toast.POSITION.TOP_LEFT,
                     autoClose: 3000,
                   })
-                  router.push('/')
+                  router.push(`/orders/${res.data.order._id}`)
                 } catch (err) {
                   console.log(err)
                   setStatus({ success: false })
@@ -158,13 +173,17 @@ export function CheckoutOrderForm() {
                 <Box marginBottom={2}>
                   <FormGroup>
                     <Field name='secondName' as={TextField} label='Фамилия' />
-                    <ErrorMessage name='secondName' />
+                    <ErrorMessage name='secondName'>
+                      {(msg) => <div className={classes.errorMsg}>{msg}</div>}
+                    </ErrorMessage>
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
                   <FormGroup>
                     <Field name='firstName' as={TextField} label='Имя' />
-                    <ErrorMessage name='firstName' />
+                    <ErrorMessage name='firstName'>
+                      {(msg) => <div className={classes.errorMsg}>{msg}</div>}
+                    </ErrorMessage>
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
@@ -174,19 +193,25 @@ export function CheckoutOrderForm() {
                       as={TextField}
                       label='Отчество(при наличии)'
                     />
-                    <ErrorMessage name='fatherName' />
+                    <ErrorMessage name='fatherName'>
+                      {(msg) => <div className={classes.errorMsg}>{msg}</div>}
+                    </ErrorMessage>
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
                   <FormGroup>
                     <Field name='zip' as={TextField} label='Индекс' />
-                    <ErrorMessage name='zip' />
+                    <ErrorMessage name='zip'>
+                      {(msg) => <div className={classes.errorMsg}>{msg}</div>}
+                    </ErrorMessage>
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
                   <FormGroup>
                     <Field name='country' as={TextField} label='Страна' />
-                    <ErrorMessage name='country' />
+                    <ErrorMessage name='country'>
+                      {(msg) => <div className={classes.errorMsg}>{msg}</div>}
+                    </ErrorMessage>
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
@@ -196,13 +221,17 @@ export function CheckoutOrderForm() {
                       as={TextField}
                       label='Регион(Область, край)'
                     />
-                    <ErrorMessage name='region' />
+                    <ErrorMessage name='region'>
+                      {(msg) => <div className={classes.errorMsg}>{msg}</div>}
+                    </ErrorMessage>
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
                   <FormGroup>
                     <Field name='city' as={TextField} label='Город' />
-                    <ErrorMessage name='city' />
+                    <ErrorMessage name='city'>
+                      {(msg) => <div className={classes.errorMsg}>{msg}</div>}
+                    </ErrorMessage>
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
@@ -212,13 +241,17 @@ export function CheckoutOrderForm() {
                       as={TextField}
                       label='Адрес(улица, дом, квартира)'
                     />
-                    <ErrorMessage name='address' />
+                    <ErrorMessage name='address'>
+                      {(msg) => <div className={classes.errorMsg}>{msg}</div>}
+                    </ErrorMessage>
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
                   <FormGroup>
                     <Field name='phone' as={TextField} label='Телефон' />
-                    <ErrorMessage name='phone' />
+                    <ErrorMessage name='phone'>
+                      {(msg) => <div className={classes.errorMsg}>{msg}</div>}
+                    </ErrorMessage>
                   </FormGroup>
                 </Box>
                 <Box marginBottom={2}>
@@ -228,20 +261,21 @@ export function CheckoutOrderForm() {
                       as={TextField}
                       label='Комментарии к заказу'
                     />
-                    <ErrorMessage name='comments' />
+                    <ErrorMessage name='comments'>
+                      {(msg) => <div className={classes.errorMsg}>{msg}</div>}
+                    </ErrorMessage>
                   </FormGroup>
                 </Box>
-
-                <Button
-                  variant='contained'
-                  color='primary'
-                  type='submit'
-                  disabled={isSubmitting || isValidating}
-                >
-                  Завершить оформление
-                </Button>
-                {/* <pre>{JSON.stringify(errors, null, 4)}</pre> */}
-                {/* <pre>{JSON.stringify(values, null, 4)}</pre> */}
+                <div className={classes.btnWrapper}>
+                  <Button
+                    variant='contained'
+                    color='primary'
+                    type='submit'
+                    disabled={isSubmitting || isValidating}
+                  >
+                    Завершить оформление
+                  </Button>
+                </div>
               </Form>
             )}
           </Formik>

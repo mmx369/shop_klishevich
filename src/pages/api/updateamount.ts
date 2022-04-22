@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/client'
 import { dbConnect } from '../../db/dbConnect'
-import { ERole } from '../../types/ERole'
 import ShopGoods from '../../models/shopGoods'
+import { ERole } from '../../types/ERole'
 
 export default async function handler(
   req: NextApiRequest,
@@ -27,7 +27,6 @@ export default async function handler(
   if (req.method === 'PUT') {
     try {
       const { id, newAmount } = req.body
-      console.log(id, newAmount)
 
       if (newAmount < 0) {
         return res

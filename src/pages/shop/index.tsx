@@ -1,36 +1,52 @@
 import { Grid } from '@mui/material'
-import { useState } from 'react'
-import Search from '../../components/homepage/Search'
-import { getAsString } from '../../database/getAsString'
-import { getTypes, Type } from '../../database/getTypes'
-import { Country, getCountry } from '../../database/getCountry'
-import { GetServerSideProps } from 'next'
-import { getPaginatedItem } from '../../database/getPaginatedItems'
+import { createStyles, makeStyles } from '@mui/styles'
+import deepEqual from 'fast-deep-equal'
+import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
 import { stringify } from 'querystring'
+import { useState } from 'react'
 import useSWR from 'swr'
-import deepEqual from 'fast-deep-equal'
-import { ShopPagination } from '../../components/shop/ShopPagination'
-import { ShopCard } from '../../components/shop/ShopCard'
+import Search from '../../components/homepage/Search'
 import Layout from '../../components/layout/layout'
+import { ShopCard } from '../../components/shop/ShopCard'
+import { ShopPagination } from '../../components/shop/ShopPagination'
+import { PRODUCTS_TYPES } from '../../constants'
+import { getAsString } from '../../lib/getAsString'
+import { getCountry, ICountryCount } from '../../lib/getCountry'
+import { getPaginatedItem } from '../../lib/getPaginatedItems'
+import { getTypesCount, IProductTypesCount } from '../../lib/getTypesCount'
+import { serializeData } from '../../lib/serialize'
+import { IProduct } from '../../types/Product'
 
-export interface ShopListProps {
-  types: Type[]
-  countries: Country[]
-  goods: any
+const useStyles = makeStyles(() =>
+  createStyles({
+    root: {
+      marginTop: '50px',
+      maxWidth: '900px',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  })
+)
+
+export type TProps = {
+  productTypesCount: IProductTypesCount[]
+  countProductsForEveryCountry: ICountryCount[]
+  goods: IProduct[]
   totalPages: number
 }
 
 export default function ShopList({
-  types,
-  countries,
+  productTypesCount,
+  countProductsForEveryCountry,
   goods,
   totalPages,
-}: ShopListProps) {
+}: TProps) {
   const { query } = useRouter()
+  const classes = useStyles()
   const [serverQuery] = useState(query)
   const { data } = useSWR('/api/shop?' + stringify(query), {
-    // dedupingInterval: 15000,
+    dedupingInterval: 15000,
     initialData: deepEqual(query, serverQuery)
       ? { goods, totalPages }
       : undefined,
@@ -38,48 +54,55 @@ export default function ShopList({
 
   return (
     <Layout title='Интернет-магазин | Бонистика и нумизматика'>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={5} md={3} lg={2}>
-          <Search singleColumn types={types} countries={countries} />
-        </Grid>
-        <Grid container item xs={12} sm={7} md={9} lg={10} spacing={2}>
-          <Grid item xs={12}>
-            <ShopPagination totalPages={data?.totalPages as number} />
+      <div className={classes.root}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={4}>
+            <Search
+              singleColumn
+              productTypesCount={productTypesCount}
+              countriesCount={countProductsForEveryCountry}
+            />
           </Grid>
-          {(data?.goods || []).map((item: any) => (
-            <Grid key={item._id} item xs={12} sm={6}>
-              <ShopCard item={item} />
+          <Grid container item xs={12} sm={8} spacing={2}>
+            <Grid item xs={12}>
+              <ShopPagination totalPages={data?.totalPages as number} />
             </Grid>
-          ))}
-          <Grid item xs={12}>
-            <ShopPagination totalPages={data?.totalPages as number} />
+            {(data?.goods || []).map((item: IProduct) => (
+              <Grid key={item._id} item xs={12} sm={6}>
+                <ShopCard item={item} />
+              </Grid>
+            ))}
+            <Grid item xs={12}>
+              <ShopPagination totalPages={data?.totalPages as number} />
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </div>
     </Layout>
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
-  const type = getAsString(ctx.query.type)
-  const [types, countries, pagination] = await Promise.all([
-    getTypes(),
-    getCountry(type),
-    getPaginatedItem(ctx.query),
-  ])
-  //@ts-ignore
-  const goodsSerialized = pagination.goods.map(
-    //@ts-ignore
-    ({ _doc: { _id, date, ...rest } }) => {
-      rest._id = _id.toString()
-      return rest
-    }
-  )
+export const getServerSideProps: GetServerSideProps = async (
+  ctx: GetServerSidePropsContext
+) => {
+  const productsType = getAsString(ctx.query.type)
+
+  const [productTypesCount, countProductsForEveryCountry, pagination] =
+    await Promise.all([
+      //counts number of product for every category
+      getTypesCount(PRODUCTS_TYPES),
+      //counts number of product for every country in specific category
+      getCountry(productsType),
+      //get items and totalPages
+      getPaginatedItem(ctx.query),
+    ])
+
+  const goodsSerialized = serializeData(pagination.goods)
 
   return {
     props: {
-      types,
-      countries,
+      productTypesCount,
+      countProductsForEveryCountry,
       goods: goodsSerialized,
       totalPages: pagination.totalPages,
     },

@@ -6,7 +6,7 @@ import { getAsString } from './getAsString'
 export async function getPaginatedItem(query: ParsedUrlQuery) {
   await dbConnect()
   const page = getValueNumber(query.page!) || 1
-  const rowsPerPage = getValueNumber(query.rowsPerPage!) || 4
+  const rowsPerPage = 4
   const offset = (page - 1) * rowsPerPage
 
   const dbParams = {
@@ -16,9 +16,13 @@ export async function getPaginatedItem(query: ParsedUrlQuery) {
     maxPrice: getValueNumber(query.maxPrice!),
   }
 
-  console.log('DB Params: ', dbParams)
+  type QueryParams = {
+    category: string
+    country: string
+    priceOfGoods: { ['$gte']?: number; ['$lte']?: number }
+  }
 
-  const findQuery: any = {}
+  const findQuery = {} as QueryParams
 
   if (dbParams.type) {
     findQuery.category = dbParams.type
@@ -45,6 +49,7 @@ export async function getPaginatedItem(query: ParsedUrlQuery) {
   const resultPromise = ShopGoods.find(findQuery)
     .skip(offset)
     .limit(rowsPerPage)
+    .select('-__v -date')
   const resultCountPromise = ShopGoods.find(findQuery).count()
 
   const [result, resultCount] = await Promise.all([

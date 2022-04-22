@@ -1,17 +1,19 @@
 import { ShippingActionTypes } from '../actions/shippingAction'
 
 export interface IShippingState {
-  shippingPrice: number | null
+  shippingPrice?: number
+  kkkkkk: string
 }
 
 export const initialState: IShippingState = {
-  shippingPrice: null,
+  shippingPrice: undefined,
+  kkkkkk: 'ddd',
 }
 
-export const createShippingPrice = (state = initialState, action: any) => {
+export const createShippingState = (state = initialState, action: any) => {
   switch (action.type) {
     case ShippingActionTypes.NEW_SHIPPING_PRICE: {
-      return action.data
+      return { ...state, shippingPrice: action.data }
     }
     default:
       return state

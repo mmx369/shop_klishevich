@@ -8,19 +8,20 @@ import {
   RadioGroup,
   Typography,
 } from '@mui/material'
-import { makeStyles, createStyles } from '@mui/styles'
+import { createStyles, makeStyles } from '@mui/styles'
+import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { ROUBLE, SHIPPING_PRICES, TShippingPrices } from '../../constants'
+import { addShippingPrice } from '../../redux/actions/shippingAction'
 import { CartItemType } from '../../types/Cart'
 import { CartItem } from './CartItem'
-import { useRouter } from 'next/router'
-import { useDispatch } from 'react-redux'
-import { addShippingPrice } from '../../redux/actions/shippingAction'
-import { SHIPPING_PRICES } from '../../constants'
 
-type Props = {
+type TProps = {
   cartItems: CartItemType[]
   addToCart: (id: string) => void
   removeFromCart: (id: string) => void
+  setCartOpen: (x: boolean) => void
 }
 
 const useStyles = makeStyles(() =>
@@ -39,10 +40,11 @@ const useStyles = makeStyles(() =>
   })
 )
 
-export const Cart: React.FC<Props> = ({
+export const Cart: React.FC<TProps> = ({
   cartItems,
   addToCart,
   removeFromCart,
+  setCartOpen,
 }) => {
   const classes = useStyles()
   const router = useRouter()
@@ -51,8 +53,11 @@ export const Cart: React.FC<Props> = ({
   const [value, setValue] = useState('courier')
 
   useEffect(() => {
-    dispatch(addShippingPrice(SHIPPING_PRICES[value]))
-    localStorage.setItem('shippingPrice', SHIPPING_PRICES[value])
+    dispatch(addShippingPrice(SHIPPING_PRICES[value as keyof TShippingPrices]))
+    window.localStorage.setItem(
+      'shippingPrice',
+      '' + SHIPPING_PRICES[value as keyof TShippingPrices]
+    )
   }, [value])
 
   const calculateTotal = (items: CartItemType[]) =>
@@ -70,15 +75,21 @@ export const Cart: React.FC<Props> = ({
     router.reload()
   }
 
-  const handleCheckout = (e: any) => {
-    e.preventDefault()
+  const handleCheckout = () => {
+    setCartOpen(false)
     router.push('/checkout')
   }
 
   return (
     <div className={classes.root}>
-      <h2>Ваша корзина</h2>
-      {cartItems.length === 0 ? <p>Корзина пуста</p> : null}
+      <h3 style={{ textAlign: 'center', borderBottom: '1px solid lightblue' }}>
+        Ваша корзина
+      </h3>
+
+      {cartItems.length === 0 ? (
+        <h4 style={{ textAlign: 'center' }}>Корзина пуста</h4>
+      ) : null}
+
       {cartItems.map((item: CartItemType) => (
         <CartItem
           key={item._id}
@@ -87,9 +98,12 @@ export const Cart: React.FC<Props> = ({
           removeFromCart={removeFromCart}
         />
       ))}
+
       {!!cartItems.length && (
         <>
-          <h2>Всего: {calculateTotal(cartItems).toFixed(2)} руб.</h2>
+          <h3>
+            Всего: {calculateTotal(cartItems).toFixed(0)} {ROUBLE}
+          </h3>
           <div>
             <Typography variant='subtitle2'>Способ доставки</Typography>
             <Grid item xs={12}>
@@ -107,7 +121,7 @@ export const Cart: React.FC<Props> = ({
                     }}
                     value='courier'
                     control={<Radio />}
-                    label='Курьер (гор.Москва 400 руб.)'
+                    label='Курьер (г.Москва 400 руб.)'
                   />
                   <FormControlLabel
                     classes={{
@@ -132,9 +146,9 @@ export const Cart: React.FC<Props> = ({
             <Grid item xs={12}>
               <Typography variant='subtitle2'>
                 Итого к оплате с учетом доставки:
-                {SHIPPING_PRICES[value] +
+                {SHIPPING_PRICES[value as keyof TShippingPrices] +
                   +calculateTotal(cartItems).toFixed(2)}{' '}
-                руб.
+                {ROUBLE}
               </Typography>
             </Grid>
           </div>
@@ -144,6 +158,7 @@ export const Cart: React.FC<Props> = ({
             color='primary'
             onClick={handleCheckout}
             fullWidth
+            size='small'
           >
             Оформить
           </Button>
@@ -152,6 +167,7 @@ export const Cart: React.FC<Props> = ({
             color='primary'
             onClick={handleClearCart}
             fullWidth
+            size='small'
           >
             Очистить
           </Button>

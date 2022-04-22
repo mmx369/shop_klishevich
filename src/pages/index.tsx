@@ -1,60 +1,64 @@
-import { GetServerSideProps } from 'next'
 import { Grid } from '@mui/material'
-import Layout from '../components/layout/layout'
-import { getTypes, Type } from '../database/getTypes'
-import { Country, getCountry } from '../database/getCountry'
-import { getAsString } from '../database/getAsString'
-import Search from '../components/homepage/Search'
+import { GetServerSideProps } from 'next'
 import Catalog from '../components/homepage/Catalog'
 import MainTextBlock from '../components/homepage/MainTextBlock'
+import Search from '../components/homepage/Search'
+import Layout from '../components/layout/layout'
+import { PRODUCTS_TYPES } from '../constants'
+import { getCountry, ICountryCount } from '../lib/getCountry'
+import { getTypesCount, IProductTypesCount } from '../lib/getTypesCount'
 
-export interface HomepageProps {
-  types: Type[]
-  countries: Country[]
-  listOfCountries: Country[]
-  listOfCountriesCoins: Country[]
+export type TProps = {
+  productTypesCount: IProductTypesCount[]
+  listOfCountriesCount: ICountryCount[]
+  listOfCountriesCoinsCount: ICountryCount[]
 }
 
 export default function Homepage({
-  types,
-  countries,
-  listOfCountries,
-  listOfCountriesCoins,
-}: HomepageProps) {
+  productTypesCount,
+  listOfCountriesCount,
+  listOfCountriesCoinsCount,
+}: TProps) {
   return (
     <Layout title='Нумизматика и бонистика | Интернет-магазин | Продажа банкнот и монет'>
-      <Grid container spacing={3} item xs={12}>
-        <MainTextBlock />
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <MainTextBlock />
+        </Grid>
       </Grid>
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={3}>
+
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={4}>
           <Catalog
-            listOfCountries={listOfCountries}
-            listOfCountriesCoins={listOfCountriesCoins}
+            listOfCountries={listOfCountriesCount}
+            listOfCountriesCoins={listOfCountriesCoinsCount}
           />
         </Grid>
-        <Grid item xs={12} sm={9}>
-          <Search types={types} countries={countries} />
+        <Grid item xs={12} sm={8}>
+          <Search productTypesCount={productTypesCount} countriesCount={[]} />
         </Grid>
       </Grid>
     </Layout>
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    const type = getAsString(ctx.query.type as string)
-
-    const [types, countries, listOfCountries, listOfCountriesCoins] =
+    const [productTypesCount, listOfCountriesCount, listOfCountriesCoinsCount] =
       await Promise.all([
-        getTypes(),
-        getCountry(type),
+        //counts number of product for every product type
+        getTypesCount(PRODUCTS_TYPES),
+        //counts number of product for every country in Paper Money category
         getCountry('Paper Money'),
         getCountry('Coins'),
       ])
 
     return {
-      props: { types, countries, listOfCountries, listOfCountriesCoins },
+      props: {
+        productTypesCount,
+        listOfCountriesCount,
+        listOfCountriesCoinsCount,
+      },
     }
   } catch (err) {
     console.error(err)

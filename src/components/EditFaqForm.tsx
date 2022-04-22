@@ -1,49 +1,118 @@
-import React, { useState } from 'react'
+import { Button, Grid, TextField } from '@mui/material'
 import axios from 'axios'
-import { Button, Grid, TextareaAutosize } from '@mui/material'
+import { useFormik } from 'formik'
 import { useRouter } from 'next/router'
+import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import * as yup from 'yup'
 
-export interface EditFaqFormProps {
+export type TProps = {
   id: string
-  updateFaqList: Function
-  changeVisibility: Function
+  updateFaqList: () => void
+  setToggleVisability: (x: {
+    addNewFaq: boolean
+    editForm: boolean
+    addContentButton: boolean
+  }) => void
   answer: string
   question: string
+  reloadFaqForm: boolean
 }
 
 export const EditFaqForm = ({
   id,
   updateFaqList,
-  changeVisibility,
-  answer,
-  question,
-}: EditFaqFormProps) => {
+  setToggleVisability,
+  reloadFaqForm,
+}: TProps) => {
   const router = useRouter()
 
-  const [newQuestion, setNewQuestion] = useState('')
-  const [newAnswer, setNewAnswer] = useState('')
+  const validationSchema = yup.object({
+    question: yup
+      .string()
+      .min(5, 'Вопрос должен содержать минимум 5 символов')
+      .max(1000, 'Вопрос должен содержать не более 1000 символов')
+      .required('Поле обязательно'),
+    answer: yup
+      .string()
+      .min(3, 'Ответ должен содержать минимум 3 символа')
+      .max(1000, 'Ответ должен содержать не более 1000 символов')
+      .required('Поле обязательно'),
+  })
 
-  const changeHandlerQuestion = (
-    event: React.ChangeEvent<{ value: unknown }>
-  ) => {
-    setNewQuestion(event.target.value as string)
-  }
-  const changeHandlerAnswer = (
-    event: React.ChangeEvent<{ value: unknown }>
-  ) => {
-    setNewAnswer(event.target.value as string)
-  }
+  const [initialValues, setInitialValues] = useState({
+    question: '',
+    answer: '',
+  })
 
-  const deleteHandler = async () => {
+  useEffect(() => {
+    axios
+      .get(`${process.env.RESTURL}/api/getfaqdata?id=${id}`)
+      .then(({ data }) => {
+        setInitialValues({
+          question: data.question || '',
+          answer: data.answer || '',
+        })
+      })
+      .catch((err) => console.log(err))
+  }, [reloadFaqForm])
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues,
+    validationSchema,
+    onSubmit: async (values) => {
+      const updateFaqHandler = async () => {
+        try {
+          const updateFaq = {
+            answer: values.answer,
+            question: values.question,
+            id,
+          }
+
+          const res = await axios.put(
+            `${process.env.RESTURL}/api/updatefaq`,
+            updateFaq
+          )
+
+          if (res.status === 200) {
+            toast.success('Запись успешна изменена', {
+              position: toast.POSITION.TOP_LEFT,
+              autoClose: 5000,
+            })
+            updateFaqList()
+            setToggleVisability({
+              addNewFaq: false,
+              editForm: false,
+              addContentButton: true,
+            })
+          }
+        } catch (e) {
+          toast.error(`Ошибка: ${e.response.data.message}`, {
+            position: toast.POSITION.TOP_LEFT,
+            autoClose: 5000,
+          })
+          console.log(e)
+        }
+      }
+      updateFaqHandler()
+    },
+  })
+
+  const deleteFaqHandler = async () => {
     try {
-      await axios.delete(`${process.env['RESTURL']}/api/deletefaq`, {
+      await axios.delete(`${process.env.RESTURL}/api/deletefaq`, {
         data: id,
       })
       toast.success('Запись успешна удалена', {
         position: toast.POSITION.TOP_LEFT,
         autoClose: 5000,
+      })
+      setToggleVisability({
+        addNewFaq: false,
+        editForm: false,
+        addContentButton: true,
       })
       router.replace(router.asPath)
     } catch (e) {
@@ -55,90 +124,81 @@ export const EditFaqForm = ({
     }
   }
 
-  const updateHandler = async () => {
-    try {
-      const updateFaq = {
-        answer: newAnswer,
-        question: newQuestion,
-        id,
-      }
-
-      const res = await axios.put(
-        `${process.env['RESTURL']}/api/updatefaq`,
-        updateFaq
-      )
-      if (res.status === 200) {
-        toast.success('Запись успешна изменена', {
-          position: toast.POSITION.TOP_LEFT,
-          autoClose: 5000,
-        })
-        updateFaqList()
-        setNewQuestion('')
-        setNewAnswer('')
-        changeVisibility()
-      }
-    } catch (e) {
-      toast.error(`Ошибка: ${e.response.data.message}`, {
-        position: toast.POSITION.TOP_LEFT,
-        autoClose: 5000,
-      })
-      console.log(e)
-    }
+  const cancelEditFaq = () => {
+    setToggleVisability({
+      addNewFaq: false,
+      editForm: false,
+      addContentButton: true,
+    })
   }
 
   return (
-    <React.Fragment>
-      <Grid container spacing={2} direction='column'>
-        <Grid item>
-          <div>
-            <h4>Отредактируйте вопрос или ответ</h4>
-          </div>
-        </Grid>
+    <Grid container direction='column'>
+      <Grid item sx={{ textAlign: 'center' }}>
         <div>
-          <Grid item>
-            <TextareaAutosize
-              onChange={changeHandlerQuestion}
-              minRows={4}
-              maxRows={30}
-              aria-label='Вопрос'
-              placeholder='Введите ваш вопрос...'
-              defaultValue={question}
-            />
-          </Grid>
+          <h3>Отредактируйте вопрос или ответ</h3>
         </div>
-        <div>
-          <Grid item>
-            <TextareaAutosize
-              onChange={changeHandlerAnswer}
-              minRows={4}
-              maxRows={30}
-              aria-label='Ответ'
-              placeholder='Введите ваш ответ...'
-              defaultValue={answer}
-            />
-          </Grid>
-        </div>
-        <Grid item>
-          <Button
-            variant='outlined'
-            color='secondary'
-            fullWidth
-            onClick={updateHandler}
-          >
-            Сохранить изменения
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button
-            variant='outlined'
-            color='secondary'
-            fullWidth
-            onClick={deleteHandler}
-          >
-            Удалить запись
-          </Button>
-        </Grid>
       </Grid>
-    </React.Fragment>
+      <form onSubmit={formik.handleSubmit}>
+        <Grid item>
+          <TextField
+            multiline
+            rows={4}
+            id='question'
+            name='question'
+            label='Вопрос'
+            type='text'
+            value={formik.values.question}
+            onChange={formik.handleChange}
+            error={formik.touched.question && Boolean(formik.errors.question)}
+            helperText={formik.touched.question && formik.errors.question}
+            variant='filled'
+            margin='none'
+            fullWidth
+          />
+        </Grid>
+        <Grid item>
+          <TextField
+            multiline
+            rows={4}
+            id='answer'
+            name='answer'
+            label='Ответ'
+            value={formik.values.answer}
+            onChange={formik.handleChange}
+            error={formik.touched.answer && Boolean(formik.errors.answer)}
+            helperText={formik.touched.answer && formik.errors.answer}
+            variant='filled'
+            margin='none'
+            fullWidth
+          />
+        </Grid>
+        <Grid item sx={{ marginBottom: '5px' }}>
+          <Button variant='outlined' color='secondary' fullWidth type='submit'>
+            Сохранить
+          </Button>
+        </Grid>
+      </form>
+      <Grid item sx={{ marginBottom: '5px' }}>
+        <Button
+          variant='outlined'
+          color='secondary'
+          onClick={cancelEditFaq}
+          fullWidth
+        >
+          Отменить
+        </Button>
+      </Grid>
+      <Grid item sx={{ marginBottom: '5px' }}>
+        <Button
+          variant='outlined'
+          color='secondary'
+          fullWidth
+          onClick={deleteFaqHandler}
+        >
+          Удалить запись
+        </Button>
+      </Grid>
+    </Grid>
   )
 }

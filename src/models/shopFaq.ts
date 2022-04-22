@@ -23,7 +23,6 @@ const faq = new Schema<IFaq>({
   date: Date,
 })
 
-// to avoid overwrite errror???
 // @ts-ignore
 mongoose.models = {}
 

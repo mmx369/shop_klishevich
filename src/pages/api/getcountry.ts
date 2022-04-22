@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { getAsString } from '../../database/getAsString'
-import { getCountry } from '../../database/getCountry'
+import { getAsString } from '../../lib/getAsString'
+import { getCountry } from '../../lib/getCountry'
 
 export default async function country(
   req: NextApiRequest,

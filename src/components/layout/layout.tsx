@@ -1,19 +1,17 @@
-import classes from './layout.module.css'
+import { Container } from '@mui/material'
+import { getSession } from 'next-auth/client'
+import Head from 'next/head'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Link from 'next/link'
-import Head from 'next/head'
-import { Container } from '@mui/material'
-import { Nav } from './nav'
-import { IRootState } from '../../redux/reducers'
-import { ELoggedIn } from '../../types/ELoggedIn'
-import { getSession } from 'next-auth/client'
 import {
   updateIsLoggedInAC,
   updateUserAC,
 } from '../../redux/actions/appActions'
 import { initItems } from '../../redux/actions/cartActions'
+import { IRootState } from '../../redux/reducers'
+import { ELoggedIn } from '../../types/ELoggedIn'
 import BottomAppBar from './bottomAppBar'
+import { Nav } from './nav'
 
 type TProps = {
   children: React.ReactNode
@@ -31,16 +29,16 @@ export default function Layout({ children, title }: TProps) {
   useEffect(() => {
     if (isLoggedIn === ELoggedIn.Unknown) {
       ;(async () => {
-        const session: any = await getSession()
+        const session = await getSession()
 
         if (session) {
           dispatch(updateIsLoggedInAC(ELoggedIn.True))
           dispatch(
             updateUserAC(
-              session.user.name,
-              session.user.email,
-              session.databaseId,
-              session.role
+              session.user!.name as string,
+              session.user!.email as string,
+              session.databaseId as string,
+              session.role as string
             )
           )
         } else {
@@ -52,28 +50,6 @@ export default function Layout({ children, title }: TProps) {
   }, [])
 
   useEffect(() => {
-    // ;(async () => {
-    //   const session = await getSession()
-    //   if (session) {
-    //     console.log(111, session)
-    //     const response = await axios.get(
-    //       `${process.env.RESTURL}/api/getcurrentcart`
-    //     )
-    //     console.log(222, response.data)
-    //     if (response.data.length === 0) {
-    //       console.log('No data!')
-    //       const items = JSON.parse(localStorage.getItem('cart'))
-    //       console.log(333, items)
-    //       const newCart = items.map((item: any) => {
-    //         return { productId: item._id, quantity: item.amountOfGoods }
-    //       })
-    //       console.log(444, newCart)
-    //     }
-    //   } else {
-
-    //     console.log(222, session)
-    //   }
-    // })()
     dispatch(initItems())
   }, [dispatch])
 
@@ -93,18 +69,13 @@ export default function Layout({ children, title }: TProps) {
         />
       </header>
 
-      <main className={classes.main}>
+      <main>
         <Container maxWidth='lg'>
-          <div style={{ flexGrow: 1 }}>{children}</div>
+          <div>{children}</div>
         </Container>
       </main>
 
-      <footer className={classes.footer}>
-        <Link href='/'>
-          <a className={classes.link}>
-            <strong>Интернет-магазин. Нумизматика и бонистика</strong>
-          </a>
-        </Link>
+      <footer>
         <BottomAppBar />
       </footer>
     </div>

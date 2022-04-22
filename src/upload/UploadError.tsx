@@ -3,7 +3,7 @@ import { createStyles, withStyles } from '@mui/styles'
 import { FileError } from 'react-dropzone'
 import FileHeader from './FileHeader'
 
-export interface UploadErrorProps {
+export interface IUploadErrorProps {
   file: File
   onDelete: (file: File) => void
   errors: FileError[]
@@ -21,13 +21,13 @@ export default function UploadError({
   file,
   onDelete,
   errors,
-}: UploadErrorProps) {
+}: IUploadErrorProps) {
   return (
     <>
       <FileHeader file={file} onDelete={onDelete} />
       <ErrorLinearProgress variant='determinate' value={100} />
-      {errors.map((error) => (
-        <div>
+      {errors.map((error, index) => (
+        <div key={index}>
           <Typography color='error'>{error.message}</Typography>
         </div>
       ))}

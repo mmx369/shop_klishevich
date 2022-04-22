@@ -1,21 +1,22 @@
+import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/client'
 import { ERole } from '../../types/ERole'
 
 const cloudinary = require('cloudinary').v2
 
-export default async (req: any, res: any) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req })
 
   if (!session) {
     res.send({
-      error: 'You must be authorized',
+      error: 'Вы должны быть авторизованы',
     })
     return
   }
 
   if (session.role !== ERole.Admin) {
     res.send({
-      error: 'You need to be an admin ',
+      error: 'Вы должны быть администратором',
     })
     return
   }

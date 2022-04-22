@@ -1,6 +1,6 @@
-import { makeStyles, createStyles } from '@mui/styles'
-import { Typography, SvgIconProps } from '@mui/material'
 import { TreeItem, TreeItemProps } from '@mui/lab'
+import { SvgIconProps, Typography } from '@mui/material'
+import { createStyles, makeStyles } from '@mui/styles'
 
 declare module 'csstype' {
   interface Properties {
@@ -9,7 +9,7 @@ declare module 'csstype' {
   }
 }
 
-type StyledTreeItemProps = TreeItemProps & {
+type TProps = TreeItemProps & {
   bgColor?: string
   color?: string
   labelIcon: React.ElementType<SvgIconProps>
@@ -70,7 +70,7 @@ const useTreeItemStyles = makeStyles((theme) =>
   })
 )
 
-export function StyledTreeItem(props: StyledTreeItemProps) {
+export function StyledTreeItem(props: TProps) {
   const classes = useTreeItemStyles()
 
   const {

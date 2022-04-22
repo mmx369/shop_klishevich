@@ -9,7 +9,6 @@ import UploadError from './UploadError'
 let currentId = 0
 
 function getNewId() {
-  // we could use a fancier solution instead of a sequential ID :)
   return ++currentId
 }
 
@@ -40,12 +39,10 @@ export function MultipleFileUploadField({
 }: {
   name: string
   clearState: boolean
-  setClearState: any
+  setClearState: (x: boolean) => void
 }) {
   const classes = useStyles()
-
   const [_, __, helpers] = useField(name)
-
   const [files, setFiles] = useState<UploadableFile[]>([])
 
   const onDrop = useCallback((accFiles: File[], rejFiles: FileRejection[]) => {
@@ -102,7 +99,7 @@ export function MultipleFileUploadField({
         </div>
         <div>
           {files.map((fileWrapper, index) => (
-            <Grid item>
+            <Grid item key={index}>
               {fileWrapper.errors.length ? (
                 <UploadError
                   key={index}

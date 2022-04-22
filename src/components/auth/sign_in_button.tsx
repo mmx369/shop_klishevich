@@ -1,5 +1,5 @@
-import { signIn, signOut } from 'next-auth/client'
 import Button from '@mui/material/Button'
+import { signIn, signOut } from 'next-auth/client'
 
 type TProps = {
   isSignedIn: boolean
@@ -18,6 +18,7 @@ const SignInButtons = ({ isSignedIn }: TProps) => {
         <Button
           color='primary'
           variant='contained'
+          size='small'
           disableElevation
           onClick={handleSignIn}
         >
@@ -26,8 +27,10 @@ const SignInButtons = ({ isSignedIn }: TProps) => {
       )}
       {isSignedIn && (
         <Button
+          sx={{ marginLeft: '5px' }}
           color='primary'
           variant='contained'
+          size='small'
           disableElevation
           onClick={handleSignOut}
         >

@@ -20,21 +20,21 @@ export const initItems = () => {
 
 export const addNewItem = (id: string, value: number) => {
   return async (dispatch: any) => {
-    //получил текущий продукт из базы
+    //get current product
     const item = await axios.get(`${process.env.RESTURL}/api/getitembyid`, {
       params: {
         id,
       },
     })
-    const itemAmount = item.data.amountOfGoods //получил текущий остаток
+    const itemAmount = item.data.amountOfGoods //get product remain in stock
 
     if (itemAmount <= 0) {
-      //если остаток меньше ноля выдал ошибку - корзину не меняю
+      //if below 0 dont change cart
       dispatch({
         type: CartActionTypes.DEFAULT,
       })
     } else {
-      //изменил остаток на желаемый добавить в корзину
+      //changed quantity
       item.data.amountOfGoods = value
       dispatch({
         type: CartActionTypes.NEW_ITEM,

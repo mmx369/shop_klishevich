@@ -1,29 +1,43 @@
-import classes from './[id].module.css'
-
-import { useState } from 'react'
-import { Button, Grid, Input, Typography } from '@mui/material'
-import { GetServerSideProps } from 'next'
+import { Box, Button, Grid, Input, Typography } from '@mui/material'
+import { createStyles, makeStyles } from '@mui/styles'
+import axios from 'axios'
+import { GetServerSideProps, GetServerSidePropsContext } from 'next'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 import Layout from '../../../../../components/layout/layout'
-import ShopGoods from '../../../../../models/shopGoods'
-import { addNewItem } from '../../../../../redux/actions/cartActions'
+import { ROUBLE } from '../../../../../constants'
+import { serializeData } from '../../../../../lib/serialize'
 import {
   translateCategory,
   translateCountry,
 } from '../../../../../lib/translate'
-import Image from 'next/image'
-import { toast } from 'react-toastify'
-import axios from 'axios'
+import ShopGoods from '../../../../../models/shopGoods'
+import { addNewItem } from '../../../../../redux/actions/cartActions'
 import { IRootState } from '../../../../../redux/reducers'
 
 toast.configure()
 
-interface ItemsDetailsProps {
-  item: ItemModel | null | undefined
-}
+const useStyles = makeStyles(() =>
+  createStyles({
+    root: {
+      marginTop: '50px',
+      maxWidth: '900px',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+    input: {
+      margin: '10px',
+    },
+    img: {
+      textAlign: 'center',
+    },
+  })
+)
 
-export interface ItemModel {
+export interface IProductModel {
   _id: string
   imageUrl: string[]
   nameOfGoods: string
@@ -34,7 +48,12 @@ export interface ItemModel {
   category: string
 }
 
-export default function ItemsDetails({ item }: ItemsDetailsProps) {
+type TProps = {
+  item: IProductModel
+}
+
+export default function ItemsDetails({ item }: TProps) {
+  const classes = useStyles()
   const dispatch = useDispatch()
   const router = useRouter()
 
@@ -78,29 +97,29 @@ export default function ItemsDetails({ item }: ItemsDetailsProps) {
     }
   }
 
-  if (item === null) {
-    return <h1>Извините такой товар не найден!</h1>
-  }
-
   return (
     <>
       <Layout title={translateCountry(item!.country) + ' ' + item!.nameOfGoods}>
         <main className={classes.root}>
           <Button
-            variant='contained'
+            sx={{ margin: '5px' }}
+            variant='outlined'
             color='primary'
+            size='small'
             onClick={() => router.back()}
           >
             назад
           </Button>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6} md={5}>
-              <Image
-                src={item!.imageUrl[0] as string}
-                alt={`${item!.country} | ${item!.nameOfGoods}`}
-                width={300}
-                height={300}
-              />
+              <Box className={classes.img}>
+                <Image
+                  src={item!.imageUrl[0] as string}
+                  alt={`${item!.country} | ${item!.nameOfGoods}`}
+                  width={300}
+                  height={300}
+                />
+              </Box>
             </Grid>
             <Grid item xs={12} sm={6} md={7} container>
               <Grid item xs container direction='column' spacing={2}>
@@ -120,7 +139,10 @@ export default function ItemsDetails({ item }: ItemsDetailsProps) {
                   )}
 
                   <Typography gutterBottom variant='subtitle1'>
-                    Цена за единицу: {item!.priceOfGoods} руб.
+                    Цена за единицу:{' '}
+                    <strong>
+                      {item!.priceOfGoods} {ROUBLE}
+                    </strong>
                   </Typography>
                   <Typography gutterBottom variant='subtitle1'>
                     Количество: {item!.amountOfGoods} шт.
@@ -128,11 +150,12 @@ export default function ItemsDetails({ item }: ItemsDetailsProps) {
                   <Button
                     variant='contained'
                     color='primary'
+                    size='small'
                     onClick={() => {
                       handleDispatch(item!._id)
                     }}
                   >
-                    добавить в корзину
+                    в корзину
                   </Button>
                   <Input
                     className={classes.input}
@@ -161,20 +184,24 @@ export default function ItemsDetails({ item }: ItemsDetailsProps) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
-  const productId = ctx.params.id
-  const data = await ShopGoods.findById(productId).select('-date -__v')
+export const getServerSideProps: GetServerSideProps = async (
+  ctx: GetServerSidePropsContext
+) => {
+  const productId = ctx.params!.id
+  const data: IProductModel | null = await ShopGoods.findById(productId).select(
+    '-date -__v'
+  )
 
   if (!data) {
-    return { props: { item: null } }
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
   }
 
-  const item = data._doc
+  const serializedItem: IProductModel = serializeData([data])[0]
 
-  const serializedItem = {
-    ...item,
-    _id: item._id.toString(),
-  }
-
-  return { props: { item: serializedItem || null } }
+  return { props: { item: serializedItem } }
 }
