@@ -18,6 +18,7 @@ export interface IProductOrders {
   secondName: string
   status: string
   totalPrice: number
+  shippingPrice?: number
   zip: string
   _id: string
 }

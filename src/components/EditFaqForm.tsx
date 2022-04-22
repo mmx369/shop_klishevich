@@ -7,7 +7,7 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import * as yup from 'yup'
 
-export type TEditFaqFormProps = {
+export type TProps = {
   id: string
   updateFaqList: () => void
   setToggleVisability: (x: {
@@ -25,7 +25,7 @@ export const EditFaqForm = ({
   updateFaqList,
   setToggleVisability,
   reloadFaqForm,
-}: TEditFaqFormProps) => {
+}: TProps) => {
   const router = useRouter()
 
   const validationSchema = yup.object({

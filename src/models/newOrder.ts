@@ -49,7 +49,6 @@ const newOrder = new Schema<INewOrder>({
   date: Date,
 })
 
-// to avoid overwrite errror???
 // @ts-ignore
 mongoose.models = {}
 

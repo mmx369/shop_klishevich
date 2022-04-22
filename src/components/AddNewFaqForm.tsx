@@ -13,23 +13,23 @@ export type TFormFaqFields = {
   answer: string
 }
 
-const validationSchema = yup.object({
-  question: yup
-    .string()
-    .min(5, 'Вопрос должен содержать минимум 5 символов')
-    .max(1000, 'Вопрос должен содержать не более 1000 символов')
-    .required('Поле обязательно'),
-  answer: yup
-    .string()
-    .min(3, 'Ответ должен содержать минимум 3 символа')
-    .max(1000, 'Ответ должен содержать не более 1000 символов')
-    .required('Поле обязательно'),
-})
-
 const initialValues: TFormFaqFields = {
   question: '',
   answer: '',
 }
+
+const validationSchema = yup.object({
+  question: yup
+    .string()
+    .min(5, 'Минимум 5 символов')
+    .max(1000, 'Не более 1000 символов')
+    .required('Поле обязательно'),
+  answer: yup
+    .string()
+    .min(3, 'Минимум 3 символа')
+    .max(1000, 'Не более 1000 символов')
+    .required('Поле обязательно'),
+})
 
 type TProps = {
   setToggleVisability: (x: {
@@ -44,7 +44,6 @@ export const AddNewFaqForm = ({ setToggleVisability }: TProps) => {
 
   const formik = useFormik({
     initialValues,
-
     validationSchema,
     onSubmit: async (values) => {
       const addNewFaq = async () => {

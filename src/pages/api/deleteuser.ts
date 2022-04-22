@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/client'
-import User from '../../models/shopUser'
 import { dbConnect } from '../../db/dbConnect'
+import User from '../../models/shopUser'
 import { ERole } from '../../types/ERole'
 
 export default async function handler(
@@ -12,14 +12,14 @@ export default async function handler(
   const session = await getSession({ req })
   if (!session) {
     res.send({
-      error: 'You must be authorized',
+      error: 'Вы должны быть авторизованы',
     })
     return
   }
 
   if (session.role !== ERole.Admin) {
     res.send({
-      error: 'You need to be an admin',
+      error: 'Вы должны быть администратором',
     })
     return
   }

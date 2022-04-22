@@ -14,18 +14,6 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import * as yup from 'yup'
 
-type TEditFormProps = {
-  id: string
-  email: string
-  updateUserList: () => void
-  setToggleVisability: (x: {
-    addUserForm: boolean
-    editForm: boolean
-    addUserButton: boolean
-  }) => void
-  reloadEditForm: boolean
-}
-
 const validationSchema = yup.object({
   username: yup
     .string()
@@ -39,13 +27,25 @@ const validationSchema = yup.object({
   role: yup.string().required('Поле является обязательным'),
 })
 
+type TProps = {
+  id: string
+  email: string
+  updateUserList: () => void
+  setToggleVisability: (x: {
+    addUserForm: boolean
+    editForm: boolean
+    addUserButton: boolean
+  }) => void
+  reloadEditForm: boolean
+}
+
 export const EditUserlistForm = ({
   id,
   email,
   updateUserList,
   setToggleVisability,
   reloadEditForm,
-}: TEditFormProps) => {
+}: TProps) => {
   const router = useRouter()
 
   const [initialValues, setInitialValues] = useState({

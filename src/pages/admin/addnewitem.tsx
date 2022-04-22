@@ -25,7 +25,7 @@ export default function AddNewItem() {
   if (!session) {
     return (
       <>
-        <Layout title='Admin profile'>
+        <Layout title='Администрирование'>
           <h1>Вы должны авторизоваться.</h1>
         </Layout>
       </>
@@ -33,7 +33,7 @@ export default function AddNewItem() {
   }
   if (session.role !== ERole.Admin) {
     return (
-      <Layout title='Admin profile'>
+      <Layout title='Администрирование'>
         <h1>Вы должны иметь права администратора.</h1>
       </Layout>
     )

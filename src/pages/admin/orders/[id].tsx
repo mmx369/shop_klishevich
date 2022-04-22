@@ -102,6 +102,16 @@ export default function ItemsDetails({ orderJSON }: TProps) {
           <Typography variant='subtitle2'>
             Итоговая стоимость: {order.totalPrice} {ROUBLE}
           </Typography>
+          <Typography variant='subtitle2'>
+            Cтоимость доставки: {order.shippingPrice} {ROUBLE}
+          </Typography>
+          <Typography variant='subtitle2'>
+            Итого к оплате:{' '}
+            {order.shippingPrice!
+              ? order.shippingPrice + order.totalPrice
+              : 'Не выбрана стоимость доставки'}{' '}
+            {ROUBLE}
+          </Typography>
         </div>
       </div>
     </Layout>

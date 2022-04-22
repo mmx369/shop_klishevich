@@ -1,27 +1,25 @@
 import {
+  Button,
+  FormControl,
   Grid,
-  Paper,
   InputLabel,
   MenuItem,
-  FormControl,
+  Paper,
   Select,
-  Button,
   SelectProps,
 } from '@mui/material'
-import { makeStyles, createStyles } from '@mui/styles'
-import { Formik, Form, Field, useField, useFormikContext } from 'formik'
-import useSWR from 'swr'
+import { createStyles, makeStyles } from '@mui/styles'
+import { Field, Form, Formik, useField, useFormikContext } from 'formik'
 import router, { useRouter } from 'next/router'
-import { ICountryCount } from '../../lib/getCountry'
+import useSWR from 'swr'
 import { getAsString } from '../../lib/getAsString'
-import { translateCategory } from '../../lib/translate'
-import { translateCountry } from '../../lib/translate'
+import { ICountryCount } from '../../lib/getCountry'
 import { IProductTypesCount } from '../../lib/getTypesCount'
+import { translateCategory, translateCountry } from '../../lib/translate'
 
 const useStyles = makeStyles(() =>
   createStyles({
     root: {
-      backgroundColor: 'green',
       margin: '10px',
       marginTop: '50px',
     },
@@ -33,7 +31,7 @@ const useStyles = makeStyles(() =>
   })
 )
 
-export interface ISearchProps {
+export type TProps = {
   productTypesCount: IProductTypesCount[]
   countriesCount: ICountryCount[]
   singleColumn?: boolean
@@ -45,7 +43,7 @@ export default function Search({
   productTypesCount,
   countriesCount,
   singleColumn,
-}: ISearchProps) {
+}: TProps) {
   const classes = useStyles()
   const { query } = useRouter()
   const smValue = singleColumn ? 12 : 6
@@ -188,7 +186,7 @@ export function CountrySelect({
   })
 
   const { data } = useSWR<ICountryCount[]>('/api/getcountry?type=' + type, {
-    // dedupingInterval: 60000,
+    dedupingInterval: 60000,
     onSuccess: (newValues) => {
       if (!newValues.map((a) => a.country).includes(field.value)) {
         setFieldValue('country', 'all')

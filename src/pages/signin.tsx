@@ -1,12 +1,10 @@
-import { providers, signIn, getCsrfToken } from 'next-auth/client'
-import { useRouter } from 'next/router'
 import { Button, Grid } from '@mui/material'
-import { makeStyles, createStyles } from '@mui/styles'
+import { createStyles, makeStyles } from '@mui/styles'
 import { GetServerSidePropsContext } from 'next'
-
+import { getCsrfToken, providers, signIn } from 'next-auth/client'
+import { useRouter } from 'next/router'
 import Layout from '../components/layout/layout'
 import { TProviderNextAuth } from '../types/providerNextAuth'
-import { getAsString } from '../lib/getAsString'
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -26,7 +24,7 @@ const useStyles = makeStyles(() =>
   })
 )
 
-export interface ISignInProps {
+export type TProps = {
   providers: TProviderNextAuth
   csrfToken: string | undefined
 }
@@ -37,15 +35,13 @@ export interface IProvider {
   signinUrl: string
 }
 
-export default function SignIn({ providers, csrfToken }: ISignInProps) {
+export default function SignIn({ providers, csrfToken }: TProps) {
   const classes = useStyles()
   const newProvider = Object.values(providers).filter((el) => el.id != 'email')
 
   const {
     query: { callbackUrl },
   } = useRouter()
-
-  const cbUrl = getAsString(callbackUrl)
 
   return (
     <>
@@ -66,7 +62,7 @@ export default function SignIn({ providers, csrfToken }: ISignInProps) {
                         variant='contained'
                         onClick={() =>
                           signIn(provider.id, {
-                            cbUrl,
+                            callbackUrl: '/',
                           })
                         }
                       >

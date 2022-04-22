@@ -24,7 +24,7 @@ export interface INewItemDetails {
   catalogNumber?: string
   country: string
   category: string
-  files: any
+  files: any[]
 }
 
 const initialValues: INewItemDetails = {

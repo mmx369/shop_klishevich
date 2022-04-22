@@ -29,16 +29,16 @@ export default function Layout({ children, title }: TProps) {
   useEffect(() => {
     if (isLoggedIn === ELoggedIn.Unknown) {
       ;(async () => {
-        const session: any = await getSession()
+        const session = await getSession()
 
         if (session) {
           dispatch(updateIsLoggedInAC(ELoggedIn.True))
           dispatch(
             updateUserAC(
-              session.user.name,
-              session.user.email,
-              session.databaseId,
-              session.role
+              session.user!.name as string,
+              session.user!.email as string,
+              session.databaseId as string,
+              session.role as string
             )
           )
         } else {

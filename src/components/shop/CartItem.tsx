@@ -60,7 +60,6 @@ export const CartItem: React.FC<TProps> = ({
         <div className={classes.buttons}>
           <Button
             size='small'
-            disableElevation
             variant='outlined'
             onClick={() => removeFromCart(item._id)}
           >
@@ -69,7 +68,6 @@ export const CartItem: React.FC<TProps> = ({
           <p>{item.amountOfGoods}</p>
           <Button
             size='small'
-            disableElevation
             variant='outlined'
             onClick={() => addToCart(item._id)}
           >

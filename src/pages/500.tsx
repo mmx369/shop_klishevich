@@ -1,29 +1,13 @@
-import Image from 'next/image'
-import { makeStyles, createStyles } from '@mui/styles'
+import React from 'react'
+import { ErrorFallback } from '../components/ErrorFallback'
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    root: {
-      display: 'block',
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      textAlign: 'center',
-    },
-  })
-)
-
-function ServerErrorPage() {
-  const classes = useStyles()
+function Custom500Page() {
   return (
-    <div className={classes.root}>
-      <Image
-        src={'/images/image-404.jpg'}
-        height={271}
-        width={332}
-        alt='Something went wrong'
-      />
+    <div>
+      <ErrorFallback />
+      <h3>Error: 500</h3>
     </div>
   )
 }
 
-export default ServerErrorPage
+export default Custom500Page

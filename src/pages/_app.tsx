@@ -1,28 +1,16 @@
-import '../styles/global.css'
-import { ThemeProvider } from '@mui/styles'
 import CssBaseline from '@mui/material/CssBaseline'
-// import { CacheProvider } from '@emotion/react'
+import { ThemeProvider } from '@mui/styles'
+import { Provider as SessionProvider } from 'next-auth/client'
+import { AppProps } from 'next/app'
 import Head from 'next/head'
+import React from 'react'
+import { Provider } from 'react-redux'
+import ErrorBoundary from '../components/ErrorBoundary'
+import { useStore } from '../store'
+import '../styles/global.css'
 import theme from '../theme'
 
-import { AppProps } from 'next/app'
-import { Provider as SessionProvider } from 'next-auth/client'
-import { Provider } from 'react-redux'
-import { useStore } from '../store'
-import React from 'react'
-
-// import createEmotionCache from '../createEmotionCash'
-
-// Client-side cache, shared for the whole session of the user in the browser.
-// const clientSideEmotionCache = createEmotionCache()
-
 export default function App({ Component, pageProps }: AppProps) {
-  // const {
-  //   Component,
-  //   //@ts-ignore
-  //   emotionCache = clientSideEmotionCache,
-  //   pageProps,
-  // } = props
   const store = useStore(pageProps.initialReduxState)
 
   React.useEffect(() => {
@@ -34,7 +22,6 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [])
 
   return (
-    // <CacheProvider value={emotionCache}>
     <Provider store={store}>
       <SessionProvider session={pageProps.session}>
         <CssBaseline />
@@ -48,16 +35,17 @@ export default function App({ Component, pageProps }: AppProps) {
             content='initial-scale=1.0, width=device-width'
           />
           <meta charSet='utf-8' />
-
+          <link rel='icon' href='/favicon.ico' />
           <title>
             Нумизматика и бонистика | Интернет-магазин | Продажа банкнот и монет
           </title>
         </Head>
         <ThemeProvider theme={theme}>
-          <Component {...pageProps} />
+          <ErrorBoundary>
+            <Component {...pageProps} />
+          </ErrorBoundary>
         </ThemeProvider>
       </SessionProvider>
     </Provider>
-    // </CacheProvider>
   )
 }

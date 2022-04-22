@@ -27,11 +27,11 @@ const useStyles = makeStyles(() =>
   })
 )
 
-export interface IShopCardProps {
+export type TProps = {
   item: IProduct
 }
 
-export function ShopCard({ item }: IShopCardProps) {
+export function ShopCard({ item }: TProps) {
   const classes = useStyles()
   const dispatch = useDispatch()
 
@@ -72,7 +72,7 @@ export function ShopCard({ item }: IShopCardProps) {
               : 'Товар отсутствует'}
             <Button
               size='small'
-              variant='contained'
+              variant='outlined'
               color='primary'
               className={classes.btn}
               onClick={() => {

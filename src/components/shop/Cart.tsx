@@ -12,7 +12,7 @@ import { createStyles, makeStyles } from '@mui/styles'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { ROUBLE, SHIPPING_PRICES } from '../../constants'
+import { ROUBLE, SHIPPING_PRICES, TShippingPrices } from '../../constants'
 import { addShippingPrice } from '../../redux/actions/shippingAction'
 import { CartItemType } from '../../types/Cart'
 import { CartItem } from './CartItem'
@@ -21,6 +21,7 @@ type TProps = {
   cartItems: CartItemType[]
   addToCart: (id: string) => void
   removeFromCart: (id: string) => void
+  setCartOpen: (x: boolean) => void
 }
 
 const useStyles = makeStyles(() =>
@@ -43,6 +44,7 @@ export const Cart: React.FC<TProps> = ({
   cartItems,
   addToCart,
   removeFromCart,
+  setCartOpen,
 }) => {
   const classes = useStyles()
   const router = useRouter()
@@ -51,8 +53,11 @@ export const Cart: React.FC<TProps> = ({
   const [value, setValue] = useState('courier')
 
   useEffect(() => {
-    dispatch(addShippingPrice(SHIPPING_PRICES[value]))
-    localStorage.setItem('shippingPrice', SHIPPING_PRICES[value])
+    dispatch(addShippingPrice(SHIPPING_PRICES[value as keyof TShippingPrices]))
+    window.localStorage.setItem(
+      'shippingPrice',
+      '' + SHIPPING_PRICES[value as keyof TShippingPrices]
+    )
   }, [value])
 
   const calculateTotal = (items: CartItemType[]) =>
@@ -71,6 +76,7 @@ export const Cart: React.FC<TProps> = ({
   }
 
   const handleCheckout = () => {
+    setCartOpen(false)
     router.push('/checkout')
   }
 
@@ -115,7 +121,7 @@ export const Cart: React.FC<TProps> = ({
                     }}
                     value='courier'
                     control={<Radio />}
-                    label='Курьер (гор.Москва 400 руб.)'
+                    label='Курьер (г.Москва 400 руб.)'
                   />
                   <FormControlLabel
                     classes={{
@@ -140,7 +146,7 @@ export const Cart: React.FC<TProps> = ({
             <Grid item xs={12}>
               <Typography variant='subtitle2'>
                 Итого к оплате с учетом доставки:
-                {SHIPPING_PRICES[value] +
+                {SHIPPING_PRICES[value as keyof TShippingPrices] +
                   +calculateTotal(cartItems).toFixed(2)}{' '}
                 {ROUBLE}
               </Typography>

@@ -1,13 +1,12 @@
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Typography,
 } from '@mui/material'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { makeStyles, createStyles } from '@mui/styles'
+import { createStyles, makeStyles } from '@mui/styles'
 import { InferGetStaticPropsType } from 'next'
-
 import Layout from '../../components/layout/layout'
 import { dbConnect } from '../../db/dbConnect'
 import { serializeData } from '../../lib/serialize'
@@ -63,9 +62,7 @@ export const getStaticProps = async () => {
   if (!faqList) {
     throw new Error(`Что-то пошло не так. Попробуйте позднее.`)
   }
-
   const faqListSerialized: IFaqModel[] = serializeData(faqList)
-
   return {
     props: {
       faq: faqListSerialized,

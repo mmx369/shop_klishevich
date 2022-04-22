@@ -30,7 +30,6 @@ const shopGoods = new Schema<IShopGoods>({
   date: Date,
 })
 
-// to avoid overwrite errror???
 // @ts-ignore
 mongoose.models = {}
 

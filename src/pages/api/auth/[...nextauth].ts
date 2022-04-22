@@ -1,9 +1,9 @@
-import NextAuth, { User } from 'next-auth'
-import Providers from 'next-auth/providers'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { TUserSession } from '../../../types/userSession'
-import ShopUser from '../../../models/shopUser'
+import NextAuth, { Account, Profile, TokenSet, User } from 'next-auth'
+import Providers from 'next-auth/providers'
 import { dbConnect } from '../../../db/dbConnect'
+import ShopUser from '../../../models/shopUser'
+import { TUserSession } from '../../../types/userSession'
 
 const options = {
   providers: [
@@ -31,7 +31,7 @@ const options = {
   pages: { signIn: '/signin' },
 
   callbacks: {
-    async signIn(user: User, _account: any, _profile: any) {
+    async signIn(user: User, _account: Account, _profile: Profile) {
       await dbConnect()
       try {
         const candidate = await ShopUser.findOne({
@@ -46,7 +46,6 @@ const options = {
             date: new Date(),
           })
           await newShopUser.save()
-          console.log('New user added')
           return
         }
 
@@ -67,7 +66,7 @@ const options = {
       }
     },
 
-    async session(session: TUserSession, _token: any) {
+    async session(session: TUserSession, _token: TokenSet) {
       await dbConnect()
       if (session) {
         try {

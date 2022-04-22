@@ -8,7 +8,7 @@ import { PRODUCTS_TYPES } from '../constants'
 import { getCountry, ICountryCount } from '../lib/getCountry'
 import { getTypesCount, IProductTypesCount } from '../lib/getTypesCount'
 
-export interface IHomepageProps {
+export type TProps = {
   productTypesCount: IProductTypesCount[]
   listOfCountriesCount: ICountryCount[]
   listOfCountriesCoinsCount: ICountryCount[]
@@ -18,7 +18,7 @@ export default function Homepage({
   productTypesCount,
   listOfCountriesCount,
   listOfCountriesCoinsCount,
-}: IHomepageProps) {
+}: TProps) {
   return (
     <Layout title='Нумизматика и бонистика | Интернет-магазин | Продажа банкнот и монет'>
       <Grid container spacing={2}>

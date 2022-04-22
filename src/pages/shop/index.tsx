@@ -29,7 +29,7 @@ const useStyles = makeStyles(() =>
   })
 )
 
-export interface ShopListProps {
+export type TProps = {
   productTypesCount: IProductTypesCount[]
   countProductsForEveryCountry: ICountryCount[]
   goods: IProduct[]
@@ -41,7 +41,7 @@ export default function ShopList({
   countProductsForEveryCountry,
   goods,
   totalPages,
-}: ShopListProps) {
+}: TProps) {
   const { query } = useRouter()
   const classes = useStyles()
   const [serverQuery] = useState(query)

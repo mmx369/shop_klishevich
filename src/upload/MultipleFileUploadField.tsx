@@ -42,9 +42,7 @@ export function MultipleFileUploadField({
   setClearState: (x: boolean) => void
 }) {
   const classes = useStyles()
-
   const [_, __, helpers] = useField(name)
-
   const [files, setFiles] = useState<UploadableFile[]>([])
 
   const onDrop = useCallback((accFiles: File[], rejFiles: FileRejection[]) => {

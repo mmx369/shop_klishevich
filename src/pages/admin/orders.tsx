@@ -19,10 +19,6 @@ const useStyles = makeStyles(() =>
   })
 )
 
-export interface IOrders {
-  orderList: IListOfOrders[]
-}
-
 export interface IListOfOrders {
   status?: string
   firstName: string
@@ -41,7 +37,11 @@ export interface IListOfOrders {
   order: string
 }
 
-export default function Orders({ orderList }: IOrders) {
+export type TProps = {
+  orderList: IListOfOrders[]
+}
+
+export default function Orders({ orderList }: TProps) {
   const classes = useStyles()
   const [session, loading] = useSession()
 
@@ -72,7 +72,11 @@ export default function Orders({ orderList }: IOrders) {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    const data = await NewOrder.find({}).select('-__v')
+    const data = await NewOrder.find({})
+      .where('status')
+      .in(['open', 'paid', 'shipped', 'received'])
+      .select('-__v')
+
     const dataSerialized = serializeData(data)
 
     return {

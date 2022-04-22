@@ -1,21 +1,20 @@
+import { ArrowDropDown, ArrowRight, Label, Money } from '@mui/icons-material'
 import { TreeView } from '@mui/lab'
+import { createStyles, makeStyles } from '@mui/styles'
 import router from 'next/router'
-import { ArrowRight, Label, Money, ArrowDropDown } from '@mui/icons-material'
+import { ICountryCount } from '../../lib/getCountry'
 import { translateCountry } from '../../lib/translate'
 import { StyledTreeItem } from './StyledTreeItem'
-import { ICountryCount } from '../../lib/getCountry'
-import { makeStyles, createStyles } from '@mui/styles'
 
 const useStyles = makeStyles(() =>
   createStyles({
     root: {
       padding: 20,
-      backgroundColor: 'red',
     },
   })
 )
 
-interface TProps {
+type TProps = {
   listOfCountries: ICountryCount[]
   listOfCountriesCoins: ICountryCount[]
 }

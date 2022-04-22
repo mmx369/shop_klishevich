@@ -25,12 +25,12 @@ const style = {
   p: 4,
 }
 
-export interface IModalSelectProps {
+export type TProps = {
   currStatus: string
   currId: string
 }
 
-export function ModalSelectStatus({ currStatus, currId }: IModalSelectProps) {
+export function ModalSelectStatus({ currStatus, currId }: TProps) {
   const router = useRouter()
 
   const [open, setOpen] = useState(false)

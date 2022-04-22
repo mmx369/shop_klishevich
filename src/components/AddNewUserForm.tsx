@@ -22,6 +22,12 @@ export type TFormUserFields = {
   role: string
 }
 
+const initialValues: TFormUserFields = {
+  username: '',
+  email: '',
+  role: 'client',
+}
+
 const validationSchema = yup.object({
   username: yup
     .string()
@@ -34,12 +40,6 @@ const validationSchema = yup.object({
     .required('Поле является обязательным'),
   role: yup.string().required('Поле является обязательным'),
 })
-
-const initialValues: TFormUserFields = {
-  username: '',
-  email: '',
-  role: 'client',
-}
 
 type TProps = {
   setToggleVisability: (x: {

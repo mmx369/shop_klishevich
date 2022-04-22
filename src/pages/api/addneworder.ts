@@ -65,6 +65,7 @@ export default async function handler(
       address: yup.string().required().max(100),
       phone: yup.string().matches(phoneRegExp).required().min(10).max(15),
       comments: yup.string().max(100),
+      shippingPrice: yup.number().required(),
     })
 
     try {

@@ -1,3 +1,11 @@
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import ContactsIcon from '@mui/icons-material/Contacts'
+import HomeIcon from '@mui/icons-material/Home'
+import LiveHelpIcon from '@mui/icons-material/LiveHelp'
+import LocalShippingIcon from '@mui/icons-material/LocalShipping'
+import MenuIcon from '@mui/icons-material/Menu'
+import ShoppingCartRoundedIcon from '@mui/icons-material/ShoppingCartRounded'
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount'
 import {
   AppBar,
   Badge,
@@ -13,26 +21,17 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material'
-import { makeStyles, createStyles, styled } from '@mui/styles'
-import React, { useState } from 'react'
+import { createStyles, makeStyles, styled } from '@mui/styles'
 import Link from 'next/link'
-import { ELoggedIn } from '../../types/ELoggedIn'
-import SignInButtons from '../auth/sign_in_button'
-import ShoppingCartRoundedIcon from '@mui/icons-material/ShoppingCartRounded'
-// import { useRouter } from 'next/router'
-import MenuIcon from '@mui/icons-material/Menu'
-import HomeIcon from '@mui/icons-material/Home'
-import LocalShippingIcon from '@mui/icons-material/LocalShipping'
-import LiveHelpIcon from '@mui/icons-material/LiveHelp'
-import ContactsIcon from '@mui/icons-material/Contacts'
-import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount'
-import { ERole } from '../../types/ERole'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { IRootState } from '../../redux/reducers'
-import { Cart } from '../shop/Cart'
-import { CartItemType } from '../../types/Cart'
 import { addNewItem, removeFromCart } from '../../redux/actions/cartActions'
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import { IRootState } from '../../redux/reducers'
+import { CartItemType } from '../../types/Cart'
+import { ELoggedIn } from '../../types/ELoggedIn'
+import { ERole } from '../../types/ERole'
+import SignInButtons from '../auth/sign_in_button'
+import { Cart } from '../shop/Cart'
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -53,20 +52,9 @@ type TProps = {
   isCartEmpty: any
 }
 
-export function Nav({
-  currentEmail,
-  currentRole,
-  isLoggedIn,
-}: // isCartEmpty,
-TProps) {
-  // const router = useRouter()
+export function Nav({ currentEmail, currentRole, isLoggedIn }: TProps) {
   const classes = useStyles()
   const dispatch = useDispatch()
-
-  // const handleClick = (e: React.MouseEvent) => {
-  //   e.preventDefault()
-  //   router.push('/shop/cart')
-  // }
 
   type Anchor = 'left'
 
@@ -201,6 +189,7 @@ TProps) {
           cartItems={cartItems}
           addToCart={handleAddToCart}
           removeFromCart={handleRemoveFromCart}
+          setCartOpen={setCartOpen}
         />
       </Drawer>
       <AppBar position='fixed' sx={{ boxShadow: 'none' }}>
@@ -225,26 +214,22 @@ TProps) {
               }}
             >
               {isLoggedIn === ELoggedIn.True && (
-                <div>Вы вошли как {currentEmail}</div>
+                <div style={{ fontStyle: 'italic' }}>
+                  Вы вошли как {currentEmail}
+                </div>
               )}
             </Box>
 
             {isLoggedIn !== ELoggedIn.Unknown && (
               <SignInButtons isSignedIn={isLoggedIn === ELoggedIn.True} />
             )}
-            {/* {!!isCartEmpty.length && ( */}
             <div>
-              <IconButton
-                color='inherit'
-                // onClick={handleClick}
-                onClick={() => setCartOpen(true)}
-              >
+              <IconButton color='inherit' onClick={() => setCartOpen(true)}>
                 <Badge badgeContent={getTotalItems(cartItems)} color='error'>
                   <ShoppingCartRoundedIcon />
                 </Badge>
               </IconButton>
             </div>
-            {/* // )} */}
           </Toolbar>
         </Container>
       </AppBar>

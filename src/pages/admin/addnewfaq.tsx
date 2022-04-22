@@ -34,7 +34,7 @@ const useStyles = makeStyles(() =>
   })
 )
 
-export interface AddNewFaqProps {
+export type TProps = {
   faqList: IListOfFaq[] | undefined
 }
 
@@ -44,7 +44,7 @@ export interface IListOfFaq {
   _id: string
 }
 
-export default function AddNewFaq({ faqList }: AddNewFaqProps) {
+export default function AddNewFaq({ faqList }: TProps) {
   const classes = useStyles()
 
   const [session, loading] = useSession()
@@ -101,14 +101,6 @@ export default function AddNewFaq({ faqList }: AddNewFaqProps) {
     setId(id)
     setQuestion(question)
     setAnswer(answer)
-  }
-
-  const changeVisibility: Function = () => {
-    setToggleVisability({
-      addNewFaq: false,
-      editForm: true,
-      addContentButton: false,
-    })
   }
 
   return (

@@ -10,12 +10,14 @@ import { createStyles, makeStyles } from '@mui/styles'
 import axios from 'axios'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import { useRouter } from 'next/router'
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { object, string } from 'yup'
+import { addShippingPrice } from '../redux/actions/shippingAction'
 import { IRootState } from '../redux/reducers'
+import { IProduct } from '../types/Product'
 
 toast.configure()
 
@@ -68,17 +70,20 @@ export interface CurrentOrder {
 export function CheckoutOrderForm() {
   const router = useRouter()
   const classes = useStyles()
+  const dispatch = useDispatch()
 
-  const data: CurrentOrder[] = useSelector((state: IRootState) => state.cart)
-  const currentOrder = data.map(
-    ({ imageUrl, date, __v, ...keepAttrs }) => keepAttrs
+  const currentOrder: IProduct[] = useSelector(
+    (state: IRootState) => state.cart
   )
-  let { shippingPrice } = useSelector(
-    (state: IRootState) => state.shippingPrice
+
+  let shippingPrice = useSelector(
+    (state: IRootState) => state.shippingState.shippingPrice
   )
-  if (shippingPrice === null) {
-    shippingPrice = +localStorage.getItem('shippingPrice')!
-  }
+  console.log(1111, shippingPrice)
+
+  useEffect(() => {
+    dispatch(addShippingPrice(+window.localStorage.getItem('shippingPrice')!))
+  }, [])
 
   const phoneRegExp =
     /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/
@@ -133,21 +138,18 @@ export function CheckoutOrderForm() {
                     phone: values.phone,
                     comments: values.comments,
                     order: currentOrder,
-                    totalPrice: currentOrder.reduce(function (
-                      acc: any,
-                      sum: any
-                    ) {
+                    totalPrice: currentOrder.reduce(function (acc, sum) {
                       return acc + sum.priceOfGoods * sum.amountOfGoods
-                    },
-                    0),
+                    }, 0),
                     shippingPrice,
                   }
                   const res = await axios.post(
                     `${process.env.RESTURL}/api/addneworder`,
                     newOrder
                   )
-                  console.log('!!res', res.data.order._id)
+                  console.log('!!res', res.data)
                   window.localStorage.removeItem('cart')
+                  window.localStorage.removeItem('shippingPrice')
                   toast.success(`Заказ успешно оформлен`, {
                     position: toast.POSITION.TOP_LEFT,
                     autoClose: 3000,
