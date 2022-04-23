@@ -48,8 +48,7 @@ const useStyles = makeStyles(() =>
 type TProps = {
   currentEmail: string | undefined
   currentRole: string
-  isLoggedIn: any
-  isCartEmpty: any
+  isLoggedIn: ELoggedIn
 }
 
 export function Nav({ currentEmail, currentRole, isLoggedIn }: TProps) {

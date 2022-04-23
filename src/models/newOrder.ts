@@ -50,6 +50,7 @@ const newOrder = new Schema<INewOrder>({
 })
 
 // @ts-ignore
+//avoid OverwriteModelError
 mongoose.models = {}
 
 const NewOrder = mongoose.model<INewOrder>('NewOrder', newOrder)

@@ -5,13 +5,12 @@ interface IShopGoods extends Document {
   nameOfGoods: string
   amountOfGoods: number
   priceOfGoods: number
-  catalogNumber: string
+  catalogNumber?: string
   country: string
   category: string
   imageUrl: string[]
   date: Date
-  _doc: any
-  _id: any
+  _id: string
 }
 
 const shopGoods = new Schema<IShopGoods>({
@@ -30,7 +29,8 @@ const shopGoods = new Schema<IShopGoods>({
   date: Date,
 })
 
-// @ts-ignore
+//@ts-ignore
+//avoid OverwriteModelError
 mongoose.models = {}
 
 const ShopGoods = mongoose.model<IShopGoods>('ShopGoods', shopGoods)

@@ -33,9 +33,7 @@ type TProps = {
   price: number
   amount: number
   id: string
-  handleClose: any
-  setOpen: any
-  handleOpen: any
+  handleClose: () => void
 }
 
 export default function ModalEditGoods({

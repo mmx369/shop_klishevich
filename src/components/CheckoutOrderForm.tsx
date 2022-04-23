@@ -17,7 +17,6 @@ import 'react-toastify/dist/ReactToastify.css'
 import { object, string } from 'yup'
 import { addShippingPrice } from '../redux/actions/shippingAction'
 import { IRootState } from '../redux/reducers'
-import { IProduct } from '../types/Product'
 
 toast.configure()
 
@@ -61,25 +60,16 @@ const initialValues: CheckoutFields = {
   comments: '',
 }
 
-export interface CurrentOrder {
-  imageUrl: string
-  date: Date
-  __v: any
-}
-
 export function CheckoutOrderForm() {
   const router = useRouter()
   const classes = useStyles()
   const dispatch = useDispatch()
 
-  const currentOrder: IProduct[] = useSelector(
-    (state: IRootState) => state.cart
-  )
+  const currentOrder = useSelector((state: IRootState) => state.cart)
 
   let shippingPrice = useSelector(
     (state: IRootState) => state.shippingState.shippingPrice
   )
-  console.log(1111, shippingPrice)
 
   useEffect(() => {
     dispatch(addShippingPrice(+window.localStorage.getItem('shippingPrice')!))
@@ -139,7 +129,7 @@ export function CheckoutOrderForm() {
                     comments: values.comments,
                     order: currentOrder,
                     totalPrice: currentOrder.reduce(function (acc, sum) {
-                      return acc + sum.priceOfGoods * sum.amountOfGoods
+                      return acc + sum.priceOfGoods! * sum.amountOfGoods
                     }, 0),
                     shippingPrice,
                   }
@@ -164,10 +154,10 @@ export function CheckoutOrderForm() {
             }}
           >
             {(
-              _values: any,
-              _errors: any,
-              isSubmitting: any,
-              isValidating: any
+              _values: { [field: string]: any },
+              _errors: { [field: string]: string },
+              isSubmitting: boolean,
+              isValidating: boolean
             ) => (
               <Form>
                 <Box marginBottom={2}>

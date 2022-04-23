@@ -1,6 +1,6 @@
 export type CartItemType = {
   amountOfGoods: number
-  catalogNumber: string
+  catalogNumber?: string
   category: string
   country: string
   imageUrl: string[]

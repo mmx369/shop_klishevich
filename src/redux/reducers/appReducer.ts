@@ -1,12 +1,12 @@
 import { ELoggedIn } from '../../types/ELoggedIn'
-import { AppActionTypes } from '../actions/appActions'
+import { ActionsTypes, AppActionTypes } from '../actions/appActions'
 
 export interface IAppState {
   loading: boolean
-  currentUser: string
-  currentEmail: string
-  currentId: string
-  currentRole: string
+  currentUser?: string
+  currentEmail?: string
+  currentId?: string
+  currentRole?: string
   isLoggedIn: ELoggedIn
 }
 
@@ -19,7 +19,7 @@ export const initialState: IAppState = {
   isLoggedIn: ELoggedIn.Unknown,
 }
 
-export const appReducer = (state = initialState, action: any) => {
+export const appReducer = (state = initialState, action: ActionsTypes) => {
   switch (action.type) {
     case AppActionTypes.UPDATE_USER:
       return {
