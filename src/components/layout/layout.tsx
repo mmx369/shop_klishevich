@@ -63,9 +63,8 @@ export default function Layout({ children, title }: TProps) {
       <header>
         <Nav
           currentEmail={currentEmail}
-          currentRole={currentRole}
+          currentRole={currentRole as string}
           isLoggedIn={isLoggedIn}
-          isCartEmpty={isCartEmpty}
         />
       </header>
 

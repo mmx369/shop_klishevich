@@ -1,6 +1,5 @@
 import { Box, Button, Grid, Input, Typography } from '@mui/material'
 import { createStyles, makeStyles } from '@mui/styles'
-import axios from 'axios'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -43,7 +42,7 @@ export interface IProductModel {
   nameOfGoods: string
   amountOfGoods: number
   priceOfGoods: number
-  catalogNumber: string
+  catalogNumber?: string
   country: string
   category: string
 }
@@ -73,28 +72,8 @@ export default function ItemsDetails({ item }: TProps) {
     }
   }
 
-  const addToCart = async (id: string, value: number) => {
-    try {
-      const cartData = { id, quantity: value }
-      await axios.post(`${process.env.RESTURL}/api/addtocart`, cartData)
-      toast.success(`Товар успешно добавлен`, {
-        position: toast.POSITION.TOP_LEFT,
-        autoClose: 5000,
-      })
-    } catch (e) {
-      toast.error(`Ошибка: ${e.response.data.message}`, {
-        position: toast.POSITION.TOP_LEFT,
-        autoClose: 5000,
-      })
-      console.error(e)
-    }
-  }
-
   const handleDispatch = (id: string) => {
     dispatch(addNewItem(id, value))
-    if (isLoggedIn) {
-      addToCart(id, value)
-    }
   }
 
   return (

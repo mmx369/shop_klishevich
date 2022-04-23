@@ -10,7 +10,7 @@ async function checkAmountOfProducts(products: [string, number][]) {
   const productsOutOfStock = []
   for (let product of products) {
     const [id, amount] = product
-    const currentProductData: { _id: object; amountOfGoods: number } | null =
+    const currentProductData: { _id: string; amountOfGoods: number } | null =
       await ShopGoods.findById(id).select('amountOfGoods')
     if (currentProductData!.amountOfGoods - amount < 0) {
       productsOutOfStock.push(currentProductData)
@@ -23,7 +23,7 @@ async function decreaseProducts(products: [string, number][]) {
   let result = true
   for (let product of products) {
     const [id, amount] = product
-    const currentProductData: { _id: object; amountOfGoods: number } | null =
+    const currentProductData: { _id: string; amountOfGoods: number } | null =
       await ShopGoods.findById(id).select('amountOfGoods')
     if (currentProductData!.amountOfGoods - amount >= 0) {
       await ShopGoods.findByIdAndUpdate(id, {

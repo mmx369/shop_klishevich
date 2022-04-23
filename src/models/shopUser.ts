@@ -1,4 +1,5 @@
 import mongoose, { Document, Types } from 'mongoose'
+import { CartItemType } from '../types/Cart'
 import { ERole } from '../types/ERole'
 
 const Schema = mongoose.Schema
@@ -10,7 +11,7 @@ interface IShopUser extends Document {
   date: Date
   passwordHash: string
   orders: Types.ObjectId
-  cart: any[]
+  cart: CartItemType[]
 }
 
 const shopUser = new Schema<IShopUser>({
@@ -41,6 +42,7 @@ const shopUser = new Schema<IShopUser>({
 })
 
 //@ts-ignore
+//avoid OverwriteModelError
 mongoose.models = {}
 
 const ShopUser = mongoose.model<IShopUser>('ShopUser', shopUser)

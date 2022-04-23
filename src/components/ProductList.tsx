@@ -223,8 +223,6 @@ export default function ProductList({ productList }: TProps) {
         price={price as number}
         amount={amount as number}
         id={id}
-        setOpen={setOpen}
-        handleOpen={handleOpen}
         handleClose={handleClose}
       />
     </>

@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux'
 import { appReducer, IAppState } from './appReducer'
-import { cartReducer } from './cartReducer'
+import { cartReducer, ICartState } from './cartReducer'
 import { createShippingState, IShippingState } from './shippingReducer'
 
 export interface IRootState {
   app: IAppState
-  cart: any
+  cart: ICartState[]
   shippingState: IShippingState
 }
 

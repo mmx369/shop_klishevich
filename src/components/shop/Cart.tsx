@@ -62,7 +62,7 @@ export const Cart: React.FC<TProps> = ({
 
   const calculateTotal = (items: CartItemType[]) =>
     items.reduce(
-      (ack: number, item) => ack + item.amountOfGoods * item.priceOfGoods,
+      (ack: number, item) => ack + item.amountOfGoods * item.priceOfGoods!,
       0
     )
 

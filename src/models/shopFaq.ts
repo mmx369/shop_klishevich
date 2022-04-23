@@ -24,6 +24,7 @@ const faq = new Schema<IFaq>({
 })
 
 // @ts-ignore
+//avoid OverwriteModelError
 mongoose.models = {}
 
 const Faq = mongoose.model<IFaq>('Faq', faq)
