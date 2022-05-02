@@ -40,7 +40,7 @@ const useTreeItemStyles = makeStyles((theme) =>
       paddingRight: theme.spacing(1),
       fontWeight: theme.typography.fontWeightMedium,
       '$expanded > &': {
-        fontWeight: theme.typography.fontWeightRegular,
+        fontWeight: theme?.typography.fontWeightRegular,
       },
     },
     group: {

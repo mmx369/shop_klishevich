@@ -5,8 +5,7 @@ import MainTextBlock from '../components/homepage/MainTextBlock'
 import Search from '../components/homepage/Search'
 import Layout from '../components/layout/layout'
 import { PRODUCTS_TYPES } from '../constants'
-import { getCountry, ICountryCount } from '../lib/getCountry'
-import { getTypesCount, IProductTypesCount } from '../lib/getTypesCount'
+import { getData, ICountryCount, IProductTypesCount } from '../lib/getData'
 
 export type TProps = {
   productTypesCount: IProductTypesCount[]
@@ -47,10 +46,10 @@ export const getServerSideProps: GetServerSideProps = async () => {
     const [productTypesCount, listOfCountriesCount, listOfCountriesCoinsCount] =
       await Promise.all([
         //counts number of product for every product type
-        getTypesCount(PRODUCTS_TYPES),
+        getData.getTypesCount(PRODUCTS_TYPES),
         //counts number of product for every country in Paper Money category
-        getCountry('Paper Money'),
-        getCountry('Coins'),
+        getData.getCountry('Paper Money'),
+        getData.getCountry('Coins'),
       ])
 
     return {

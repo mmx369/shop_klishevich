@@ -8,7 +8,7 @@ import {
   updateUserAC,
 } from '../../redux/actions/appActions'
 import { initItems } from '../../redux/actions/cartActions'
-import { IRootState } from '../../redux/reducers'
+import { appSelectors } from '../../redux/selectors'
 import { ELoggedIn } from '../../types/ELoggedIn'
 import BottomAppBar from './bottomAppBar'
 import { Nav } from './nav'
@@ -20,11 +20,9 @@ type TProps = {
 
 export default function Layout({ children, title }: TProps) {
   const dispatch = useDispatch()
-  const currentEmail = useSelector(
-    (state: IRootState) => state.app.currentEmail
-  )
-  const currentRole = useSelector((state: IRootState) => state.app.currentRole)
-  const isLoggedIn = useSelector((state: IRootState) => state.app.isLoggedIn)
+  const currentEmail = useSelector(appSelectors.currentEmail)
+  const currentRole = useSelector(appSelectors.currentRole)
+  const isLoggedIn = useSelector(appSelectors.isLoggedIn)
 
   useEffect(() => {
     if (isLoggedIn === ELoggedIn.Unknown) {
@@ -52,8 +50,6 @@ export default function Layout({ children, title }: TProps) {
   useEffect(() => {
     dispatch(initItems())
   }, [dispatch])
-
-  const isCartEmpty = useSelector((state: IRootState) => state.cart) || []
 
   return (
     <div>

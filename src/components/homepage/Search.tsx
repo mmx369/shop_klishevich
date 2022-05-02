@@ -13,8 +13,7 @@ import { Field, Form, Formik, useField, useFormikContext } from 'formik'
 import router, { useRouter } from 'next/router'
 import useSWR from 'swr'
 import { getAsString } from '../../lib/getAsString'
-import { ICountryCount } from '../../lib/getCountry'
-import { IProductTypesCount } from '../../lib/getTypesCount'
+import { ICountryCount, IProductTypesCount } from '../../lib/getData'
 import { translateCategory, translateCountry } from '../../lib/translate'
 
 const useStyles = makeStyles(() =>
