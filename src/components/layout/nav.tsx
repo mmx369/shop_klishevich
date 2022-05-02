@@ -26,7 +26,7 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addNewItem, removeFromCart } from '../../redux/actions/cartActions'
-import { IRootState } from '../../redux/reducers'
+import { cartSelectors } from '../../redux/selectors'
 import { CartItemType } from '../../types/Cart'
 import { ELoggedIn } from '../../types/ELoggedIn'
 import { ERole } from '../../types/ERole'
@@ -61,8 +61,7 @@ export function Nav({ currentEmail, currentRole, isLoggedIn }: TProps) {
     left: false,
   })
 
-  const cartItems: CartItemType[] =
-    useSelector((state: IRootState) => state.cart) || []
+  const cartItems: CartItemType[] = useSelector(cartSelectors.currentCart) || []
 
   const [cartOpen, setCartOpen] = useState(false)
 

@@ -16,7 +16,7 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { object, string } from 'yup'
 import { addShippingPrice } from '../redux/actions/shippingAction'
-import { IRootState } from '../redux/reducers'
+import { cartSelectors, shippingSelectors } from '../redux/selectors'
 
 toast.configure()
 
@@ -65,11 +65,9 @@ export function CheckoutOrderForm() {
   const classes = useStyles()
   const dispatch = useDispatch()
 
-  const currentOrder = useSelector((state: IRootState) => state.cart)
+  const currentOrder = useSelector(cartSelectors.currentCart)
 
-  let shippingPrice = useSelector(
-    (state: IRootState) => state.shippingState.shippingPrice
-  )
+  let shippingPrice = useSelector(shippingSelectors.shippingPrice)
 
   useEffect(() => {
     dispatch(addShippingPrice(+window.localStorage.getItem('shippingPrice')!))

@@ -8,9 +8,8 @@ import {
 import { createStyles, makeStyles } from '@mui/styles'
 import { InferGetStaticPropsType } from 'next'
 import Layout from '../../components/layout/layout'
-import { dbConnect } from '../../db/dbConnect'
+import { dbApi } from '../../db/dbApi'
 import { serializeData } from '../../lib/serialize'
-import FaqModel from '../../models/shopFaq'
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -56,9 +55,7 @@ export default function Faq({
 }
 
 export const getStaticProps = async () => {
-  await dbConnect()
-  const faqList = await FaqModel.find().select('-date -__v')
-
+  const faqList = await dbApi.getFaqList()
   if (!faqList) {
     throw new Error(`Что-то пошло не так. Попробуйте позднее.`)
   }

@@ -8,14 +8,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import Layout from '../../../../../components/layout/layout'
 import { ROUBLE } from '../../../../../constants'
+import { dbApi } from '../../../../../db/dbApi'
 import { serializeData } from '../../../../../lib/serialize'
 import {
   translateCategory,
   translateCountry,
 } from '../../../../../lib/translate'
-import ShopGoods from '../../../../../models/shopGoods'
 import { addNewItem } from '../../../../../redux/actions/cartActions'
-import { IRootState } from '../../../../../redux/reducers'
+import { appSelectors } from '../../../../../redux/selectors'
 
 toast.configure()
 
@@ -56,7 +56,7 @@ export default function ItemsDetails({ item }: TProps) {
   const dispatch = useDispatch()
   const router = useRouter()
 
-  const isLoggedIn = useSelector((state: IRootState) => state.app.isLoggedIn)
+  const isLoggedIn = useSelector(appSelectors.isLoggedIn)
 
   const [value, setValue] = useState(item!.amountOfGoods > 0 ? 1 : 0)
 
@@ -166,10 +166,9 @@ export default function ItemsDetails({ item }: TProps) {
 export const getServerSideProps: GetServerSideProps = async (
   ctx: GetServerSidePropsContext
 ) => {
-  const productId = ctx.params!.id
-  const data: IProductModel | null = await ShopGoods.findById(productId).select(
-    '-date -__v'
-  )
+  const productId = ctx.params!.id as string
+
+  const data = await dbApi.getSingleProductById(productId)
 
   if (!data) {
     return {

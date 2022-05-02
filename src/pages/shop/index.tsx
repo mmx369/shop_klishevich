@@ -12,9 +12,8 @@ import { ShopCard } from '../../components/shop/ShopCard'
 import { ShopPagination } from '../../components/shop/ShopPagination'
 import { PRODUCTS_TYPES } from '../../constants'
 import { getAsString } from '../../lib/getAsString'
-import { getCountry, ICountryCount } from '../../lib/getCountry'
+import { getData, ICountryCount, IProductTypesCount } from '../../lib/getData'
 import { getPaginatedItem } from '../../lib/getPaginatedItems'
-import { getTypesCount, IProductTypesCount } from '../../lib/getTypesCount'
 import { serializeData } from '../../lib/serialize'
 import { IProduct } from '../../types/Product'
 
@@ -90,9 +89,9 @@ export const getServerSideProps: GetServerSideProps = async (
   const [productTypesCount, countProductsForEveryCountry, pagination] =
     await Promise.all([
       //counts number of product for every category
-      getTypesCount(PRODUCTS_TYPES),
+      getData.getTypesCount(PRODUCTS_TYPES),
       //counts number of product for every country in specific category
-      getCountry(productsType),
+      getData.getCountry(productsType),
       //get items and totalPages
       getPaginatedItem(ctx.query),
     ])

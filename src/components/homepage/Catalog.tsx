@@ -2,7 +2,7 @@ import { ArrowDropDown, ArrowRight, Label, Money } from '@mui/icons-material'
 import { TreeView } from '@mui/lab'
 import { createStyles, makeStyles } from '@mui/styles'
 import router from 'next/router'
-import { ICountryCount } from '../../lib/getCountry'
+import { ICountryCount } from '../../lib/getData'
 import { translateCountry } from '../../lib/translate'
 import { StyledTreeItem } from './StyledTreeItem'
 
