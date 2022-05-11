@@ -1,0 +1,4 @@
+1. Add active class to active pages
+2. Sort catalog by country
+3. Dont allow to choose maximum price less than minimum price
+4. Choose address from select

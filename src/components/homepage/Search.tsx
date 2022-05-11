@@ -55,7 +55,7 @@ export default function Search({
   }
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} data-testid='searchForm'>
       <Formik
         initialValues={initialValues}
         onSubmit={(values) => {
@@ -81,13 +81,18 @@ export default function Search({
                       as={Select}
                       labelId='search-type'
                       label='Type'
+                      data-testid='productFieldSelect'
                     >
                       <MenuItem value='all'>
                         <em>Показать все</em>
                       </MenuItem>
 
                       {productTypesCount.map((type) => (
-                        <MenuItem key={type.type} value={type.type}>
+                        <MenuItem
+                          key={type.type}
+                          value={type.type}
+                          data-testid='selectOptionsProductTypes'
+                        >
                           {`${translateCategory(type.type)} (${type.count})`}
                         </MenuItem>
                       ))}
@@ -113,12 +118,17 @@ export default function Search({
                       as={Select}
                       labelId='search-min-price'
                       label='Min price'
+                      data-testid='minPriceFieldSelect'
                     >
                       <MenuItem value='all'>
                         <em>Не выбрано</em>
                       </MenuItem>
                       {prices.map((price) => (
-                        <MenuItem key={price} value={price}>
+                        <MenuItem
+                          key={price}
+                          value={price}
+                          data-testid='selectOptionsMinPrice'
+                        >
                           {price}
                         </MenuItem>
                       ))}
@@ -136,12 +146,17 @@ export default function Search({
                       as={Select}
                       labelId='search-max-price'
                       label='Max price'
+                      data-testid='maxPriceFieldSelect'
                     >
                       <MenuItem value='all'>
                         <em>Не выбрано</em>
                       </MenuItem>
                       {prices.map((price) => (
-                        <MenuItem key={price} value={price}>
+                        <MenuItem
+                          key={price}
+                          value={price}
+                          data-testid='selectOptionsMaxPrice'
+                        >
                           {price}
                         </MenuItem>
                       ))}
@@ -155,6 +170,7 @@ export default function Search({
                     type='submit'
                     variant='contained'
                     color='primary'
+                    data-testid='searchBtn'
                   >
                     Искать
                   </Button>
@@ -198,12 +214,22 @@ export function CountrySelect({
   return (
     <FormControl fullWidth variant='standard'>
       <InputLabel id='search-country'>Страна</InputLabel>
-      <Select labelId='search-country' label='Country' {...field} {...props}>
+      <Select
+        labelId='search-country'
+        label='Country'
+        {...field}
+        {...props}
+        data-testid='countryFieldSelect'
+      >
         <MenuItem value='all'>
           <em>Показать все</em>
         </MenuItem>
         {newCountries.map((country) => (
-          <MenuItem key={country.country} value={country.country}>
+          <MenuItem
+            key={country.country}
+            value={country.country}
+            data-testid='selectOptionsCountry'
+          >
             {`${translateCountry(country.country)} (${country.count})`}
           </MenuItem>
         ))}

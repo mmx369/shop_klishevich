@@ -79,7 +79,7 @@ export default function ItemsDetails({ item }: TProps) {
   return (
     <>
       <Layout title={translateCountry(item!.country) + ' ' + item!.nameOfGoods}>
-        <main className={classes.root}>
+        <main className={classes.root} data-testid='detailedProductPageContent'>
           <Button
             sx={{ margin: '5px' }}
             variant='outlined'
@@ -130,6 +130,7 @@ export default function ItemsDetails({ item }: TProps) {
                     variant='contained'
                     color='primary'
                     size='small'
+                    data-testid='addToCartBtn'
                     onClick={() => {
                       handleDispatch(item!._id)
                     }}
@@ -141,6 +142,7 @@ export default function ItemsDetails({ item }: TProps) {
                     value={value}
                     onChange={handleInputChange}
                     onBlur={handleBlur}
+                    data-testid='inputAddToCart'
                     inputProps={{
                       step: 1,
                       min: 0,

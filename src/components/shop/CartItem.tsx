@@ -42,7 +42,7 @@ export const CartItem: React.FC<TProps> = ({
   const classes = useStyles()
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} data-testid='cartItem'>
       <div>
         <h5 style={{ marginBottom: '5px' }}>
           {translateCategory(item.category)} | {translateCountry(item.country)}{' '}
@@ -61,6 +61,7 @@ export const CartItem: React.FC<TProps> = ({
           <Button
             size='small'
             variant='outlined'
+            data-testid='removeFromCart'
             onClick={() => removeFromCart(item._id)}
           >
             -
@@ -69,6 +70,7 @@ export const CartItem: React.FC<TProps> = ({
           <Button
             size='small'
             variant='outlined'
+            data-testid='addToCart'
             onClick={() => addToCart(item._id)}
           >
             +

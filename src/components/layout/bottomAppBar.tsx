@@ -1,6 +1,6 @@
+import { AppBar, Box, Button, Container, Toolbar } from '@mui/material'
+import { createStyles, makeStyles } from '@mui/styles'
 import Link from 'next/link'
-import { Container, AppBar, Toolbar, Button, Box } from '@mui/material'
-import { makeStyles, createStyles } from '@mui/styles'
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -37,6 +37,7 @@ export default function BottomAppBar() {
                     color='primary'
                     variant='contained'
                     size='small'
+                    data-testid='footerHomepageBtn'
                     disableElevation
                   >
                     Главная
@@ -50,6 +51,7 @@ export default function BottomAppBar() {
                   color='primary'
                   variant='contained'
                   size='small'
+                  data-testid='footerPaymentBtn'
                   disableElevation
                 >
                   Оплата и доставка

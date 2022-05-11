@@ -27,6 +27,7 @@ const getSingleProductById = async (productId: string) => {
 }
 
 const getFaqList = async () => {
+  await dbConnect()
   const faqList = await FaqModel.find().select('-date -__v')
   return faqList
 }

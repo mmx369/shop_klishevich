@@ -24,9 +24,9 @@ export default function Checkout() {
     return (
       <>
         <Layout title='Нумизматика и бонистика | Интернет-магазин | Продажа банкнот и монет'>
-          <div className={classes.root}>
+          <div className={classes.root} data-testid='checkoutUnauthorizedPage'>
             <h3 style={{ textAlign: 'center' }}>
-              Для оформления заказа вам неоходимо авторизоваться.
+              Для оформления заказа вам необходимо авторизоваться.
             </h3>
           </div>
         </Layout>

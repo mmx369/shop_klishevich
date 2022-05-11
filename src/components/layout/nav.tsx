@@ -97,6 +97,7 @@ export function Nav({ currentEmail, currentRole, isLoggedIn }: TProps) {
       role='presentation'
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
+      data-testid='drawer'
     >
       <List>
         <Link href='/'>
@@ -198,12 +199,13 @@ export function Nav({ currentEmail, currentRole, isLoggedIn }: TProps) {
               aria-label='open drawer'
               onClick={toggleDrawer('left', true)}
               edge='start'
+              data-testid='drawerBtn'
             >
               <MenuIcon />
             </IconButton>
             <Typography variant='subtitle2' className={classes.root}>
               <Link href='/'>
-                <a>Нумизматика и бонистика</a>
+                <a data-testid='navhomepagelink'>Нумизматика и бонистика</a>
               </Link>
             </Typography>
             <Box
@@ -222,8 +224,16 @@ export function Nav({ currentEmail, currentRole, isLoggedIn }: TProps) {
               <SignInButtons isSignedIn={isLoggedIn === ELoggedIn.True} />
             )}
             <div>
-              <IconButton color='inherit' onClick={() => setCartOpen(true)}>
-                <Badge badgeContent={getTotalItems(cartItems)} color='error'>
+              <IconButton
+                color='inherit'
+                onClick={() => setCartOpen(true)}
+                data-testid='cartBtn'
+              >
+                <Badge
+                  badgeContent={getTotalItems(cartItems)}
+                  color='error'
+                  data-testid='badgeNumber'
+                >
                   <ShoppingCartRoundedIcon />
                 </Badge>
               </IconButton>
@@ -238,7 +248,10 @@ export function Nav({ currentEmail, currentRole, isLoggedIn }: TProps) {
         onClose={toggleDrawer('left', false)}
       >
         <DrawerHeader>
-          <IconButton onClick={toggleDrawer('left', false)}>
+          <IconButton
+            onClick={toggleDrawer('left', false)}
+            data-testid='drawerCloseBtn'
+          >
             <ChevronLeftIcon />
           </IconButton>
         </DrawerHeader>

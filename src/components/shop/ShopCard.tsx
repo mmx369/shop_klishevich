@@ -41,12 +41,12 @@ export function ShopCard({ item }: TProps) {
 
   return (
     <>
-      <Card elevation={1}>
+      <Card elevation={1} data-testid='shopCard'>
         <Link
           href='/shop/goods/[type]/[country]/[id]'
           as={`/shop/goods/${item.category}/${item.country}/${item._id}`}
         >
-          <a>
+          <a data-testid='productDetailLink'>
             <CardHeader
               title={`${translateCategory(item.category)} | ${translateCountry(
                 item.country
@@ -57,6 +57,7 @@ export function ShopCard({ item }: TProps) {
               className={classes.media}
               image={item.imageUrl[0]}
               title={item.nameOfGoods}
+              data-testid='imgProduct'
             />
           </a>
         </Link>
@@ -74,6 +75,7 @@ export function ShopCard({ item }: TProps) {
               size='small'
               variant='outlined'
               color='primary'
+              data-testid='addToCartBtn'
               className={classes.btn}
               onClick={() => {
                 handleDispatch(item._id)

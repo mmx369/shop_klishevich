@@ -53,7 +53,7 @@ export default function ShopList({
 
   return (
     <Layout title='Интернет-магазин | Бонистика и нумизматика'>
-      <div className={classes.root}>
+      <div className={classes.root} data-testid='searchResultPage'>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={4}>
             <Search

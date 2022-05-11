@@ -90,9 +90,15 @@ export default function SignIn({ providers, csrfToken }: TProps) {
                       type='email'
                       id='email'
                       name='email'
+                      data-testid='emailInput'
                     />
                   </label>
-                  <Button type='submit' color='primary' variant='contained'>
+                  <Button
+                    type='submit'
+                    color='primary'
+                    variant='contained'
+                    data-testid='getLinkBtn'
+                  >
                     Получить ссылку для входа
                   </Button>
                 </form>

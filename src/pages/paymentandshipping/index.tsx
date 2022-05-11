@@ -1,4 +1,4 @@
-import { makeStyles, createStyles } from '@mui/styles'
+import { createStyles, makeStyles } from '@mui/styles'
 import Layout from '../../components/layout/layout'
 
 const useStyles = makeStyles(() =>
@@ -17,7 +17,7 @@ export default function PaymentAndShipping() {
   return (
     <>
       <Layout title='Нумизматика и бонистика | Интернет-магазин | Продажа банкнот и монет | Оплата и доставка'>
-        <div className={classes.root}>
+        <div className={classes.root} data-testid='paymentpage'>
           <h1>Варианты оплаты:</h1>
           <ul>
             {/* <li>Банковской картой на сайте магазина.</li> */}
