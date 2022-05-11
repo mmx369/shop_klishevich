@@ -78,7 +78,7 @@ export function CheckoutOrderForm() {
 
   return (
     <>
-      <Card>
+      <Card data-testid='orderForm'>
         <CardContent>
           <Formik
             initialValues={initialValues}
@@ -259,6 +259,7 @@ export function CheckoutOrderForm() {
                     variant='contained'
                     color='primary'
                     type='submit'
+                    data-testid='checkoutBtn'
                     disabled={isSubmitting || isValidating}
                   >
                     Завершить оформление

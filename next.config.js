@@ -35,9 +35,12 @@ const nextConfig = (phase) => {
     })(),
   }
 
+  const distDir = isDev ? '.next' : 'build'
+
   return {
     ...defaultConfig,
     env,
+    distDir,
     images: {
       domains: ['res.cloudinary.com'],
     },

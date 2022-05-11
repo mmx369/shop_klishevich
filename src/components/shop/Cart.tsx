@@ -122,6 +122,7 @@ export const Cart: React.FC<TProps> = ({
                     value='courier'
                     control={<Radio />}
                     label='Курьер (г.Москва 400 руб.)'
+                    data-testid='shippingDefaultOption'
                   />
                   <FormControlLabel
                     classes={{
@@ -159,6 +160,7 @@ export const Cart: React.FC<TProps> = ({
             onClick={handleCheckout}
             fullWidth
             size='small'
+            data-testid='checkoutBtn'
           >
             Оформить
           </Button>

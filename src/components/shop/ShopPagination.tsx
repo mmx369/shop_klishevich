@@ -4,9 +4,9 @@ import {
   PaginationRenderItemParams,
 } from '@mui/material'
 import Link from 'next/link'
+import { NextRouter, useRouter } from 'next/router'
 import { ParsedUrlQuery } from 'querystring'
 import { forwardRef } from 'react'
-import { NextRouter, useRouter } from 'next/router'
 import { getAsString } from '../../lib/getAsString'
 
 export function ShopPagination({ totalPages }: { totalPages: number }) {
@@ -14,6 +14,7 @@ export function ShopPagination({ totalPages }: { totalPages: number }) {
 
   return (
     <Pagination
+      data-testid='paginationMenu'
       page={parseInt(getAsString(query.page!) || '1')}
       count={totalPages}
       renderItem={(item) => (

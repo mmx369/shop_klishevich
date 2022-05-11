@@ -6,7 +6,6 @@ import {
   Typography,
 } from '@mui/material'
 import { createStyles, makeStyles } from '@mui/styles'
-import { InferGetStaticPropsType } from 'next'
 import Layout from '../../components/layout/layout'
 import { dbApi } from '../../db/dbApi'
 import { serializeData } from '../../lib/serialize'
@@ -28,13 +27,16 @@ export interface IFaqModel {
   answer: string
 }
 
-export default function Faq({
-  faq,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+type TProps = {
+  faq: IFaqModel[]
+}
+
+export default function Faq({ faq }: TProps) {
   const classes = useStyles()
+
   return (
     <Layout title='Нумизматика и бонистика | Интернет-магазин | Продажа банкнот и монет |Вопросы и ответы'>
-      <div className={classes.root}>
+      <div className={classes.root} data-testid='faqpage'>
         {faq.map((f) => (
           <Accordion key={f._id}>
             <AccordionSummary
@@ -56,9 +58,11 @@ export default function Faq({
 
 export const getStaticProps = async () => {
   const faqList = await dbApi.getFaqList()
+
   if (!faqList) {
     throw new Error(`Что-то пошло не так. Попробуйте позднее.`)
   }
+
   const faqListSerialized: IFaqModel[] = serializeData(faqList)
   return {
     props: {

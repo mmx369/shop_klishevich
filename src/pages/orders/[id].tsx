@@ -23,7 +23,7 @@ export default function OrderFinished({ orderNumber }: TProps) {
 
   return (
     <Layout title='Администрирование | Просмотр заказа'>
-      <div className={classes.root}>
+      <div className={classes.root} data-testid='orderSuccessPage'>
         <h3>
           Ваш заказ успешно оформлен, в ближайшее время с вами свяжется менеджер
           для уточнения деталей оплаты и доставки.

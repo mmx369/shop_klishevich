@@ -14,7 +14,11 @@ export default function MainTextBlock() {
   const classes = useStyles()
   return (
     <section className={classes.root}>
-      <Typography variant='subtitle2' align='justify'>
+      <Typography
+        variant='subtitle2'
+        align='justify'
+        data-testid='mainTextBlock'
+      >
         Приветствую Вас на сайте интернет-магазина бонистики и нумизматики. В
         каталоге нашей коллекции представлены разделы Банкноты и Монеты.
         Коллекция постоянно расширяется. Ваш заказ банкнот или монет вы сможете
@@ -23,7 +27,7 @@ export default function MainTextBlock() {
         порядке оплаты и доставки смотрите в разделе &nbsp;
         <strong>
           <Link href='/paymentandshipping'>
-            <a>Оплата и доставка.</a>
+            <a data-testid='navPaymentLink'>Оплата и доставка.</a>
           </Link>
         </strong>
       </Typography>

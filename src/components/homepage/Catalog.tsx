@@ -40,7 +40,7 @@ export default function Catalog({
   }
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} data-testid='catalogLeft'>
       <TreeView
         defaultExpanded={['1', '2']}
         defaultCollapseIcon={<ArrowDropDown />}
@@ -63,6 +63,7 @@ export default function Catalog({
                 labelIcon={ArrowRight}
                 labelText={`${translateCountry(el.country)}`}
                 labelInfo={el.count.toString()}
+                data-testid={`test-${el.country}`}
                 color='#1a73e8'
                 bgColor='#e8f0fe'
                 onClick={() => handleClick('Paper Money', el.country)}
