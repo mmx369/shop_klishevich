@@ -73,7 +73,7 @@ const initItems = () => {
 const addNewItem = (id, value) => {
   return async dispatch => {
     //get current product
-    const item = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`${"http://klishevich.ru"}/api/getitembyid`, {
+    const item = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`${"https://klishevich.ru"}/api/getitembyid`, {
       params: {
         id
       }

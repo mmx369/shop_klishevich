@@ -117,7 +117,7 @@ const AddNewUserForm = ({
             email: values.email,
             role: values.role
           };
-          await external_axios_default().post(`${"http://klishevich.ru"}/api/addnewuser`, addNewUser);
+          await external_axios_default().post(`${"https://klishevich.ru"}/api/addnewuser`, addNewUser);
           external_react_toastify_.toast.success(`Пользователь ${values.username} успешно добавлен`, {
             position: external_react_toastify_.toast.POSITION.TOP_LEFT,
             autoClose: 5000
@@ -285,7 +285,7 @@ const EditUserlistForm = ({
     role: ''
   });
   (0,external_react_.useEffect)(() => {
-    external_axios_default().get(`${"http://klishevich.ru"}/api/getuserdata?id=${id}`).then(({
+    external_axios_default().get(`${"https://klishevich.ru"}/api/getuserdata?id=${id}`).then(({
       data
     }) => {
       setInitialValues({
@@ -308,7 +308,7 @@ const EditUserlistForm = ({
             role: values.role,
             id
           };
-          const res = await external_axios_default().put(`${"http://klishevich.ru"}/api/updateuser`, updateUser);
+          const res = await external_axios_default().put(`${"https://klishevich.ru"}/api/updateuser`, updateUser);
 
           if (res.status === 200) {
             external_react_toastify_.toast.success(`Данные пользователя ${values.username} успешно изменены`, {
@@ -337,7 +337,7 @@ const EditUserlistForm = ({
 
   const deleteHandler = async () => {
     try {
-      await external_axios_default()["delete"](`${"http://klishevich.ru"}/api/deleteuser`, {
+      await external_axios_default()["delete"](`${"https://klishevich.ru"}/api/deleteuser`, {
         data: id
       });
       external_react_toastify_.toast.success(`Пользователь удален`, {

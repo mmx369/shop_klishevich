@@ -21,7 +21,7 @@ const nextConfig = (phase) => {
     RESTURL: (() => {
       if (isDev) return 'http://localhost:3000'
       if (isProd) {
-        return 'http://klishevich.ru'
+        return 'https://klishevich.ru'
       }
       return 'RESTURL:not (isDev,isProd)'
     })(),
@@ -29,7 +29,7 @@ const nextConfig = (phase) => {
     RESTURL_SESSIONS: (() => {
       if (isDev) return 'http://localhost:3000/sessions'
       if (isProd) {
-        return 'http://klishevich.ru/sessions'
+        return 'https://klishevich.ru/sessions'
       }
       return 'RESTURL_SESSIONS:not (isDev,isProd)'
     })(),

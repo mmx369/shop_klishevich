@@ -146,7 +146,7 @@ const AddNewFaqForm = ({
             question: values.question,
             answer: values.answer
           };
-          await external_axios_default().post(`${"http://klishevich.ru"}/api/addnewfaq`, addNewFaq);
+          await external_axios_default().post(`${"https://klishevich.ru"}/api/addnewfaq`, addNewFaq);
           external_react_toastify_.toast.success('Новая запись успешна добавлена', {
             position: external_react_toastify_.toast.POSITION.TOP_LEFT,
             autoClose: 5000
@@ -279,7 +279,7 @@ const EditFaqForm = ({
     answer: ''
   });
   (0,external_react_.useEffect)(() => {
-    external_axios_default().get(`${"http://klishevich.ru"}/api/getfaqdata?id=${id}`).then(({
+    external_axios_default().get(`${"https://klishevich.ru"}/api/getfaqdata?id=${id}`).then(({
       data
     }) => {
       setInitialValues({
@@ -300,7 +300,7 @@ const EditFaqForm = ({
             question: values.question,
             id
           };
-          const res = await external_axios_default().put(`${"http://klishevich.ru"}/api/updatefaq`, updateFaq);
+          const res = await external_axios_default().put(`${"https://klishevich.ru"}/api/updatefaq`, updateFaq);
 
           if (res.status === 200) {
             external_react_toastify_.toast.success('Запись успешна изменена', {
@@ -329,7 +329,7 @@ const EditFaqForm = ({
 
   const deleteFaqHandler = async () => {
     try {
-      await external_axios_default()["delete"](`${"http://klishevich.ru"}/api/deletefaq`, {
+      await external_axios_default()["delete"](`${"https://klishevich.ru"}/api/deletefaq`, {
         data: id
       });
       external_react_toastify_.toast.success('Запись успешна удалена', {

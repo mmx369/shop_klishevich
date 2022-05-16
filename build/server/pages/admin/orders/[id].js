@@ -126,7 +126,7 @@ function ModalSelectStatus({
       id: currId,
       status
     };
-    await external_axios_default().put(`${"http://klishevich.ru"}/api/changestatusorder`, newStatus);
+    await external_axios_default().put(`${"https://klishevich.ru"}/api/changestatusorder`, newStatus);
     setOpen(false);
     setStatus(currStatus);
     router.reload();
