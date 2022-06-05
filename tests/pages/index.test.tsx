@@ -1,8 +1,13 @@
 import { ThemeProvider } from '@mui/styles'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import React from 'react'
 import { PRODUCTS_TYPES } from '../../src/constants'
-import { getData } from '../../src/lib/getData'
+import {
+  getData,
+  ICountryCount,
+  IProductTypesCount,
+} from '../../src/lib/getData'
 import { translateCategory, translateCountry } from '../../src/lib/translate'
 import Homepage, { getServerSideProps } from '../../src/pages/index'
 import {
@@ -11,6 +16,7 @@ import {
   shippingSelectors,
 } from '../../src/redux/selectors'
 import theme from '../../src/theme'
+import { ELoggedIn } from '../../src/types/ELoggedIn'
 
 jest.mock('react-redux', () => ({
   useSelector: jest.fn((fn) => fn()),
@@ -23,13 +29,13 @@ jest.mock('next/router', () => ({
   }),
 }))
 
-const TEST_productTypesCount = [
+const TEST_productTypesCount: IProductTypesCount[] = [
   { type: 'Paper Money', count: 5 },
   { type: 'Coins', count: 4 },
   { type: 'Other', count: 0 },
 ]
 
-const TEST_listOfCountriesCount = [
+const TEST_listOfCountriesCount: ICountryCount[] = [
   { country: 'USSR', count: 3 },
   { country: 'Uzbekistan', count: 1 },
   { country: 'Burma', count: 1 },
@@ -64,7 +70,7 @@ const TEST_cartItems = [
 
 jest.spyOn(appSelectors, 'currentEmail').mockReturnValue('test@test.com')
 jest.spyOn(appSelectors, 'currentRole').mockReturnValue('admin')
-jest.spyOn(appSelectors, 'isLoggedIn').mockReturnValue('True')
+jest.spyOn(appSelectors, 'isLoggedIn').mockReturnValue(ELoggedIn.True)
 jest.spyOn(cartSelectors, 'currentCart').mockReturnValue(TEST_cartItems)
 jest.spyOn(shippingSelectors, 'shippingPrice').mockReturnValue(400)
 
@@ -80,13 +86,17 @@ describe('HomePage', () => {
 
     jest
       .spyOn(getData, 'getTypesCount')
-      .mockReturnValue(TEST_productTypesCountPromise)
+      .mockReturnValue(
+        TEST_productTypesCountPromise as Promise<IProductTypesCount[]>
+      )
 
     jest
       .spyOn(getData, 'getCountry')
-      .mockImplementation(async () => TEST_listOfCountriesCountPromise)
+      .mockImplementation(
+        async () => TEST_listOfCountriesCountPromise as Promise<ICountryCount[]>
+      )
 
-    const response = await getServerSideProps({})
+    const response = await getServerSideProps({} as any)
     expect(getData.getTypesCount).toHaveBeenCalledTimes(1)
     expect(getData.getCountry).toHaveBeenCalledTimes(2)
     expect(getData.getTypesCount).toHaveBeenCalledWith(PRODUCTS_TYPES)
@@ -144,7 +154,7 @@ describe('HomePage', () => {
     expect(screen.getByRole('link', { name: /Контакты/i })).toBeInTheDocument()
   })
 
-  it.only('Home page UI works correctly', () => {
+  it('Home page UI works correctly', () => {
     render(
       <ThemeProvider theme={theme}>
         <Homepage

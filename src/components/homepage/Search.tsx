@@ -11,6 +11,7 @@ import {
 import { createStyles, makeStyles } from '@mui/styles'
 import { Field, Form, Formik, useField, useFormikContext } from 'formik'
 import router, { useRouter } from 'next/router'
+import React, { useEffect, useState } from 'react'
 import useSWR from 'swr'
 import { getAsString } from '../../lib/getAsString'
 import { ICountryCount, IProductTypesCount } from '../../lib/getData'
@@ -36,8 +37,6 @@ export type TProps = {
   singleColumn?: boolean
 }
 
-const prices = [0, 10, 100, 500, 1000, 5000, 10000]
-
 export default function Search({
   productTypesCount,
   countriesCount,
@@ -46,6 +45,18 @@ export default function Search({
   const classes = useStyles()
   const { query } = useRouter()
   const smValue = singleColumn ? 12 : 6
+
+  const prices = [0, 10, 100, 500, 1000, 5000, 10000]
+  const [minPrice, setMinPrice] = useState<string | number>('all')
+
+  const getMaxPrices = (minPrice: number | string) => {
+    return minPrice === 'all' ? prices : prices.filter((el) => el >= minPrice)
+  }
+  let maxPrices: number[] = prices
+
+  useEffect(() => {
+    maxPrices = getMaxPrices(minPrice)
+  }, [minPrice])
 
   const initialValues = {
     type: getAsString(query.type!) || 'all',
@@ -86,7 +97,6 @@ export default function Search({
                       <MenuItem value='all'>
                         <em>Показать все</em>
                       </MenuItem>
-
                       {productTypesCount.map((type) => (
                         <MenuItem
                           key={type.type}
@@ -135,7 +145,6 @@ export default function Search({
                     </Field>
                   </FormControl>
                 </Grid>
-
                 <Grid item xs={12} sm={smValue}>
                   <FormControl fullWidth variant='standard'>
                     <InputLabel id='search-max-price'>
@@ -151,7 +160,7 @@ export default function Search({
                       <MenuItem value='all'>
                         <em>Не выбрано</em>
                       </MenuItem>
-                      {prices.map((price) => (
+                      {maxPrices.map((price) => (
                         <MenuItem
                           key={price}
                           value={price}
@@ -163,7 +172,7 @@ export default function Search({
                     </Field>
                   </FormControl>
                 </Grid>
-
+                {setMinPrice(values.minPrice)}
                 <Grid item xs={12}>
                   <Button
                     fullWidth

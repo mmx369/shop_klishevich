@@ -1,3 +1,4 @@
+import { QueryParams } from '../lib/getPaginatedItems'
 import FaqModel from '../models/shopFaq'
 import ShopGoods from '../models/shopGoods'
 import { dbConnect } from './dbConnect'
@@ -32,9 +33,31 @@ const getFaqList = async () => {
   return faqList
 }
 
+const getPaginationData = async (
+  findQuery: QueryParams,
+  offset: number,
+  rowsPerPage: number
+) => {
+  await dbConnect()
+  const resultPromise = ShopGoods.find(findQuery)
+    .skip(offset)
+    .limit(rowsPerPage)
+    .select('-__v -date')
+
+  const resultCountPromise = ShopGoods.find(findQuery).count()
+
+  const [result, resultCount] = await Promise.all([
+    resultPromise,
+    resultCountPromise,
+  ])
+
+  return { result, resultCount }
+}
+
 export const dbApi = {
   fetchTypesCount,
   fetchCountries,
   getSingleProductById,
   getFaqList,
+  getPaginationData,
 }

@@ -1,10 +1,14 @@
 import { ParsedUrlQuery } from 'querystring'
-import { dbConnect } from '../db/dbConnect'
-import ShopGoods from '../models/shopGoods'
+import { dbApi } from '../db/dbApi'
 import { getAsString } from './getAsString'
 
+export type QueryParams = {
+  category: string
+  country: string
+  priceOfGoods: { ['$gte']?: number; ['$lte']?: number }
+}
+
 export async function getPaginatedItem(query: ParsedUrlQuery) {
-  await dbConnect()
   const page = getValueNumber(query.page!) || 1
   const rowsPerPage = 4
   const offset = (page - 1) * rowsPerPage
@@ -14,12 +18,6 @@ export async function getPaginatedItem(query: ParsedUrlQuery) {
     country: getValueStr(query.country!),
     minPrice: getValueNumber(query.minPrice!),
     maxPrice: getValueNumber(query.maxPrice!),
-  }
-
-  type QueryParams = {
-    category: string
-    country: string
-    priceOfGoods: { ['$gte']?: number; ['$lte']?: number }
   }
 
   const findQuery = {} as QueryParams
@@ -46,16 +44,11 @@ export async function getPaginatedItem(query: ParsedUrlQuery) {
     }
   }
 
-  const resultPromise = ShopGoods.find(findQuery)
-    .skip(offset)
-    .limit(rowsPerPage)
-    .select('-__v -date')
-  const resultCountPromise = ShopGoods.find(findQuery).count()
-
-  const [result, resultCount] = await Promise.all([
-    resultPromise,
-    resultCountPromise,
-  ])
+  const { result, resultCount } = await dbApi.getPaginationData(
+    findQuery,
+    offset,
+    rowsPerPage
+  )
 
   const totalPages = Math.ceil(resultCount / rowsPerPage)
 

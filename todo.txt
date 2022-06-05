@@ -1,4 +1,8 @@
-1. Add active class to active pages
-2. Sort catalog by country
-3. Dont allow to choose maximum price less than minimum price
 4. Choose address from select
+5. Redirect to order list ofter changing status orders
+6. Add mail notification after new order
+7. Main page not centered!!
+6. Email link in Russian
+8. Facebook_auth fix
+7. Form focus on key 'Enter'
+8. Add dev databases

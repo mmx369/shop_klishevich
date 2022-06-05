@@ -7,6 +7,9 @@
         "build": "next build",
         "start": "next start",
         "test": "jest",
+        "test:force": "jest --force-exit --detectOpenHandles",
+        "test:watch": "jest --watch --detectOpenHandles",
+        "test:cov": "jest --coverage --force-exit --detectOpenHandles",
         "cypress": "cypress open"
     },
     "dependencies": {
@@ -44,7 +47,7 @@
         "@mui/types": "^7.1.3",
         "@shelf/jest-mongodb": "^2.2.1",
         "@testing-library/cypress": "^8.0.2",
-        "@testing-library/jest-dom": "^5.16.2",
+        "@testing-library/jest-dom": "^5.16.4",
         "@testing-library/react": "^12.1.4",
         "@testing-library/user-event": "^13.5.0",
         "@types/jest": "^27.4.1",

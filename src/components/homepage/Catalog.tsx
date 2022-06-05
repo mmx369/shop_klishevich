@@ -2,6 +2,7 @@ import { ArrowDropDown, ArrowRight, Label, Money } from '@mui/icons-material'
 import { TreeView } from '@mui/lab'
 import { createStyles, makeStyles } from '@mui/styles'
 import router from 'next/router'
+import { dynamicSort } from '../../lib/dynamicSort'
 import { ICountryCount } from '../../lib/getData'
 import { translateCountry } from '../../lib/translate'
 import { StyledTreeItem } from './StyledTreeItem'
@@ -24,6 +25,7 @@ export default function Catalog({
   listOfCountriesCoins,
 }: TProps) {
   const classes = useStyles()
+
   const handleClick = async (type: string, country: string) => {
     router.push(
       {
@@ -38,6 +40,12 @@ export default function Catalog({
       { shallow: true }
     )
   }
+
+  const sortedListOfCountries = listOfCountries
+    .map((el) => {
+      return { ...el, countryTranslated: translateCountry(el.country) }
+    })
+    .sort(dynamicSort('countryTranslated'))
 
   return (
     <div className={classes.root} data-testid='catalogLeft'>
@@ -56,12 +64,12 @@ export default function Catalog({
               onClick={() => handleClick('Paper Money', 'all')}
             />
 
-            {listOfCountries.map((el, index) => (
+            {sortedListOfCountries.map((el, index) => (
               <StyledTreeItem
                 key={el.country}
                 nodeId={String(index + 10)}
                 labelIcon={ArrowRight}
-                labelText={`${translateCountry(el.country)}`}
+                labelText={el.countryTranslated}
                 labelInfo={el.count.toString()}
                 data-testid={`test-${el.country}`}
                 color='#1a73e8'

@@ -1,6 +1,7 @@
 import { AppBar, Box, Button, Container, Toolbar } from '@mui/material'
 import { createStyles, makeStyles } from '@mui/styles'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -14,6 +15,8 @@ const useStyles = makeStyles(() =>
 
 export default function BottomAppBar() {
   const classes = useStyles()
+  const router = useRouter()
+
   return (
     <>
       <Box className={classes.root}>
@@ -34,6 +37,9 @@ export default function BottomAppBar() {
               <Link href='/'>
                 <a>
                   <Button
+                    sx={
+                      router.pathname === '/' ? { border: 'solid 1px' } : null
+                    }
                     color='primary'
                     variant='contained'
                     size='small'
@@ -48,6 +54,11 @@ export default function BottomAppBar() {
             <Link href='/paymentandshipping'>
               <a>
                 <Button
+                  sx={
+                    router.pathname === '/paymentandshipping'
+                      ? { border: 'solid 1px' }
+                      : null
+                  }
                   color='primary'
                   variant='contained'
                   size='small'
@@ -62,6 +73,9 @@ export default function BottomAppBar() {
             <Link href='/faq'>
               <a>
                 <Button
+                  sx={
+                    router.pathname === '/faq' ? { border: 'solid 1px' } : null
+                  }
                   color='primary'
                   variant='contained'
                   size='small'
@@ -74,6 +88,11 @@ export default function BottomAppBar() {
             <Link href='/contacts'>
               <a>
                 <Button
+                  sx={
+                    router.pathname === '/contacts'
+                      ? { border: 'solid 1px' }
+                      : null
+                  }
                   color='primary'
                   variant='contained'
                   size='small'
