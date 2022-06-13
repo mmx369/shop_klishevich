@@ -143,6 +143,23 @@ export function CheckoutOrderForm() {
                     autoClose: 3000,
                   })
                   router.push(`/orders/${res.data.order._id}`)
+                  await axios
+                    .post(`${process.env.RESTURL}/api/sendgrid`, {
+                      fullname: `${values.firstName} ${values.secondName} `,
+                      orderId: res.data.order._id,
+                    })
+                    .catch((err) => {
+                      if (err.response) {
+                        console.log(err.response.data)
+                        console.log(err.response.status)
+                        console.log(err.response.headers)
+                      } else if (err.request) {
+                        console.log(err.request)
+                      } else {
+                        console.log('Error', err.message)
+                      }
+                      console.log(err.config)
+                    })
                 } catch (err) {
                   console.log(err)
                   setStatus({ success: false })

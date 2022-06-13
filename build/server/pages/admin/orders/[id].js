@@ -129,7 +129,7 @@ function ModalSelectStatus({
     await external_axios_default().put(`${"https://klishevich.ru"}/api/changestatusorder`, newStatus);
     setOpen(false);
     setStatus(currStatus);
-    router.reload();
+    router.back();
   };
 
   return /*#__PURE__*/(0,jsx_runtime_.jsxs)("div", {

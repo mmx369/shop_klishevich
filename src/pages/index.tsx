@@ -1,4 +1,5 @@
 import { Grid } from '@mui/material'
+import { createStyles, makeStyles } from '@mui/styles'
 import { GetServerSideProps } from 'next'
 import Catalog from '../components/homepage/Catalog'
 import MainTextBlock from '../components/homepage/MainTextBlock'
@@ -6,6 +7,16 @@ import Search from '../components/homepage/Search'
 import Layout from '../components/layout/layout'
 import { PRODUCTS_TYPES } from '../constants'
 import { getData, ICountryCount, IProductTypesCount } from '../lib/getData'
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    root: {
+      maxWidth: '900px',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  })
+)
 
 export type TProps = {
   productTypesCount: IProductTypesCount[]
@@ -18,25 +29,28 @@ export default function Homepage({
   listOfCountriesCount,
   listOfCountriesCoinsCount,
 }: TProps) {
+  const classes = useStyles()
   return (
     <Layout title='Нумизматика и бонистика | Интернет-магазин | Продажа банкнот и монет'>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <MainTextBlock />
+      <div className={classes.root}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <MainTextBlock />
+          </Grid>
         </Grid>
-      </Grid>
 
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={4}>
-          <Catalog
-            listOfCountries={listOfCountriesCount}
-            listOfCountriesCoins={listOfCountriesCoinsCount}
-          />
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={4}>
+            <Catalog
+              listOfCountries={listOfCountriesCount}
+              listOfCountriesCoins={listOfCountriesCoinsCount}
+            />
+          </Grid>
+          <Grid item xs={12} sm={8}>
+            <Search productTypesCount={productTypesCount} countriesCount={[]} />
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={8}>
-          <Search productTypesCount={productTypesCount} countriesCount={[]} />
-        </Grid>
-      </Grid>
+      </div>
     </Layout>
   )
 }

@@ -60,8 +60,8 @@ var material_ = __webpack_require__(5692);
 var styles_ = __webpack_require__(9484);
 // EXTERNAL MODULE: ./src/components/layout/layout.tsx + 5 modules
 var layout = __webpack_require__(1612);
-// EXTERNAL MODULE: ./src/db/dbApi.ts
-var dbApi = __webpack_require__(403);
+// EXTERNAL MODULE: ./src/db/dbApi.ts + 1 modules
+var dbApi = __webpack_require__(6841);
 // EXTERNAL MODULE: ./src/lib/serialize.ts
 var serialize = __webpack_require__(4750);
 // EXTERNAL MODULE: external "react/jsx-runtime"
@@ -373,7 +373,7 @@ module.exports = require("react/jsx-runtime");
 var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [2082,676,1664,2246,1612,403], () => (__webpack_exec__(2805)));
+var __webpack_exports__ = __webpack_require__.X(0, [2082,676,1664,2246,1612,6841], () => (__webpack_exec__(2805)));
 module.exports = __webpack_exports__;
 
 })();

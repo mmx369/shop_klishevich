@@ -62,7 +62,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_toastify__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _components_layout_layout__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(1612);
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(238);
-/* harmony import */ var _db_dbApi__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(403);
+/* harmony import */ var _db_dbApi__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(6841);
 /* harmony import */ var _lib_serialize__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(4750);
 /* harmony import */ var _lib_translate__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(7169);
 /* harmony import */ var _redux_actions_cartActions__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(5801);
@@ -528,7 +528,7 @@ module.exports = require("react/jsx-runtime");
 var __webpack_require__ = require("../../../../../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [2082,676,1664,5675,2246,1612,403], () => (__webpack_exec__(7254)));
+var __webpack_exports__ = __webpack_require__.X(0, [2082,676,1664,5675,2246,1612,6841], () => (__webpack_exec__(7254)));
 module.exports = __webpack_exports__;
 
 })();

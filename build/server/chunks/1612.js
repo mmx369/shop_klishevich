@@ -35,9 +35,12 @@ var ELoggedIn = __webpack_require__(399);
 var styles_ = __webpack_require__(9484);
 // EXTERNAL MODULE: ./node_modules/next/link.js
 var next_link = __webpack_require__(1664);
+// EXTERNAL MODULE: external "next/router"
+var router_ = __webpack_require__(1853);
 // EXTERNAL MODULE: external "react/jsx-runtime"
 var jsx_runtime_ = __webpack_require__(997);
 ;// CONCATENATED MODULE: ./src/components/layout/bottomAppBar.tsx
+
 
 
 
@@ -53,6 +56,7 @@ const useStyles = (0,styles_.makeStyles)(() => (0,styles_.createStyles)({
 }));
 function BottomAppBar() {
   const classes = useStyles();
+  const router = (0,router_.useRouter)();
   return /*#__PURE__*/(0,jsx_runtime_.jsxs)(jsx_runtime_.Fragment, {
     children: [/*#__PURE__*/jsx_runtime_.jsx(material_.Box, {
       className: classes.root,
@@ -86,6 +90,9 @@ function BottomAppBar() {
               href: "/",
               children: /*#__PURE__*/jsx_runtime_.jsx("a", {
                 children: /*#__PURE__*/jsx_runtime_.jsx(material_.Button, {
+                  sx: router.pathname === '/' ? {
+                    border: 'solid 1px'
+                  } : null,
                   color: "primary",
                   variant: "contained",
                   size: "small",
@@ -99,6 +106,9 @@ function BottomAppBar() {
             href: "/paymentandshipping",
             children: /*#__PURE__*/jsx_runtime_.jsx("a", {
               children: /*#__PURE__*/jsx_runtime_.jsx(material_.Button, {
+                sx: router.pathname === '/paymentandshipping' ? {
+                  border: 'solid 1px'
+                } : null,
                 color: "primary",
                 variant: "contained",
                 size: "small",
@@ -111,6 +121,9 @@ function BottomAppBar() {
             href: "/faq",
             children: /*#__PURE__*/jsx_runtime_.jsx("a", {
               children: /*#__PURE__*/jsx_runtime_.jsx(material_.Button, {
+                sx: router.pathname === '/faq' ? {
+                  border: 'solid 1px'
+                } : null,
                 color: "primary",
                 variant: "contained",
                 size: "small",
@@ -122,6 +135,9 @@ function BottomAppBar() {
             href: "/contacts",
             children: /*#__PURE__*/jsx_runtime_.jsx("a", {
               children: /*#__PURE__*/jsx_runtime_.jsx(material_.Button, {
+                sx: router.pathname === '/contacts' ? {
+                  border: 'solid 1px'
+                } : null,
                 color: "primary",
                 variant: "contained",
                 size: "small",
@@ -204,8 +220,6 @@ const SignInButtons = ({
 };
 
 /* harmony default export */ const sign_in_button = (SignInButtons);
-// EXTERNAL MODULE: external "next/router"
-var router_ = __webpack_require__(1853);
 // EXTERNAL MODULE: ./src/constants/index.ts
 var constants = __webpack_require__(238);
 // EXTERNAL MODULE: ./src/redux/actions/shippingAction.ts
@@ -412,7 +426,7 @@ const Cart = ({
           xs: 12,
           children: /*#__PURE__*/(0,jsx_runtime_.jsxs)(material_.Typography, {
             variant: "subtitle2",
-            children: ["\u0418\u0442\u043E\u0433\u043E \u043A \u043E\u043F\u043B\u0430\u0442\u0435 \u0441 \u0443\u0447\u0435\u0442\u043E\u043C \u0434\u043E\u0441\u0442\u0430\u0432\u043A\u0438:", constants/* SHIPPING_PRICES */.bW[value] + +calculateTotal(cartItems).toFixed(2), ' ', constants/* ROUBLE */.$y]
+            children: ["\u0418\u0442\u043E\u0433\u043E \u043A \u043E\u043F\u043B\u0430\u0442\u0435 \u0441 \u0443\u0447\u0435\u0442\u043E\u043C \u0434\u043E\u0441\u0442\u0430\u0432\u043A\u0438:", ' ', constants/* SHIPPING_PRICES */.bW[value] + +calculateTotal(cartItems).toFixed(2), ' ', constants/* ROUBLE */.$y]
           })
         })]
       }), /*#__PURE__*/jsx_runtime_.jsx(material_.Button, {
@@ -824,9 +838,17 @@ const COUNTRIES = {
 /* harmony import */ var _constants_translate_map__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6228);
 
 function translateCountry(country) {
+  if (!_constants_translate_map__WEBPACK_IMPORTED_MODULE_0__/* .COUNTRIES */ .o[country]) {
+    return country;
+  }
+
   return _constants_translate_map__WEBPACK_IMPORTED_MODULE_0__/* .COUNTRIES */ .o[country];
 }
 function translateCategory(category) {
+  if (!_constants_translate_map__WEBPACK_IMPORTED_MODULE_0__/* .CATEGORIES */ .a[category]) {
+    return category;
+  }
+
   return _constants_translate_map__WEBPACK_IMPORTED_MODULE_0__/* .CATEGORIES */ .a[category];
 }
 
