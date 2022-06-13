@@ -146,7 +146,7 @@ export const Cart: React.FC<TProps> = ({
 
             <Grid item xs={12}>
               <Typography variant='subtitle2'>
-                Итого к оплате с учетом доставки:
+                Итого к оплате с учетом доставки:{' '}
                 {SHIPPING_PRICES[value as keyof TShippingPrices] +
                   +calculateTotal(cartItems).toFixed(2)}{' '}
                 {ROUBLE}

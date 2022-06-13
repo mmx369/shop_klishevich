@@ -57,7 +57,7 @@ export function ModalSelectStatus({ currStatus, currId }: TProps) {
     await axios.put(`${process.env.RESTURL}/api/changestatusorder`, newStatus)
     setOpen(false)
     setStatus(currStatus)
-    router.reload()
+    router.back()
   }
 
   return (

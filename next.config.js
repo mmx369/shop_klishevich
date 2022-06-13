@@ -18,6 +18,14 @@ const nextConfig = (phase) => {
   console.log(`isDev:${isDev}  isProd:${isProd}`)
 
   const env = {
+    MONGO_URI: (() => {
+      if (isDev) return process.env.MONGODB_URI_DEV
+      if (isProd) {
+        return process.env.MONGODB_URI
+      }
+      return 'MONGO_URI:not (isDev,isProd)'
+    })(),
+
     RESTURL: (() => {
       if (isDev) return 'http://localhost:3000'
       if (isProd) {

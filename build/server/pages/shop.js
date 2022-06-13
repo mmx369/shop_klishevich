@@ -217,16 +217,12 @@ const MaterialUiLink = /*#__PURE__*/(0,external_react_.forwardRef)((_ref, ref) =
 });
 // EXTERNAL MODULE: ./src/lib/getData.ts
 var getData = __webpack_require__(2843);
-// EXTERNAL MODULE: ./src/db/dbConnect.ts
-var dbConnect = __webpack_require__(703);
-// EXTERNAL MODULE: ./src/models/shopGoods.ts
-var shopGoods = __webpack_require__(1243);
+// EXTERNAL MODULE: ./src/db/dbApi.ts + 1 modules
+var dbApi = __webpack_require__(6841);
 ;// CONCATENATED MODULE: ./src/lib/getPaginatedItems.ts
 
 
-
 async function getPaginatedItem(query) {
-  await (0,dbConnect/* dbConnect */.C)();
   const page = getValueNumber(query.page) || 1;
   const rowsPerPage = 4;
   const offset = (page - 1) * rowsPerPage;
@@ -261,9 +257,10 @@ async function getPaginatedItem(query) {
     };
   }
 
-  const resultPromise = shopGoods/* default.find */.Z.find(findQuery).skip(offset).limit(rowsPerPage).select('-__v -date');
-  const resultCountPromise = shopGoods/* default.find */.Z.find(findQuery).count();
-  const [result, resultCount] = await Promise.all([resultPromise, resultCountPromise]);
+  const {
+    result,
+    resultCount
+  } = await dbApi/* dbApi.getPaginationData */.B.getPaginationData(findQuery, offset, rowsPerPage);
   const totalPages = Math.ceil(resultCount / rowsPerPage);
   return {
     goods: result,
@@ -658,7 +655,7 @@ module.exports = require("swr");
 var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [2082,676,1664,2246,1612,403,2085], () => (__webpack_exec__(4942)));
+var __webpack_exports__ = __webpack_require__.X(0, [2082,676,1664,2246,1612,6841,2085], () => (__webpack_exec__(4942)));
 module.exports = __webpack_exports__;
 
 })();

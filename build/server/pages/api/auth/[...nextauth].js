@@ -91,10 +91,11 @@ const options = {
   providers: [providers_default().Google({
     clientId: process.env.GOOGLE_ID,
     clientSecret: process.env.GOOGLE_SECRET
-  }), providers_default().Facebook({
-    clientId: process.env.FACEBOOK_ID,
-    clientSecret: process.env.FACEBOOK_SECRET
-  }), providers_default().Email({
+  }), // Providers.Facebook({
+  //   clientId: process.env.FACEBOOK_ID,
+  //   clientSecret: process.env.FACEBOOK_SECRET,
+  // }),
+  providers_default().Email({
     server: {
       host: process.env.EMAIL_SERVER_HOST,
       port: 587,
@@ -105,7 +106,7 @@ const options = {
     },
     from: process.env.EMAIL_FROM
   })],
-  database: process.env.MONGODB_URI,
+  database: "mongodb+srv://max:1488@cluster0.0ngzs.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
   pages: {
     signIn: '/signin'
   },

@@ -5,7 +5,7 @@ exports.id = 5405;
 exports.ids = [5405];
 exports.modules = {
 
-/***/ 3982:
+/***/ 8421:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 // ESM COMPAT FLAG
@@ -19,15 +19,29 @@ __webpack_require__.d(__webpack_exports__, {
 
 // EXTERNAL MODULE: external "@mui/material"
 var material_ = __webpack_require__(5692);
+// EXTERNAL MODULE: external "@mui/styles"
+var styles_ = __webpack_require__(9484);
 ;// CONCATENATED MODULE: external "@mui/icons-material"
 const icons_material_namespaceObject = require("@mui/icons-material");
 ;// CONCATENATED MODULE: external "@mui/lab"
 const lab_namespaceObject = require("@mui/lab");
-// EXTERNAL MODULE: external "@mui/styles"
-var styles_ = __webpack_require__(9484);
 // EXTERNAL MODULE: external "next/router"
 var router_ = __webpack_require__(1853);
 var router_default = /*#__PURE__*/__webpack_require__.n(router_);
+;// CONCATENATED MODULE: ./src/lib/dynamicSort.ts
+const dynamicSort = property => {
+  let sortOrder = 1;
+
+  if (property[0] === '-') {
+    sortOrder = -1;
+    property = property.substr(1);
+  }
+
+  return function (a, b) {
+    let result = a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+    return result * sortOrder;
+  };
+};
 // EXTERNAL MODULE: ./src/lib/translate.ts
 var translate = __webpack_require__(7169);
 // EXTERNAL MODULE: external "react/jsx-runtime"
@@ -142,6 +156,13 @@ function StyledTreeItem(props) {
   }, other));
 }
 ;// CONCATENATED MODULE: ./src/components/homepage/Catalog.tsx
+function Catalog_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function Catalog_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { Catalog_ownKeys(Object(source), true).forEach(function (key) { Catalog_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { Catalog_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function Catalog_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
 
 
 
@@ -174,6 +195,11 @@ function Catalog({
     });
   };
 
+  const sortedListOfCountries = listOfCountries.map(el => {
+    return Catalog_objectSpread(Catalog_objectSpread({}, el), {}, {
+      countryTranslated: (0,translate/* translateCountry */.y)(el.country)
+    });
+  }).sort(dynamicSort('countryTranslated'));
   return /*#__PURE__*/jsx_runtime_.jsx("div", {
     className: classes.root,
     "data-testid": "catalogLeft",
@@ -199,10 +225,10 @@ function Catalog({
             labelText: "\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u0432\u0441\u0435",
             labelIcon: icons_material_namespaceObject.ArrowRight,
             onClick: () => handleClick('Paper Money', 'all')
-          }), listOfCountries.map((el, index) => /*#__PURE__*/jsx_runtime_.jsx(StyledTreeItem, {
+          }), sortedListOfCountries.map((el, index) => /*#__PURE__*/jsx_runtime_.jsx(StyledTreeItem, {
             nodeId: String(index + 10),
             labelIcon: icons_material_namespaceObject.ArrowRight,
-            labelText: `${(0,translate/* translateCountry */.y)(el.country)}`,
+            labelText: el.countryTranslated,
             labelInfo: el.count.toString(),
             "data-testid": `test-${el.country}`,
             color: "#1a73e8",
@@ -288,42 +314,54 @@ var getData = __webpack_require__(2843);
 
 
 
+
+const pages_useStyles = (0,styles_.makeStyles)(() => (0,styles_.createStyles)({
+  root: {
+    maxWidth: '900px',
+    marginLeft: 'auto',
+    marginRight: 'auto'
+  }
+}));
 function Homepage({
   productTypesCount,
   listOfCountriesCount,
   listOfCountriesCoinsCount
 }) {
-  return /*#__PURE__*/(0,jsx_runtime_.jsxs)(layout/* default */.Z, {
+  const classes = pages_useStyles();
+  return /*#__PURE__*/jsx_runtime_.jsx(layout/* default */.Z, {
     title: "\u041D\u0443\u043C\u0438\u0437\u043C\u0430\u0442\u0438\u043A\u0430 \u0438 \u0431\u043E\u043D\u0438\u0441\u0442\u0438\u043A\u0430 | \u0418\u043D\u0442\u0435\u0440\u043D\u0435\u0442-\u043C\u0430\u0433\u0430\u0437\u0438\u043D | \u041F\u0440\u043E\u0434\u0430\u0436\u0430 \u0431\u0430\u043D\u043A\u043D\u043E\u0442 \u0438 \u043C\u043E\u043D\u0435\u0442",
-    children: [/*#__PURE__*/jsx_runtime_.jsx(material_.Grid, {
-      container: true,
-      spacing: 2,
-      children: /*#__PURE__*/jsx_runtime_.jsx(material_.Grid, {
-        item: true,
-        xs: 12,
-        children: /*#__PURE__*/jsx_runtime_.jsx(MainTextBlock, {})
-      })
-    }), /*#__PURE__*/(0,jsx_runtime_.jsxs)(material_.Grid, {
-      container: true,
-      spacing: 2,
+    children: /*#__PURE__*/(0,jsx_runtime_.jsxs)("div", {
+      className: classes.root,
       children: [/*#__PURE__*/jsx_runtime_.jsx(material_.Grid, {
-        item: true,
-        xs: 12,
-        sm: 4,
-        children: /*#__PURE__*/jsx_runtime_.jsx(Catalog, {
-          listOfCountries: listOfCountriesCount,
-          listOfCountriesCoins: listOfCountriesCoinsCount
+        container: true,
+        spacing: 2,
+        children: /*#__PURE__*/jsx_runtime_.jsx(material_.Grid, {
+          item: true,
+          xs: 12,
+          children: /*#__PURE__*/jsx_runtime_.jsx(MainTextBlock, {})
         })
-      }), /*#__PURE__*/jsx_runtime_.jsx(material_.Grid, {
-        item: true,
-        xs: 12,
-        sm: 8,
-        children: /*#__PURE__*/jsx_runtime_.jsx(Search/* default */.Z, {
-          productTypesCount: productTypesCount,
-          countriesCount: []
-        })
+      }), /*#__PURE__*/(0,jsx_runtime_.jsxs)(material_.Grid, {
+        container: true,
+        spacing: 2,
+        children: [/*#__PURE__*/jsx_runtime_.jsx(material_.Grid, {
+          item: true,
+          xs: 12,
+          sm: 4,
+          children: /*#__PURE__*/jsx_runtime_.jsx(Catalog, {
+            listOfCountries: listOfCountriesCount,
+            listOfCountriesCoins: listOfCountriesCoinsCount
+          })
+        }), /*#__PURE__*/jsx_runtime_.jsx(material_.Grid, {
+          item: true,
+          xs: 12,
+          sm: 8,
+          children: /*#__PURE__*/jsx_runtime_.jsx(Search/* default */.Z, {
+            productTypesCount: productTypesCount,
+            countriesCount: []
+          })
+        })]
       })]
-    })]
+    })
   });
 }
 const getServerSideProps = async () => {
@@ -607,7 +645,7 @@ module.exports = require("swr");
 var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [2082,676,1664,2246,1612,403,2085], () => (__webpack_exec__(3982)));
+var __webpack_exports__ = __webpack_require__.X(0, [2082,676,1664,2246,1612,6841,2085], () => (__webpack_exec__(8421)));
 module.exports = __webpack_exports__;
 
 })();
