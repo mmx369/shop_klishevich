@@ -159,7 +159,7 @@ export function Nav({ currentEmail, currentRole, isLoggedIn }: TProps) {
         </Link>
       )}
       {currentRole === ERole.Client && (
-        <Link href='/client'>
+        <Link href='/profile'>
           <a>
             <ListItem button>
               <ListItemIcon>

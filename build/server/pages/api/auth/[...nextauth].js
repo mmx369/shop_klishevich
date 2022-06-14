@@ -61,7 +61,7 @@ const ShopUser = mongoose__WEBPACK_IMPORTED_MODULE_0___default().model('ShopUser
 
 /***/ }),
 
-/***/ 1015:
+/***/ 1208:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 // ESM COMPAT FLAG
@@ -78,6 +78,9 @@ var external_next_auth_default = /*#__PURE__*/__webpack_require__.n(external_nex
 ;// CONCATENATED MODULE: external "next-auth/providers"
 const providers_namespaceObject = require("next-auth/providers");
 var providers_default = /*#__PURE__*/__webpack_require__.n(providers_namespaceObject);
+;// CONCATENATED MODULE: external "nodemailer"
+const external_nodemailer_namespaceObject = require("nodemailer");
+var external_nodemailer_default = /*#__PURE__*/__webpack_require__.n(external_nodemailer_namespaceObject);
 // EXTERNAL MODULE: ./src/db/dbConnect.ts
 var dbConnect = __webpack_require__(4903);
 // EXTERNAL MODULE: ./src/models/shopUser.ts
@@ -86,6 +89,87 @@ var models_shopUser = __webpack_require__(1376);
 
 
 
+
+
+
+const customVerificationRequest = async ({
+  identifier: email,
+  url,
+  provider: {
+    server,
+    from
+  }
+}) => {
+  const {
+    host
+  } = new URL(url);
+  const transport = external_nodemailer_default().createTransport(server);
+  await transport.sendMail({
+    to: email,
+    from,
+    subject: `Войти на сайт ${host}`,
+    text: _nextauth_text({
+      url,
+      host
+    }),
+    html: html({
+      url,
+      host,
+      email
+    })
+  });
+};
+
+const html = ({
+  url,
+  host,
+  email
+}) => {
+  const escapedEmail = `${email.replace(/\./g, '&#8203;.')}`;
+  const escapedSite = `${host.replace(/\./g, '&#8203;.')}`;
+  const backgroundColor = '#f9f9f9';
+  const textColor = '#444444';
+  const mainBackgroundColor = '#ffffff';
+  const buttonBackgroundColor = '#346df1';
+  const buttonBorderColor = '#346df1';
+  const buttonTextColor = '#ffffff';
+  return `
+    <body style="background: ${backgroundColor};">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td align="center" style="padding: 10px 0px 20px 0px; font-size: 22px; font-family: Helvetica, Arial, sans-serif; color: ${textColor};">
+            <strong>${escapedSite}</strong>
+          </td>
+        </tr>
+      </table>
+      <table width="100%" border="0" cellspacing="20" cellpadding="0" style="background: ${mainBackgroundColor}; max-width: 600px; margin: auto; border-radius: 10px;">
+        <tr>
+          <td align="center" style="padding: 10px 0px 0px 0px; font-size: 18px; font-family: Helvetica, Arial, sans-serif; color: ${textColor};">
+            Войти как <strong>${escapedEmail}</strong>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="padding: 20px 0;">
+            <table border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td align="center" style="border-radius: 5px;" bgcolor="${buttonBackgroundColor}"><a href="${url}" target="_blank" style="font-size: 18px; font-family: Helvetica, Arial, sans-serif; color: ${buttonTextColor}; text-decoration: none; text-decoration: none;border-radius: 5px; padding: 10px 20px; border: 1px solid ${buttonBorderColor}; display: inline-block; font-weight: bold;">Войти</a></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="padding: 0px 0px 10px 0px; font-size: 16px; line-height: 22px; font-family: Helvetica, Arial, sans-serif; color: ${textColor};">
+          Если вы не запрашивали это письмо, то вы можете проигнорировать его.  
+          </td>
+        </tr>
+      </table>
+    </body>`;
+};
+
+const _nextauth_text = ({
+  url,
+  host
+}) => `Войти на ${host}\n${url}\n\n`;
 
 const options = {
   providers: [providers_default().Google({
@@ -104,11 +188,13 @@ const options = {
         pass: process.env.EMAIL_SERVER_PASSWORD
       }
     },
-    from: process.env.EMAIL_FROM
+    from: process.env.EMAIL_FROM,
+    sendVerificationRequest: customVerificationRequest
   })],
   database: "mongodb+srv://max:1488@cluster0.0ngzs.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
   pages: {
-    signIn: '/signin'
+    signIn: '/signin',
+    verifyRequest: '/verify-request'
   },
   callbacks: {
     async signIn(user, _account, _profile) {
@@ -203,7 +289,7 @@ let ERole;
 var __webpack_require__ = require("../../../webpack-api-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [4903], () => (__webpack_exec__(1015)));
+var __webpack_exports__ = __webpack_require__.X(0, [4903], () => (__webpack_exec__(1208)));
 module.exports = __webpack_exports__;
 
 })();
