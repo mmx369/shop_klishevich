@@ -12,6 +12,8 @@ __webpack_require__.d(__webpack_exports__, {
   "B": () => (/* binding */ dbApi)
 });
 
+// EXTERNAL MODULE: ./src/models/newOrder.ts
+var newOrder = __webpack_require__(894);
 // EXTERNAL MODULE: ./src/models/shopFaq.ts
 var shopFaq = __webpack_require__(2119);
 // EXTERNAL MODULE: ./src/models/shopGoods.ts
@@ -72,6 +74,7 @@ async function dbConnect() {
 
 
 
+
 const fetchTypesCount = async productTypes => {
   await dbConnect();
   const promises = productTypes.map(type => shopGoods/* default.countDocuments */.Z.countDocuments({
@@ -92,6 +95,14 @@ const getSingleProductById = async productId => {
   await dbConnect();
   const product = await shopGoods/* default.findById */.Z.findById(productId).select('-date -__v');
   return product;
+};
+
+const getOrdersByEmail = async email => {
+  await dbConnect();
+  const orderList = await newOrder/* default.find */.Z.find({
+    email
+  }).select('status email firstName secondName order totalPrice shippingPrice date');
+  return orderList;
 };
 
 const getFaqList = async () => {
@@ -115,9 +126,54 @@ const dbApi = {
   fetchTypesCount,
   fetchCountries,
   getSingleProductById,
+  getOrdersByEmail,
   getFaqList,
   getPaginationData
 };
+
+/***/ }),
+
+/***/ 894:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1185);
+/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_0__);
+
+const Schema = (mongoose__WEBPACK_IMPORTED_MODULE_0___default().Schema);
+const newOrder = new Schema({
+  email: String,
+  firstName: String,
+  secondName: String,
+  fatherName: String,
+  zip: String,
+  country: String,
+  region: String,
+  city: String,
+  address: String,
+  phone: String,
+  comments: String,
+  order: [{
+    _id: String,
+    nameOfGoods: String,
+    amountOfGoods: Number,
+    priceOfGoods: Number
+  }],
+  totalPrice: Number,
+  shippingPrice: Number,
+  status: {
+    type: String,
+    default: 'open'
+  },
+  date: Date
+}); // @ts-ignore
+//avoid OverwriteModelError
+
+(mongoose__WEBPACK_IMPORTED_MODULE_0___default().models) = {};
+const NewOrder = mongoose__WEBPACK_IMPORTED_MODULE_0___default().model('NewOrder', newOrder);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NewOrder);
 
 /***/ }),
 

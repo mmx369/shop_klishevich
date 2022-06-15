@@ -131,7 +131,7 @@ function ItemsDetails({
 
   return /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.Fragment, {
     children: /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx(_components_layout_layout__WEBPACK_IMPORTED_MODULE_7__/* ["default"] */ .Z, {
-      title: (0,_lib_translate__WEBPACK_IMPORTED_MODULE_10__/* .translateCountry */ .y)(item.country) + ' ' + item.nameOfGoods,
+      title: (0,_lib_translate__WEBPACK_IMPORTED_MODULE_10__/* .translateCountry */ .yy)(item.country) + ' ' + item.nameOfGoods,
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("main", {
         className: classes.root,
         "data-testid": "detailedProductPageContent",
@@ -179,7 +179,7 @@ function ItemsDetails({
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_mui_material__WEBPACK_IMPORTED_MODULE_0__.Typography, {
                   gutterBottom: true,
                   variant: "h6",
-                  children: [(0,_lib_translate__WEBPACK_IMPORTED_MODULE_10__/* .translateCategory */ .J)(item.category), " |", (0,_lib_translate__WEBPACK_IMPORTED_MODULE_10__/* .translateCountry */ .y)(item.country)]
+                  children: [(0,_lib_translate__WEBPACK_IMPORTED_MODULE_10__/* .translateCategory */ .Jv)(item.category), " |", (0,_lib_translate__WEBPACK_IMPORTED_MODULE_10__/* .translateCountry */ .yy)(item.country)]
                 }), /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_0__.Typography, {
                   gutterBottom: true,
                   variant: "h5",

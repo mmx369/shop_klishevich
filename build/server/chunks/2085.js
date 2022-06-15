@@ -137,7 +137,7 @@ function Search({
                   }), productTypesCount.map(type => /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_0__.MenuItem, {
                     value: type.type,
                     "data-testid": "selectOptionsProductTypes",
-                    children: `${(0,_lib_translate__WEBPACK_IMPORTED_MODULE_6__/* .translateCategory */ .J)(type.type)} (${type.count})`
+                    children: `${(0,_lib_translate__WEBPACK_IMPORTED_MODULE_6__/* .translateCategory */ .Jv)(type.type)} (${type.count})`
                   }, type.type))]
                 })]
               })
@@ -267,7 +267,7 @@ function CountrySelect(_ref) {
       }), newCountries.map(country => /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_0__.MenuItem, {
         value: country.country,
         "data-testid": "selectOptionsCountry",
-        children: `${(0,_lib_translate__WEBPACK_IMPORTED_MODULE_6__/* .translateCountry */ .y)(country.country)} (${country.count})`
+        children: `${(0,_lib_translate__WEBPACK_IMPORTED_MODULE_6__/* .translateCountry */ .yy)(country.country)} (${country.count})`
       }, country.country))]
     }))]
   });

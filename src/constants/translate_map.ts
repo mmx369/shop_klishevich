@@ -27,3 +27,15 @@ export const COUNTRIES: CountryMap = {
   China: 'Китай',
   Afganistan: 'Афганистан',
 }
+
+type TranslateMap = {
+  [key: string]: string
+}
+
+export const TRANSLATE_MAP: TranslateMap = {
+  open: 'открыт',
+  paid: 'оплачен',
+  shipped: 'отправлен',
+  received: 'получен',
+  closed: 'закрыт',
+}

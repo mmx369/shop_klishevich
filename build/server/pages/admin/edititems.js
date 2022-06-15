@@ -421,7 +421,7 @@ function ProductList({
               })
             }), constants/* PRODUCTS_TYPES.map */.jr.map(type => /*#__PURE__*/jsx_runtime_.jsx(material_.MenuItem, {
               value: type,
-              children: (0,translate/* translateCategory */.J)(type)
+              children: (0,translate/* translateCategory */.Jv)(type)
             }, type))]
           })]
         }), /*#__PURE__*/(0,jsx_runtime_.jsxs)(material_.FormControl, {
@@ -447,9 +447,9 @@ function ProductList({
               children: /*#__PURE__*/jsx_runtime_.jsx("em", {
                 children: "\u041D\u0435 \u0432\u044B\u0431\u0440\u0430\u043D\u043E"
               })
-            }), Object.keys(translate_map/* COUNTRIES */.o).map(country => /*#__PURE__*/jsx_runtime_.jsx(material_.MenuItem, {
+            }), Object.keys(translate_map/* COUNTRIES */.od).map(country => /*#__PURE__*/jsx_runtime_.jsx(material_.MenuItem, {
               value: country,
-              children: (0,translate/* translateCountry */.y)(country)
+              children: (0,translate/* translateCountry */.yy)(country)
             }, country))]
           })]
         }), /*#__PURE__*/jsx_runtime_.jsx(material_.FormControl, {
@@ -477,7 +477,7 @@ function ProductList({
           elevation: 5,
           className: classes.card,
           children: [/*#__PURE__*/jsx_runtime_.jsx(material_.CardHeader, {
-            title: `${(0,translate/* translateCategory */.J)(item.category)} | ${(0,translate/* translateCountry */.y)(item.country)}`,
+            title: `${(0,translate/* translateCategory */.Jv)(item.category)} | ${(0,translate/* translateCountry */.yy)(item.country)}`,
             subheader: item.nameOfGoods
           }), /*#__PURE__*/jsx_runtime_.jsx(material_.CardMedia, {
             className: classes.media,

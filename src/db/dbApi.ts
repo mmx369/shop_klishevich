@@ -1,4 +1,5 @@
 import { QueryParams } from '../lib/getPaginatedItems'
+import NewOrder from '../models/newOrder'
 import FaqModel from '../models/shopFaq'
 import ShopGoods from '../models/shopGoods'
 import { dbConnect } from './dbConnect'
@@ -25,6 +26,14 @@ const getSingleProductById = async (productId: string) => {
   await dbConnect()
   const product = await ShopGoods.findById(productId).select('-date -__v')
   return product
+}
+
+const getOrdersByEmail = async (email: string) => {
+  await dbConnect()
+  const orderList = await NewOrder.find({ email }).select(
+    'status email firstName secondName order totalPrice shippingPrice date'
+  )
+  return orderList
 }
 
 const getFaqList = async () => {
@@ -58,6 +67,7 @@ export const dbApi = {
   fetchTypesCount,
   fetchCountries,
   getSingleProductById,
+  getOrdersByEmail,
   getFaqList,
   getPaginationData,
 }

@@ -20,6 +20,7 @@ const useStyles = makeStyles(() =>
 )
 
 export interface IListOfOrders {
+  email: string
   status?: string
   firstName: string
   secondName: string

@@ -197,7 +197,7 @@ function Catalog({
 
   const sortedListOfCountries = listOfCountries.map(el => {
     return Catalog_objectSpread(Catalog_objectSpread({}, el), {}, {
-      countryTranslated: (0,translate/* translateCountry */.y)(el.country)
+      countryTranslated: (0,translate/* translateCountry */.yy)(el.country)
     });
   }).sort(dynamicSort('countryTranslated'));
   return /*#__PURE__*/jsx_runtime_.jsx("div", {
@@ -246,7 +246,7 @@ function Catalog({
             onClick: () => handleClick('Coins', 'all')
           }), listOfCountriesCoins.map((el, index) => /*#__PURE__*/jsx_runtime_.jsx(StyledTreeItem, {
             nodeId: String(index + 100),
-            labelText: `${(0,translate/* translateCountry */.y)(el.country)}`,
+            labelText: `${(0,translate/* translateCountry */.yy)(el.country)}`,
             labelIcon: icons_material_namespaceObject.ArrowRight,
             labelInfo: el.count.toString(),
             color: "#1a73e8",

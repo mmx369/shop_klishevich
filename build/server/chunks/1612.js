@@ -268,7 +268,7 @@ const CartItem = ({
         style: {
           marginBottom: '5px'
         },
-        children: [(0,translate/* translateCategory */.J)(item.category), " | ", (0,translate/* translateCountry */.y)(item.country), ' ', "| ", item.nameOfGoods]
+        children: [(0,translate/* translateCategory */.Jv)(item.category), " | ", (0,translate/* translateCountry */.yy)(item.country), ' ', "| ", item.nameOfGoods]
       }), /*#__PURE__*/(0,jsx_runtime_.jsxs)("div", {
         className: classes.info,
         children: [/*#__PURE__*/(0,jsx_runtime_.jsxs)("div", {
@@ -601,7 +601,7 @@ function Nav({
         })
       })
     }), currentRole === ERole/* ERole.Client */.S.Client && /*#__PURE__*/jsx_runtime_.jsx(next_link["default"], {
-      href: "/client",
+      href: "/profile",
       children: /*#__PURE__*/jsx_runtime_.jsx("a", {
         children: /*#__PURE__*/(0,jsx_runtime_.jsxs)(material_.ListItem, {
           button: true,
@@ -802,8 +802,9 @@ const ROUBLE = '\u20bd';
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "a": () => (/* binding */ CATEGORIES),
-/* harmony export */   "o": () => (/* binding */ COUNTRIES)
+/* harmony export */   "aA": () => (/* binding */ CATEGORIES),
+/* harmony export */   "od": () => (/* binding */ COUNTRIES),
+/* harmony export */   "NA": () => (/* binding */ TRANSLATE_MAP)
 /* harmony export */ });
 const CATEGORIES = {
   'Paper Money': 'Банкноты',
@@ -825,6 +826,13 @@ const COUNTRIES = {
   China: 'Китай',
   Afganistan: 'Афганистан'
 };
+const TRANSLATE_MAP = {
+  open: 'открыт',
+  paid: 'оплачен',
+  shipped: 'отправлен',
+  received: 'получен',
+  closed: 'закрыт'
+};
 
 /***/ }),
 
@@ -832,24 +840,32 @@ const COUNTRIES = {
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "y": () => (/* binding */ translateCountry),
-/* harmony export */   "J": () => (/* binding */ translateCategory)
+/* harmony export */   "yy": () => (/* binding */ translateCountry),
+/* harmony export */   "Jv": () => (/* binding */ translateCategory),
+/* harmony export */   "Iu": () => (/* binding */ translate)
 /* harmony export */ });
 /* harmony import */ var _constants_translate_map__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6228);
 
 function translateCountry(country) {
-  if (!_constants_translate_map__WEBPACK_IMPORTED_MODULE_0__/* .COUNTRIES */ .o[country]) {
+  if (!_constants_translate_map__WEBPACK_IMPORTED_MODULE_0__/* .COUNTRIES */ .od[country]) {
     return country;
   }
 
-  return _constants_translate_map__WEBPACK_IMPORTED_MODULE_0__/* .COUNTRIES */ .o[country];
+  return _constants_translate_map__WEBPACK_IMPORTED_MODULE_0__/* .COUNTRIES */ .od[country];
 }
 function translateCategory(category) {
-  if (!_constants_translate_map__WEBPACK_IMPORTED_MODULE_0__/* .CATEGORIES */ .a[category]) {
+  if (!_constants_translate_map__WEBPACK_IMPORTED_MODULE_0__/* .CATEGORIES */ .aA[category]) {
     return category;
   }
 
-  return _constants_translate_map__WEBPACK_IMPORTED_MODULE_0__/* .CATEGORIES */ .a[category];
+  return _constants_translate_map__WEBPACK_IMPORTED_MODULE_0__/* .CATEGORIES */ .aA[category];
+}
+function translate(word) {
+  if (!_constants_translate_map__WEBPACK_IMPORTED_MODULE_0__/* .TRANSLATE_MAP */ .NA[word]) {
+    return word;
+  }
+
+  return _constants_translate_map__WEBPACK_IMPORTED_MODULE_0__/* .TRANSLATE_MAP */ .NA[word];
 }
 
 /***/ }),

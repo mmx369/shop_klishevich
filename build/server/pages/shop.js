@@ -125,7 +125,7 @@ function ShopCard({
         children: /*#__PURE__*/(0,jsx_runtime_.jsxs)("a", {
           "data-testid": "productDetailLink",
           children: [/*#__PURE__*/jsx_runtime_.jsx(material_.CardHeader, {
-            title: `${(0,translate/* translateCategory */.J)(item.category)} | ${(0,translate/* translateCountry */.y)(item.country)}`,
+            title: `${(0,translate/* translateCategory */.Jv)(item.category)} | ${(0,translate/* translateCountry */.yy)(item.country)}`,
             subheader: item.nameOfGoods
           }), /*#__PURE__*/jsx_runtime_.jsx(material_.CardMedia, {
             className: classes.media,
