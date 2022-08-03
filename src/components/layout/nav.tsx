@@ -158,18 +158,19 @@ export function Nav({ currentEmail, currentRole, isLoggedIn }: TProps) {
           </a>
         </Link>
       )}
-      {currentRole === ERole.Client && (
-        <Link href='/profile'>
-          <a>
-            <ListItem button>
-              <ListItemIcon>
-                <SupervisorAccountIcon />
-              </ListItemIcon>
-              <ListItemText primary='Личный кабинет' />
-            </ListItem>
-          </a>
-        </Link>
-      )}
+      {currentRole === ERole.Client ||
+        (ERole.Admin && (
+          <Link href='/profile'>
+            <a>
+              <ListItem button>
+                <ListItemIcon>
+                  <SupervisorAccountIcon />
+                </ListItemIcon>
+                <ListItemText primary='Личный кабинет' />
+              </ListItem>
+            </a>
+          </Link>
+        ))}
     </div>
   )
 

@@ -600,7 +600,7 @@ function Nav({
           })]
         })
       })
-    }), currentRole === ERole/* ERole.Client */.S.Client && /*#__PURE__*/jsx_runtime_.jsx(next_link["default"], {
+    }), currentRole === ERole/* ERole.Client */.S.Client || ERole/* ERole.Admin */.S.Admin && /*#__PURE__*/jsx_runtime_.jsx(next_link["default"], {
       href: "/profile",
       children: /*#__PURE__*/jsx_runtime_.jsx("a", {
         children: /*#__PURE__*/(0,jsx_runtime_.jsxs)(material_.ListItem, {

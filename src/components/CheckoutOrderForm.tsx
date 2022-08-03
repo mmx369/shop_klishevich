@@ -5,6 +5,7 @@ import {
   CardContent,
   FormGroup,
   TextField,
+  Typography,
 } from '@mui/material'
 import { createStyles, makeStyles } from '@mui/styles'
 import axios from 'axios'
@@ -17,6 +18,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { object, string } from 'yup'
 import { addShippingPrice } from '../redux/actions/shippingAction'
 import { cartSelectors, shippingSelectors } from '../redux/selectors'
+import { CheckoutFields } from '../types/CheckoutFields'
 
 toast.configure()
 
@@ -33,19 +35,6 @@ const useStyles = makeStyles(() =>
     },
   })
 )
-
-export interface CheckoutFields {
-  firstName: string
-  secondName: string
-  fatherName: string
-  zip: string
-  country: string
-  region: string
-  city: string
-  address: string
-  phone: string
-  comments: string
-}
 
 const initialValues: CheckoutFields = {
   firstName: '',
@@ -73,14 +62,83 @@ export function CheckoutOrderForm() {
     dispatch(addShippingPrice(+window.localStorage.getItem('shippingPrice')!))
   }, [])
 
+  if (!currentOrder || !shippingPrice) {
+    return (
+      <div>
+        <Typography variant='subtitle2'>
+          Ваш список покупок пуст или не был выбран способ доставки. Попробуйте
+          оформить еще раз.
+        </Typography>
+      </div>
+    )
+  }
+
   const phoneRegExp =
     /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/
+
+  const handleSubmit = async (values: CheckoutFields) => {
+    const newOrder = {
+      firstName: values.firstName,
+      secondName: values.secondName,
+      fatherName: values.fatherName,
+      zip: values.zip,
+      country: values.country,
+      region: values.region,
+      city: values.city,
+      address: values.address,
+      phone: values.phone,
+      comments: values.comments,
+      order: currentOrder,
+      totalPrice: currentOrder.reduce(function (acc, sum) {
+        return acc + sum.priceOfGoods! * sum.amountOfGoods
+      }, 0),
+      shippingPrice,
+    }
+
+    try {
+      const result = await axios.post(
+        `${process.env.RESTURL}/api/addneworder`,
+        newOrder
+      )
+      window.localStorage.removeItem('cart')
+      window.localStorage.removeItem('shippingPrice')
+      toast.success(`Заказ успешно оформлен`, {
+        position: toast.POSITION.TOP_LEFT,
+        autoClose: 3000,
+      })
+      router.push(`/orders/${result.data.order._id}`)
+      return result
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const sendLetter = async (values: CheckoutFields, orderId: string) => {
+    try {
+      await axios.post(`${process.env.RESTURL}/api/sendgrid`, {
+        fullname: `${values.firstName} ${values.secondName} `,
+        orderId,
+      })
+    } catch (err) {
+      if (err.response) {
+        console.log(err.response.data)
+        console.log(err.response.status)
+        console.log(err.response.headers)
+      } else if (err.request) {
+        console.log(err.request)
+      } else {
+        console.log('Error', err.message)
+      }
+      console.log(err.config)
+    }
+  }
 
   return (
     <>
       <Card data-testid='orderForm'>
         <CardContent>
           <Formik
+            validateOnMount
             initialValues={initialValues}
             validationSchema={object({
               firstName: string()
@@ -111,69 +169,13 @@ export function CheckoutOrderForm() {
                 .max(15, 'Не более 15 символов'),
               comments: string().max(100, 'Не более 100 символов'),
             })}
-            onSubmit={async (values, { setStatus }) => {
-              const addNewOrder = async () => {
-                try {
-                  const newOrder = {
-                    firstName: values.firstName,
-                    secondName: values.secondName,
-                    fatherName: values.fatherName,
-                    zip: values.zip,
-                    country: values.country,
-                    region: values.region,
-                    city: values.city,
-                    address: values.address,
-                    phone: values.phone,
-                    comments: values.comments,
-                    order: currentOrder,
-                    totalPrice: currentOrder.reduce(function (acc, sum) {
-                      return acc + sum.priceOfGoods! * sum.amountOfGoods
-                    }, 0),
-                    shippingPrice,
-                  }
-                  const res = await axios.post(
-                    `${process.env.RESTURL}/api/addneworder`,
-                    newOrder
-                  )
-                  console.log('!!res', res.data)
-                  window.localStorage.removeItem('cart')
-                  window.localStorage.removeItem('shippingPrice')
-                  toast.success(`Заказ успешно оформлен`, {
-                    position: toast.POSITION.TOP_LEFT,
-                    autoClose: 3000,
-                  })
-                  router.push(`/orders/${res.data.order._id}`)
-                  await axios
-                    .post(`${process.env.RESTURL}/api/sendgrid`, {
-                      fullname: `${values.firstName} ${values.secondName} `,
-                      orderId: res.data.order._id,
-                    })
-                    .catch((err) => {
-                      if (err.response) {
-                        console.log(err.response.data)
-                        console.log(err.response.status)
-                        console.log(err.response.headers)
-                      } else if (err.request) {
-                        console.log(err.request)
-                      } else {
-                        console.log('Error', err.message)
-                      }
-                      console.log(err.config)
-                    })
-                } catch (err) {
-                  console.log(err)
-                  setStatus({ success: false })
-                }
-              }
-              addNewOrder()
+            onSubmit={async (values, { setSubmitting }) => {
+              const result = await handleSubmit(values)
+              console.log(setSubmitting)
+              await sendLetter(values, result?.data.order._id)
             }}
           >
-            {(
-              _values: { [field: string]: any },
-              _errors: { [field: string]: string },
-              isSubmitting: boolean,
-              isValidating: boolean
-            ) => (
+            {({ isSubmitting, isValid }) => (
               <Form>
                 <Box marginBottom={2}>
                   <FormGroup>
@@ -277,7 +279,7 @@ export function CheckoutOrderForm() {
                     color='primary'
                     type='submit'
                     data-testid='checkoutBtn'
-                    disabled={isSubmitting || isValidating}
+                    disabled={isSubmitting || !isValid}
                   >
                     Завершить оформление
                   </Button>

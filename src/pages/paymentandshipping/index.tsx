@@ -20,7 +20,7 @@ export default function PaymentAndShipping() {
         <div className={classes.root} data-testid='paymentpage'>
           <h1>Варианты оплаты:</h1>
           <ul>
-            {/* <li>Банковской картой на сайте магазина.</li> */}
+            <li>Банковской картой на сайте магазина.</li>
             <li> Наличными курьеру (для города Москвы).</li>
             <li> Перевод на карту Сбербанка.</li>
             <li> Почтовый перевод (Почта России).</li>
