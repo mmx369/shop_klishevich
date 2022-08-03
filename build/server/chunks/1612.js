@@ -588,19 +588,7 @@ function Nav({
           })
         })
       })
-    }), /*#__PURE__*/jsx_runtime_.jsx(material_.Divider, {}), currentRole === ERole/* ERole.Admin */.S.Admin && /*#__PURE__*/jsx_runtime_.jsx(next_link["default"], {
-      href: "/admin",
-      children: /*#__PURE__*/jsx_runtime_.jsx("a", {
-        children: /*#__PURE__*/(0,jsx_runtime_.jsxs)(material_.ListItem, {
-          button: true,
-          children: [/*#__PURE__*/jsx_runtime_.jsx(material_.ListItemIcon, {
-            children: /*#__PURE__*/jsx_runtime_.jsx((SupervisorAccount_default()), {})
-          }), /*#__PURE__*/jsx_runtime_.jsx(material_.ListItemText, {
-            primary: "\u0410\u0434\u043C\u0438\u043D\u0438\u0441\u0442\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435"
-          })]
-        })
-      })
-    }), currentRole === ERole/* ERole.Client */.S.Client || ERole/* ERole.Admin */.S.Admin && /*#__PURE__*/jsx_runtime_.jsx(next_link["default"], {
+    }), /*#__PURE__*/jsx_runtime_.jsx(material_.Divider, {}), currentRole === ERole/* ERole.Client */.S.Client && /*#__PURE__*/jsx_runtime_.jsx(next_link["default"], {
       href: "/profile",
       children: /*#__PURE__*/jsx_runtime_.jsx("a", {
         children: /*#__PURE__*/(0,jsx_runtime_.jsxs)(material_.ListItem, {
@@ -609,6 +597,18 @@ function Nav({
             children: /*#__PURE__*/jsx_runtime_.jsx((SupervisorAccount_default()), {})
           }), /*#__PURE__*/jsx_runtime_.jsx(material_.ListItemText, {
             primary: "\u041B\u0438\u0447\u043D\u044B\u0439 \u043A\u0430\u0431\u0438\u043D\u0435\u0442"
+          })]
+        })
+      })
+    }), currentRole === ERole/* ERole.Admin */.S.Admin && /*#__PURE__*/jsx_runtime_.jsx(next_link["default"], {
+      href: "/admin",
+      children: /*#__PURE__*/jsx_runtime_.jsx("a", {
+        children: /*#__PURE__*/(0,jsx_runtime_.jsxs)(material_.ListItem, {
+          button: true,
+          children: [/*#__PURE__*/jsx_runtime_.jsx(material_.ListItemIcon, {
+            children: /*#__PURE__*/jsx_runtime_.jsx((SupervisorAccount_default()), {})
+          }), /*#__PURE__*/jsx_runtime_.jsx(material_.ListItemText, {
+            primary: "\u0410\u0434\u043C\u0438\u043D\u0438\u0441\u0442\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435"
           })]
         })
       })
