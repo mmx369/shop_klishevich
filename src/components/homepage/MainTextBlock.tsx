@@ -1,19 +1,9 @@
 import Typography from '@mui/material/Typography'
-import { createStyles, makeStyles } from '@mui/styles'
 import Link from 'next/link'
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    root: {
-      marginTop: 50,
-    },
-  })
-)
-
 export default function MainTextBlock() {
-  const classes = useStyles()
   return (
-    <section className={classes.root}>
+    <section>
       <Typography
         variant='subtitle2'
         align='justify'

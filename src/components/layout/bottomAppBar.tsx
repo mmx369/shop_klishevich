@@ -1,25 +1,13 @@
 import { AppBar, Box, Button, Container, Toolbar } from '@mui/material'
-import { createStyles, makeStyles } from '@mui/styles'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    root: {
-      marginBottom: '50px',
-      textAlign: 'center',
-      padding: '1rem',
-    },
-  })
-)
-
 export default function BottomAppBar() {
-  const classes = useStyles()
   const router = useRouter()
 
   return (
     <>
-      <Box className={classes.root}>
+      <Box>
         <Link href='/'>
           <a>
             <strong>Интернет-магазин. Нумизматика и бонистика</strong>

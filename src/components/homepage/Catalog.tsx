@@ -1,19 +1,10 @@
 import { ArrowDropDown, ArrowRight, Label, Money } from '@mui/icons-material'
 import { TreeView } from '@mui/lab'
-import { createStyles, makeStyles } from '@mui/styles'
 import router from 'next/router'
 import { dynamicSort } from '../../lib/dynamicSort'
 import { ICountryCount } from '../../lib/getData'
 import { translateCountry } from '../../lib/translate'
 import { StyledTreeItem } from './StyledTreeItem'
-
-const useStyles = makeStyles(() =>
-  createStyles({
-    root: {
-      padding: 20,
-    },
-  })
-)
 
 type TProps = {
   listOfCountries: ICountryCount[]
@@ -24,8 +15,6 @@ export default function Catalog({
   listOfCountries,
   listOfCountriesCoins,
 }: TProps) {
-  const classes = useStyles()
-
   const handleClick = async (type: string, country: string) => {
     router.push(
       {
@@ -48,7 +37,7 @@ export default function Catalog({
     .sort(dynamicSort('countryTranslated'))
 
   return (
-    <div className={classes.root} data-testid='catalogLeft'>
+    <div data-testid='catalogLeft'>
       <TreeView
         defaultExpanded={['1', '2']}
         defaultCollapseIcon={<ArrowDropDown />}

@@ -1,5 +1,4 @@
 import { Grid } from '@mui/material'
-import { createStyles, makeStyles } from '@mui/styles'
 import { GetServerSideProps } from 'next'
 import Catalog from '../components/homepage/Catalog'
 import MainTextBlock from '../components/homepage/MainTextBlock'
@@ -7,16 +6,7 @@ import Search from '../components/homepage/Search'
 import Layout from '../components/layout/layout'
 import { PRODUCTS_TYPES } from '../constants'
 import { getData, ICountryCount, IProductTypesCount } from '../lib/getData'
-
-const useStyles = makeStyles(() =>
-  createStyles({
-    root: {
-      maxWidth: '900px',
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
-  })
-)
+import classes from '../styles/Home.module.scss'
 
 export type TProps = {
   productTypesCount: IProductTypesCount[]
@@ -29,7 +19,6 @@ export default function Homepage({
   listOfCountriesCount,
   listOfCountriesCoinsCount,
 }: TProps) {
-  const classes = useStyles()
   return (
     <Layout title='Нумизматика и бонистика | Интернет-магазин | Продажа банкнот и монет'>
       <div className={classes.root}>

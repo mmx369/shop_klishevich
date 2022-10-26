@@ -8,7 +8,6 @@ import {
   Select,
   SelectProps,
 } from '@mui/material'
-import { createStyles, makeStyles } from '@mui/styles'
 import { Field, Form, Formik, useField, useFormikContext } from 'formik'
 import router, { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
@@ -16,20 +15,6 @@ import useSWR from 'swr'
 import { getAsString } from '../../lib/getAsString'
 import { ICountryCount, IProductTypesCount } from '../../lib/getData'
 import { translateCategory, translateCountry } from '../../lib/translate'
-
-const useStyles = makeStyles(() =>
-  createStyles({
-    root: {
-      margin: '10px',
-      marginTop: '50px',
-    },
-    paper: {
-      margin: 'auto',
-      maxWidth: '500px',
-      padding: '2rem',
-    },
-  })
-)
 
 export type TProps = {
   productTypesCount: IProductTypesCount[]
@@ -42,7 +27,6 @@ export default function Search({
   countriesCount,
   singleColumn,
 }: TProps) {
-  const classes = useStyles()
   const { query } = useRouter()
   const smValue = singleColumn ? 12 : 6
 
@@ -66,7 +50,7 @@ export default function Search({
   }
 
   return (
-    <div className={classes.root} data-testid='searchForm'>
+    <div data-testid='searchForm'>
       <Formik
         initialValues={initialValues}
         onSubmit={(values) => {
@@ -82,7 +66,7 @@ export default function Search({
       >
         {({ values }) => (
           <Form>
-            <Paper elevation={2} className={classes.paper}>
+            <Paper elevation={2}>
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={smValue}>
                   <FormControl fullWidth variant='standard'>

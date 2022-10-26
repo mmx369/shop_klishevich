@@ -1,4 +1,4 @@
-import { Container } from '@mui/material'
+import Container from '@mui/material/Container'
 import { getSession } from 'next-auth/client'
 import Head from 'next/head'
 import { useEffect } from 'react'
@@ -11,7 +11,7 @@ import { initItems } from '../../redux/actions/cartActions'
 import { appSelectors } from '../../redux/selectors'
 import { ELoggedIn } from '../../types/ELoggedIn'
 import BottomAppBar from './bottomAppBar'
-import { Nav } from './nav'
+import { HeaderTop } from './HeaderTop'
 
 type TProps = {
   children: React.ReactNode
@@ -52,27 +52,28 @@ export default function Layout({ children, title }: TProps) {
   }, [dispatch])
 
   return (
-    <div>
+    <>
       <Head>
         <title>{title}</title>
       </Head>
-      <header>
-        <Nav
-          currentEmail={currentEmail}
-          currentRole={currentRole as string}
-          isLoggedIn={isLoggedIn}
-        />
-      </header>
+      <Container fixed>
+        <header>
+          <HeaderTop />
+          {/* <Nav
+            currentEmail={currentEmail}
+            currentRole={currentRole as string}
+            isLoggedIn={isLoggedIn}
+          /> */}
+        </header>
 
-      <main>
-        <Container maxWidth='lg'>
+        <main>
           <div>{children}</div>
-        </Container>
-      </main>
+        </main>
 
-      <footer>
-        <BottomAppBar />
-      </footer>
-    </div>
+        <footer>
+          <BottomAppBar />
+        </footer>
+      </Container>
+    </>
   )
 }

@@ -21,7 +21,7 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material'
-import { createStyles, makeStyles, styled } from '@mui/styles'
+import { styled } from '@mui/styles'
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -33,18 +33,6 @@ import { ERole } from '../../types/ERole'
 import SignInButtons from '../auth/sign_in_button'
 import { Cart } from '../shop/Cart'
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-    },
-    drawer: {
-      width: 250,
-      height: '100%',
-    },
-  })
-)
-
 type TProps = {
   currentEmail: string | undefined
   currentRole: string
@@ -52,7 +40,6 @@ type TProps = {
 }
 
 export function Nav({ currentEmail, currentRole, isLoggedIn }: TProps) {
-  const classes = useStyles()
   const dispatch = useDispatch()
 
   type Anchor = 'left'
@@ -82,18 +69,14 @@ export function Nav({ currentEmail, currentRole, isLoggedIn }: TProps) {
       setState({ ...state, [anchor]: open })
     }
 
-  const DrawerHeader = styled('div')(({ theme }) => ({
+  const DrawerHeader = styled('div')(() => ({
     display: 'flex',
     alignItems: 'center',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
   }))
 
   const list = (anchor: Anchor) => (
     <div
-      className={classes.drawer}
       role='presentation'
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
@@ -195,7 +178,7 @@ export function Nav({ currentEmail, currentRole, isLoggedIn }: TProps) {
       </Drawer>
       <AppBar position='fixed' sx={{ boxShadow: 'none' }}>
         <Container maxWidth='lg'>
-          <Toolbar variant='dense' className={classes.root}>
+          <Toolbar variant='dense'>
             <IconButton
               color='inherit'
               aria-label='open drawer'
@@ -205,7 +188,7 @@ export function Nav({ currentEmail, currentRole, isLoggedIn }: TProps) {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant='subtitle2' className={classes.root}>
+            <Typography variant='subtitle2'>
               <Link href='/'>
                 <a data-testid='navhomepagelink'>Нумизматика и бонистика</a>
               </Link>
@@ -225,6 +208,7 @@ export function Nav({ currentEmail, currentRole, isLoggedIn }: TProps) {
             {isLoggedIn !== ELoggedIn.Unknown && (
               <SignInButtons isSignedIn={isLoggedIn === ELoggedIn.True} />
             )}
+
             <div>
               <IconButton
                 color='inherit'
